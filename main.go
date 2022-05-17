@@ -3,10 +3,10 @@ package main
 import (
 	"context"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io/ioutil"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/88250/lute"
@@ -16,30 +16,35 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-var configName string = "feishu.json"
-
-func checkErr(e error) {
-  if e != nil {
-    panic(e)
-  }
-}
-
 func generateConfig() error {
-  if _, err := os.Stat(configName); errors.Is(err, os.ErrNotExist) {
+  configFilePath, err := getConfigFilePath()
+  checkErr(err)
+  if _, err := os.Stat(configFilePath); os.IsNotExist(err) {
+    if err := os.MkdirAll(filepath.Dir(configFilePath), os.ModePerm); err != nil {
+      return err
+    }
     config := Config{
       Feishu: Feishu{AppId: "", AppSecret: ""},
       Output: Output{ImageDir: "static"},
     }
-    file, err := json.MarshalIndent(config, "", " ")
+    configJson, err := json.MarshalIndent(config, "", " ")
     checkErr(err)
-    err = ioutil.WriteFile(configName, file, 0644)
+    file, err := os.Create(configFilePath)
     checkErr(err)
+    defer file.Close()
+    _, err = file.WriteString(string(configJson))
+    checkErr(err)
+    fmt.Printf("Generated config file on %s\n", configFilePath)
+  } else {
+    fmt.Printf("Config file exists on %s\n", configFilePath)
   }
   return nil
 }
 
 func handleUrl(url string) error {
-  configFile, err := os.Open(configName)
+  configFilePath, err := getConfigFilePath()
+  checkErr(err)
+  configFile, err := os.Open(configFilePath)
   checkErr(err)
   defer configFile.Close()
 
@@ -47,13 +52,15 @@ func handleUrl(url string) error {
   byteValue, err := ioutil.ReadAll(configFile)
   checkErr(err)
   json.Unmarshal(byteValue, &config)
-  fmt.Printf("%+v\n", config)
+  if config.Feishu.AppId == "" || config.Feishu.AppSecret == "" {
+    return fmt.Errorf("Please fill in the app id and secret on %s first\n", configFilePath)
+  }
 
   client := lark.New(
     lark.WithAppCredential(config.Feishu.AppId, config.Feishu.AppSecret),
   )
 
-  docToken := url[strings.LastIndex(url, "/") + 1 : ]
+  docToken := url[strings.LastIndex(url, "/")+1:]
   doc, err := larkext.NewDoc(client, docToken).Content(context.Background())
   checkErr(err)
 
@@ -75,6 +82,8 @@ func handleUrl(url string) error {
   checkErr(err)
   fmt.Printf("Wrote %d bytes\n", nBytes)
   mdFile.Sync()
+
+  fmt.Printf("Downloaded markdown file to %s\n", mdName)
   return nil
 }
 
@@ -106,4 +115,3 @@ func main() {
   err := app.Run(os.Args)
   checkErr(err)
 }
-
