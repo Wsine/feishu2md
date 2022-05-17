@@ -13,5 +13,5 @@
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
-.env
-feishu.json
+bin/
+feishu2md-amd64.zip
