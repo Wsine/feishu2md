@@ -44,8 +44,12 @@ github.com/chyroc/go-ptr v1.6.0/go.mod h1:FKNjNg3sCLx7VhQGwuml6sITX1mvhKS0Je9uN9
 github.com/chyroc/lark v0.0.92/go.mod h1:+dWwc8Bt4479feCei8D10OTzhdC92ZAlPxmgCbqWZ1E=
 github.com/chyroc/lark v0.0.94 h1:HROMvKUB8/xcFRe/lFH1vPJWzaUvVsetcAzDYuAGeuw=
 github.com/chyroc/lark v0.0.94/go.mod h1:Brd/ivv9Q1EFLFtsIRD6Q/AQ+MOcXvdErtV/pW5d3sc=
+github.com/chyroc/lark v0.0.95 h1:/5LCYQDbUlfNjFcSmQUnawcUKr7FZkKpMk1BnAK567g=
+github.com/chyroc/lark v0.0.95/go.mod h1:Brd/ivv9Q1EFLFtsIRD6Q/AQ+MOcXvdErtV/pW5d3sc=
 github.com/chyroc/lark_docs_md v0.1.0 h1:6ddbT7Ko/ndSaZ91Sl56Ux++7RzNuyxM4RwHkjjgyLo=
 github.com/chyroc/lark_docs_md v0.1.0/go.mod h1:tvxq/xKOR8TigkP8sEfQhSvuef2mQPd0+svqtRI0zYo=
+github.com/chyroc/lark_docs_md v0.1.1-0.20220523072258-93abd324f8a0 h1:JEPMRY/UEMHgxK47d6BuOGS7eazChaGVFzE9ZquwTX0=
+github.com/chyroc/lark_docs_md v0.1.1-0.20220523072258-93abd324f8a0/go.mod h1:hY1bkOx1PRQPglY+HvJNVEdyv516swqasqWlMX74qWE=
 github.com/client9/misspell v0.3.4/go.mod h1:qj6jICC3Q7zFZvVWo7KLAzC3yx5G7kyvSDkc90ppPyw=
 github.com/coreos/bbolt v1.3.2/go.mod h1:iRUV2dpdMOn7Bo10OQBFzIJO9kkE559Wcmn+qkEiiKk=
 github.com/coreos/etcd v3.3.13+incompatible/go.mod h1:uF7uidLiAD3TWHmW31ZFd/JWoc32PjwdhPthX9715RE=

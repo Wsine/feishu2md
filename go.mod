@@ -4,8 +4,8 @@ go 1.17
 
 require (
 	github.com/88250/lute v1.7.3
-	github.com/chyroc/lark v0.0.94
-	github.com/chyroc/lark_docs_md v0.1.0
+	github.com/chyroc/lark v0.0.95
+	github.com/chyroc/lark_docs_md v0.1.1-0.20220523072258-93abd324f8a0
 	github.com/urfave/cli/v2 v2.6.0
 )
 
