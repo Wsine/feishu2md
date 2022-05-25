@@ -64,4 +64,5 @@ $ feishu2md https://domain.feishu.cn/docs/doctoken
 
 ## 感谢
 
+- [chyroc/lark](https://github.com/chyroc/lark)
 - [chyroc/lark_docs_md](https://github.com/chyroc/lark_docs_md)
