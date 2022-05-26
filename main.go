@@ -7,7 +7,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
-	"strings"
+	"regexp"
 
 	"github.com/88250/lute"
 	"github.com/chyroc/lark"
@@ -60,7 +60,13 @@ func handleUrl(url string) error {
     lark.WithAppCredential(config.Feishu.AppId, config.Feishu.AppSecret),
   )
 
-  docToken := url[strings.LastIndex(url, "/")+1:]
+  reg := regexp.MustCompile("^https://[a-zA-Z0-9]+.(?:feishu.cn|larksuite.com)/docs/([a-zA-Z0-9]+)")
+  matchResult := reg.FindStringSubmatch(url)
+  if matchResult == nil || len(matchResult) != 2 {
+    return fmt.Errorf("Invalid feishu/larksuite URL containing docToken\n")
+  }
+  docToken := matchResult[1]
+  fmt.Println("Captured doc token:", docToken)
   doc, err := larkext.NewDoc(client, docToken).Content(context.Background())
   checkErr(err)
 
@@ -90,6 +96,7 @@ func handleUrl(url string) error {
 func main() {
   app := &cli.App{
     Name: "feishu2md",
+    Version: "v0.1.2",
     Usage: "download feishu doc as markdown file",
     Flags: []cli.Flag{
       &cli.BoolFlag{

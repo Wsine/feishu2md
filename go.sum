@@ -38,16 +38,10 @@ github.com/beorn7/perks v1.0.0/go.mod h1:KWe93zE9D1o94FZ5RNwFwVgaQK1VOXiVxmqh+Ce
 github.com/bgentry/speakeasy v0.1.0/go.mod h1:+zsyZBPWlz7T6j88CTgSN5bM796AkVf0kBD4zp0CCIs=
 github.com/bketelsen/crypt v0.0.3-0.20200106085610-5cbc8cc4026c/go.mod h1:MKsuJmJgSg28kpZDP6UIiPt0e0Oz0kqKNGyRaWEPv84=
 github.com/cespare/xxhash v1.1.0/go.mod h1:XrSqR1VqqWfGrhpAt58auRo0WTKS1nRRg3ghfAqPWnc=
-github.com/chyroc/go-ptr v1.5.1/go.mod h1:8x4QPkggRrkpveFHzb27gxqvqf2/ebzNS741UsxlbSQ=
 github.com/chyroc/go-ptr v1.6.0 h1:4GwCNrNfk4806eQKbHO2A/N/YOLW6jHIrBPWKfMe6F0=
 github.com/chyroc/go-ptr v1.6.0/go.mod h1:FKNjNg3sCLx7VhQGwuml6sITX1mvhKS0Je9uN9tt65Q=
-github.com/chyroc/lark v0.0.92/go.mod h1:+dWwc8Bt4479feCei8D10OTzhdC92ZAlPxmgCbqWZ1E=
-github.com/chyroc/lark v0.0.94 h1:HROMvKUB8/xcFRe/lFH1vPJWzaUvVsetcAzDYuAGeuw=
-github.com/chyroc/lark v0.0.94/go.mod h1:Brd/ivv9Q1EFLFtsIRD6Q/AQ+MOcXvdErtV/pW5d3sc=
 github.com/chyroc/lark v0.0.95 h1:/5LCYQDbUlfNjFcSmQUnawcUKr7FZkKpMk1BnAK567g=
 github.com/chyroc/lark v0.0.95/go.mod h1:Brd/ivv9Q1EFLFtsIRD6Q/AQ+MOcXvdErtV/pW5d3sc=
-github.com/chyroc/lark_docs_md v0.1.0 h1:6ddbT7Ko/ndSaZ91Sl56Ux++7RzNuyxM4RwHkjjgyLo=
-github.com/chyroc/lark_docs_md v0.1.0/go.mod h1:tvxq/xKOR8TigkP8sEfQhSvuef2mQPd0+svqtRI0zYo=
 github.com/chyroc/lark_docs_md v0.1.1-0.20220523072258-93abd324f8a0 h1:JEPMRY/UEMHgxK47d6BuOGS7eazChaGVFzE9ZquwTX0=
 github.com/chyroc/lark_docs_md v0.1.1-0.20220523072258-93abd324f8a0/go.mod h1:hY1bkOx1PRQPglY+HvJNVEdyv516swqasqWlMX74qWE=
 github.com/client9/misspell v0.3.4/go.mod h1:qj6jICC3Q7zFZvVWo7KLAzC3yx5G7kyvSDkc90ppPyw=
