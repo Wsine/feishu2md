@@ -1,11 +1,13 @@
-module example.com/feishu2md
+module github.com/Wsine/feishu2md
 
 go 1.17
 
 require (
 	github.com/88250/lute v1.7.3
-	github.com/chyroc/lark v0.0.95
-	github.com/chyroc/lark_docs_md v0.1.1-0.20220523072258-93abd324f8a0
+	github.com/chyroc/lark v0.0.96
+	github.com/chyroc/lark_docs_md v0.1.1-0.20220630023300-e78e5b23acf5
+	github.com/joho/godotenv v1.4.0
+	github.com/larksuite/oapi-sdk-go v1.1.47
 	github.com/urfave/cli/v2 v2.6.0
 )
 
