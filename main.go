@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -60,15 +61,30 @@ func handleUrl(url string) error {
     lark.WithAppCredential(config.Feishu.AppId, config.Feishu.AppSecret),
   )
 
-  reg := regexp.MustCompile("^https://[a-zA-Z0-9]+.(?:feishu.cn|larksuite.com)/docs/([a-zA-Z0-9]+)")
+  reg := regexp.MustCompile("^https://[a-zA-Z0-9]+.(?:feishu.cn|larksuite.com)/(docs|docx)/([a-zA-Z0-9]+)")
   matchResult := reg.FindStringSubmatch(url)
-  if matchResult == nil || len(matchResult) != 2 {
+  if matchResult == nil || len(matchResult) != 3 {
     return fmt.Errorf("Invalid feishu/larksuite URL containing docToken\n")
   }
-  docToken := matchResult[1]
+  docType := matchResult[1]
+  docToken := matchResult[2]
   fmt.Println("Captured doc token:", docToken)
-  doc, err := larkext.NewDoc(client, docToken).Content(context.Background())
-  checkErr(err)
+  if docType == "docs" {
+    doc, err := larkext.NewDoc(client, docToken).Content(context.Background())
+    checkErr(err)
+  } else if docType == "docx" {
+    resp, _, err := client.Drive.GetDriveDocxDocument(
+      context.Background(),
+      &lark.GetDriveDocxDocumentReq{
+        DocumentID: docToken,
+      },
+    )
+    checkErr(err)
+    doc := &lark.DocContent{}
+    err = json.Unmarshal([]byte(resp.Content), doc)
+  } else {
+    return errors.New("Invalid docType")
+  }
 
   result := lark_docs_md.DocMarkdown(context.Background(), doc, &lark_docs_md.FormatOpt{
     LarkClient: client,
