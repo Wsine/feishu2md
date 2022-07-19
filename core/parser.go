@@ -157,7 +157,7 @@ func (p *Parser) ParseDocGallery(g *lark.DocGallery) string {
 
 func (p *Parser) ParseDocImageItem(img *lark.DocImageItem) string {
   buf := new(strings.Builder)
-  buf.WriteString(fmt.Sprintf("![](%s/%s.jpg)", "static", img.FileToken))
+  buf.WriteString(fmt.Sprintf("![](%s)", img.FileToken))
   buf.WriteString("\n")
   p.imgTokens = append(p.imgTokens, img.FileToken)
   return buf.String()
