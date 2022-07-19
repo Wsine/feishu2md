@@ -17,6 +17,7 @@ require (
 	github.com/cpuguy83/go-md2man/v2 v2.0.1 // indirect
 	github.com/danwakefield/fnmatch v0.0.0-20160403171240-cbb64ac3d964 // indirect
 	github.com/dlclark/regexp2 v1.4.0 // indirect
+	github.com/golang-collections/collections v0.0.0-20130729185459-604e922904d3 // indirect
 	github.com/gopherjs/gopherjs v0.0.0-20210619142842-05447a1fa367 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
 	golang.org/x/text v0.3.6 // indirect

@@ -3,7 +3,9 @@ package utils
 import (
 	"log"
 	"os"
+	"path/filepath"
 	"regexp"
+	"runtime"
 
 	"github.com/joho/godotenv"
 )
@@ -21,4 +23,10 @@ func LoadEnv() {
     log.Fatal("Can not load .env file")
 		os.Exit(-1)
 	}
+}
+
+func RootDir() string {
+  _, b, _, _ := runtime.Caller(0)
+  root := filepath.Join(filepath.Dir(b), "..")
+  return root
 }
