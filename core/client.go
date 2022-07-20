@@ -46,9 +46,13 @@ func (c *Client) DownloadImage(ctx context.Context, imgToken string) (string, er
   if err != nil {
     return imgToken, err
   }
+  imgDir := ctx.Value("ImageDir")
   fileext := filepath.Ext(resp.Filename)
-  filename := fmt.Sprintf("%s/%s%s", "static", imgToken, fileext)
+  filename := fmt.Sprintf("%s/%s%s", imgDir, imgToken, fileext)
   err = os.MkdirAll(filepath.Dir(filename), 0o755)
+  if err != nil {
+    return imgToken, err
+  }
   file, err := os.OpenFile(filename, os.O_CREATE | os.O_WRONLY, 0o666)
   if err != nil {
     return imgToken, err

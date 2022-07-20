@@ -11,11 +11,11 @@ import (
 
 type Parser struct {
   ctx context.Context
-  imgTokens []string
+  ImgTokens []string
 }
 
 func NewParser(ctx context.Context) *Parser {
-  return &Parser{ctx: ctx, imgTokens: make([]string, 0)}
+  return &Parser{ctx: ctx, ImgTokens: make([]string, 0)}
 }
 
 func (p *Parser) ParseDocContent(docs *lark.DocContent) string {
@@ -159,7 +159,7 @@ func (p *Parser) ParseDocImageItem(img *lark.DocImageItem) string {
   buf := new(strings.Builder)
   buf.WriteString(fmt.Sprintf("![](%s)", img.FileToken))
   buf.WriteString("\n")
-  p.imgTokens = append(p.imgTokens, img.FileToken)
+  p.ImgTokens = append(p.ImgTokens, img.FileToken)
   return buf.String()
 }
 

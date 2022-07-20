@@ -43,7 +43,12 @@ func TestDownloadImage(t *testing.T) {
   appID, appSecret := getIdAndSecretFromEnv()
   c := core.NewClient(appID, appSecret, "feishu.cn")
   imgToken := "boxcnsXaIKcbwVmvGAwopgu2pre"
-  filename, err := c.DownloadImage(context.Background(), imgToken)
+  filename, err := c.DownloadImage(
+    context.WithValue(
+      context.Background(), "ImageDir", "static",
+    ),
+    imgToken,
+  )
   if err != nil {
     t.Error(err)
   }
