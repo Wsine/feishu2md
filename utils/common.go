@@ -1,8 +1,9 @@
 package utils
 
 import (
-  "fmt"
-  "strings"
+	"encoding/json"
+	"fmt"
+	"strings"
 )
 
 func CheckErr(e error) {
@@ -17,3 +18,7 @@ func CheckErr(e error) {
   }
 }
 
+func PrettyPrint(i interface{}) string {
+  s, _ := json.MarshalIndent(i, "", "  ")
+  return string(s)
+}
