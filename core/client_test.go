@@ -25,10 +25,10 @@ func TestNewClient(t *testing.T) {
   }
 }
 
-func TestGetContent(t *testing.T) {
+func TestGetDocContent(t *testing.T) {
   appID, appSecret := getIdAndSecretFromEnv()
   c := core.NewClient(appID, appSecret, "feishu.cn")
-  content, err := c.GetDocContent(context.Background(), "doccnZhhDCLiCP6LJa1nrjDhRSc")
+  content, err := c.GetDocContent(context.Background(), "doccnzSnjwt7Bd01MMcnNWpwV4d")
   if err != nil {
     t.Error(err)
   }
@@ -42,7 +42,7 @@ func TestGetContent(t *testing.T) {
 func TestDownloadImage(t *testing.T) {
   appID, appSecret := getIdAndSecretFromEnv()
   c := core.NewClient(appID, appSecret, "feishu.cn")
-  imgToken := "boxcnsXaIKcbwVmvGAwopgu2pre"
+  imgToken := "boxcnA1QKPanfMhLxzF1eMhoArM"
   filename, err := c.DownloadImage(
     context.WithValue(
       context.Background(), "ImageDir", "static",
@@ -57,3 +57,22 @@ func TestDownloadImage(t *testing.T) {
     t.Errorf("Error: not expected file extension")
   }
 }
+
+func TestGetDocxContent(t *testing.T) {
+  appID, appSecret := getIdAndSecretFromEnv()
+  c := core.NewClient(appID, appSecret, "feishu.cn")
+  docx, blocks, err := c.GetDocxContent(context.Background(), "doxcnXhd93zqoLnmVPGIPTy7AFe")
+  if err != nil {
+    t.Error(err)
+  }
+  fmt.Println(docx.Title)
+  if docx.Title == "" {
+    t.Errorf("Error: parsed title is empty")
+  }
+  fmt.Printf("number of blocks: %d\n", len(blocks))
+  if len(blocks) == 0 {
+    t.Errorf("Error: parsed blocks are empty")
+  }
+}
+
+
