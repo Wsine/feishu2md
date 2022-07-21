@@ -18,6 +18,10 @@ func NewParser(ctx context.Context) *Parser {
   return &Parser{ctx: ctx, ImgTokens: make([]string, 0)}
 }
 
+// =============================================================
+// Parse the old version of document (docs)
+// =============================================================
+
 func (p *Parser) ParseDocContent(docs *lark.DocContent) string {
   buf := new(strings.Builder)
   buf.WriteString(p.ParseDocParagraph(docs.Title, true))
@@ -174,7 +178,53 @@ func (p *Parser) ParseDocCode(c *lark.DocCode) string {
   return buf.String()
 }
 
-func (p *Parser) ParseDocWhatever(body *lark.DocBody) string {
+// =============================================================
+// Parse the new version of document (docx)
+// =============================================================
+
+func (p *Parser) ParseDocxContent(doc *lark.DocxDocument, blocks []*lark.DocxBlock) string {
+  buf := new(strings.Builder)
+  buf.WriteString(p.ParseDocxDocument(doc))
+  buf.WriteString("\n")
+  for _, v := range blocks {
+    buf.WriteString(p.ParseDocxBlock(v))
+    buf.WriteString("\n")
+  }
+  return buf.String()
+}
+
+func (p *Parser) ParseDocxDocument(doc *lark.DocxDocument) string {
+  return doc.Title
+}
+
+func (p *Parser) ParseDocxBlock(b *lark.DocxBlock) string {
+  switch b.BlockType {
+  case lark.DocxBlockTypePage:
+  case lark.DocxBlockTypeText:
+  case lark.DocxBlockTypeHeading1:
+  case lark.DocxBlockTypeHeading2:
+  case lark.DocxBlockTypeHeading3:
+  case lark.DocxBlockTypeHeading4:
+  case lark.DocxBlockTypeHeading5:
+  case lark.DocxBlockTypeHeading6:
+  case lark.DocxBlockTypeHeading7:
+  case lark.DocxBlockTypeHeading8:
+  case lark.DocxBlockTypeBullet:
+  case lark.DocxBlockTypeOrdered:
+  case lark.DocxBlockTypeCode:
+  case lark.DocxBlockTypeQuote:
+  case lark.DocxBlockTypeEquation:
+  case lark.DocxBlockTypeTodo:
+    // TODO: parse DocxBlockText
+  case lark.DocxBlockTypeImage:
+    // TODO: parse image
+  default:
+    return ""
+  }
+  return ""
+}
+
+func (p *Parser) ParseDocxWhatever(body *lark.DocBody) string {
   buf := new(strings.Builder)
 
   return buf.String()

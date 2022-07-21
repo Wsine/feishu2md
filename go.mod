@@ -4,7 +4,7 @@ go 1.17
 
 require (
 	github.com/88250/lute v1.7.3
-	github.com/chyroc/lark v0.0.96
+	github.com/chyroc/lark v0.0.97-0.20220706015537-dc21f96c8ebd
 	github.com/joho/godotenv v1.4.0
 	github.com/urfave/cli/v2 v2.6.0
 )

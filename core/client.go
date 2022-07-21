@@ -12,12 +12,12 @@ import (
 )
 
 type Client struct {
-  larkCilent *lark.Lark
+  larkClient *lark.Lark
 }
 
 func NewClient(appID, appSecret, domain string) *Client {
   return &Client{
-    larkCilent: lark.New(
+    larkClient: lark.New(
       lark.WithAppCredential(appID, appSecret),
       lark.WithOpenBaseURL("https://open." + domain),
     ),
@@ -25,7 +25,7 @@ func NewClient(appID, appSecret, domain string) *Client {
 }
 
 func (c *Client) GetDocContent(ctx context.Context, docToken string) (*lark.DocContent, error) {
-  resp, _, err := c.larkCilent.Drive.GetDriveDocContent(ctx, &lark.GetDriveDocContentReq{
+  resp, _, err := c.larkClient.Drive.GetDriveDocContent(ctx, &lark.GetDriveDocContentReq{
     DocToken: docToken,
   })
   if err != nil {
@@ -40,7 +40,7 @@ func (c *Client) GetDocContent(ctx context.Context, docToken string) (*lark.DocC
 }
 
 func (c *Client) DownloadImage(ctx context.Context, imgToken string) (string, error) {
-  resp, _, err := c.larkCilent.Drive.DownloadDriveMedia(ctx, &lark.DownloadDriveMediaReq{
+  resp, _, err := c.larkClient.Drive.DownloadDriveMedia(ctx, &lark.DownloadDriveMediaReq{
     FileToken: imgToken,
   })
   if err != nil {
@@ -64,3 +64,44 @@ func (c *Client) DownloadImage(ctx context.Context, imgToken string) (string, er
   }
   return filename, nil
 }
+
+func (c *Client) GetDocxContent(ctx context.Context, docToken string) (*lark.DocxDocument, []*lark.DocxBlock, error) {
+  resp, _, err := c.larkClient.Drive.GetDocxDocument(ctx, &lark.GetDocxDocumentReq{
+    DocumentID: docToken,
+  })
+  if err != nil {
+    return nil, nil, err
+  }
+  docx := &lark.DocxDocument{
+    DocumentID: resp.Document.DocumentID,
+    RevisionID: resp.Document.RevisionID,
+    Title: resp.Document.Title,
+  }
+  var blocks []*lark.DocxBlock
+  var pageToken *string
+  for {
+    resp2, _, err := c.larkClient.Drive.GetDocxBlockListOfDocument(ctx, &lark.GetDocxBlockListOfDocumentReq{
+      DocumentID: docx.DocumentID,
+      PageToken: pageToken,
+    })
+    if err != nil {
+      return docx, nil, err
+    }
+    blocks = append(blocks, resp2.Items...)
+    pageToken = &resp2.PageToken
+    if !resp2.HasMore {
+      break
+    }
+  }
+  // data := struct {
+  //   Document *lark.DocxDocument `json:"document"`
+  //   Blocks []*lark.DocxBlock `json:"blocks"`
+  // } {
+  //   Document: docx,
+  //   Blocks: blocks,
+  // }
+  // jsonData, _ := json.Marshal(data)
+  // fmt.Println(string(jsonData))
+  return docx, blocks, nil
+}
+
