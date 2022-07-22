@@ -64,11 +64,7 @@ func handleUrlArgument(url string) error {
   domain := matchResult[1]
   docType := matchResult[2]
   docToken := matchResult[3]
-  if docType == "docx" {
-    return fmt.Errorf("Not supported for docx type yet\n")
-  }
   fmt.Println("Captured doc token:", docToken)
-  fmt.Println(domain)
 
   ctx := context.Background()
   ctx = context.WithValue(ctx, "ImageDir", config.Output.ImageDir)
@@ -76,13 +72,23 @@ func handleUrlArgument(url string) error {
   client := core.NewClient(
     config.Feishu.AppId, config.Feishu.AppSecret, domain,
   )
-  content, err := client.GetDocContent(ctx, docToken)
-  if err != nil {
-    return err
-  }
 
   parser := core.NewParser(ctx)
-  markdown := parser.ParseDocContent(content)
+  markdown := ""
+
+  if docType == "docx" {
+    docx, blocks, err := client.GetDocxContent(ctx, docToken)
+    if err != nil {
+      return err
+    }
+    markdown = parser.ParseDocxContent(docx, blocks)
+  } else {
+    doc, err := client.GetDocContent(ctx, docToken)
+    if err != nil {
+      return err
+    }
+    markdown = parser.ParseDocContent(doc)
+  }
 
   for _, imgToken := range(parser.ImgTokens) {
     localLink, err := client.DownloadImage(ctx, imgToken)
@@ -109,7 +115,7 @@ func handleUrlArgument(url string) error {
 func main() {
   app := &cli.App{
     Name: "feishu2md",
-    Version: "v0.2.0",
+    Version: "v1.0.0",
     Usage: "download feishu/larksuite document to markdown file",
     Action: func(ctx *cli.Context) error {
       if ctx.NArg() > 0 {
