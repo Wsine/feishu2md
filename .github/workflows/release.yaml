@@ -1,0 +1,32 @@
+name: packup
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  releases-matrix:
+    name: Release feishu2md binaries
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        goos: [linux, windows, darwin]
+        goarch: [amd64, arm64]
+        exclude:
+          - goarch: arm64
+            goos: windows
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v2
+      - name: Parallel build
+        uses: wangyoucao577/go-release-action@v1.30
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          goos: ${{ matrix.goos }}
+          goarch: ${{ matrix.goarch }}
+          goversion: 1.17
+          pre_command: export CGO_ENABLED=0
+          ldflags: "-s -w"
+          executable_compression: "upx -9"
+          project_path: "."
+          binary_name: "feishu2md"
