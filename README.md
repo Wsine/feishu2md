@@ -1,6 +1,10 @@
 # Feishu2Md
 
+[![unittest](https://github.com/Wsine/feishu2md/actions/workflows/unittest.yaml/badge.svg)](https://github.com/Wsine/feishu2md/actions/workflows/unittest.yaml)
+
 这是一个下载飞书文档为 Markdown 文件的工具，使用 Go 语言实现。
+
+**请看这里：维护者招募，有兴趣的请联系。**
 
 ## 如何使用
 
