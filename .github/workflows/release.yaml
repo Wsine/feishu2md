@@ -1,4 +1,4 @@
-name: packup
+name: release
 
 on:
   release:
@@ -30,3 +30,4 @@ jobs:
           executable_compression: "upx -9"
           project_path: "."
           binary_name: "feishu2md"
+          extra_files: README.md
