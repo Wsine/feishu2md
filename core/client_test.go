@@ -1,13 +1,13 @@
 package core_test
 
 import (
-	"context"
-	"fmt"
-	"os"
-	"testing"
+  "context"
+  "fmt"
+  "os"
+  "testing"
 
-	"github.com/Wsine/feishu2md/core"
-	"github.com/Wsine/feishu2md/utils"
+  "github.com/Wsine/feishu2md/core"
+  "github.com/Wsine/feishu2md/utils"
 )
 
 func getIdAndSecretFromEnv() (string, string) {
@@ -52,7 +52,7 @@ func TestDownloadImage(t *testing.T) {
   if err != nil {
     t.Error(err)
   }
-  if filename != "static/" + imgToken + ".png" {
+  if filename != "static/"+imgToken+".png" {
     fmt.Println(filename)
     t.Errorf("Error: not expected file extension")
   }
@@ -75,4 +75,15 @@ func TestGetDocxContent(t *testing.T) {
   }
 }
 
-
+func TestGetWikiNodeInfo(t *testing.T) {
+  appID, appSecret := getIdAndSecretFromEnv()
+  c := core.NewClient(appID, appSecret, "feishu.cn")
+  const token = "wikcnLgRX9AMtvaB5x1cl57Yuah"
+  node, err := c.GetWikiNodeInfo(context.Background(), token)
+  if err != nil {
+    t.Error(err)
+  }
+  if node.ObjType != "docx" {
+    t.Errorf("Error: node type incorrect")
+  }
+}

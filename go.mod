@@ -16,6 +16,5 @@ require (
 	github.com/dlclark/regexp2 v1.4.0 // indirect
 	github.com/gopherjs/gopherjs v0.0.0-20210619142842-05447a1fa367 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
-	github.com/stretchr/testify v1.8.0 // indirect
 	golang.org/x/text v0.3.6 // indirect
 )
