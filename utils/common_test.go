@@ -8,12 +8,12 @@ import (
 )
 
 func TestCheckErr(t *testing.T) {
-  defer func() {
-    if r := recover(); r == nil {
-      t.Errorf("The CheckErr did not panic")
-    }
-  }()
+	defer func() {
+		if r := recover(); r == nil {
+			t.Errorf("The CheckErr did not panic")
+		}
+	}()
 
-  err := errors.New("This is an error message.")
-  utils.CheckErr(err)
+	err := errors.New("This is an error message.")
+	utils.CheckErr(err)
 }
