@@ -40,10 +40,6 @@ github.com/bketelsen/crypt v0.0.3-0.20200106085610-5cbc8cc4026c/go.mod h1:MKsuJm
 github.com/cespare/xxhash v1.1.0/go.mod h1:XrSqR1VqqWfGrhpAt58auRo0WTKS1nRRg3ghfAqPWnc=
 github.com/chyroc/go-ptr v1.6.0 h1:4GwCNrNfk4806eQKbHO2A/N/YOLW6jHIrBPWKfMe6F0=
 github.com/chyroc/go-ptr v1.6.0/go.mod h1:FKNjNg3sCLx7VhQGwuml6sITX1mvhKS0Je9uN9tt65Q=
-github.com/chyroc/lark v0.0.96 h1:3G977xmpktiIoposLjAEO8VOfrIfqWtzBhX9/Z/JSHc=
-github.com/chyroc/lark v0.0.96/go.mod h1:ihmf5fJFY8yneFOORvtJhdYWoNqp1OI3DSrCOlvK9Lw=
-github.com/chyroc/lark v0.0.97-0.20220622113936-75a5d4ae7baa h1:wrEAI1oxyLKS7MhLqQ4EjqOx28OZxI56hvv6W6O/hPY=
-github.com/chyroc/lark v0.0.97-0.20220622113936-75a5d4ae7baa/go.mod h1:ihmf5fJFY8yneFOORvtJhdYWoNqp1OI3DSrCOlvK9Lw=
 github.com/chyroc/lark v0.0.97-0.20220706015537-dc21f96c8ebd h1:i7uP6BA2aHqLSqn3URHrPvm8NLmoVSJNmoaboRvkpek=
 github.com/chyroc/lark v0.0.97-0.20220706015537-dc21f96c8ebd/go.mod h1:ZMmVyuBFmzLkiVKuORy7nEoNK/WvDh77cMsc3laJ5H8=
 github.com/client9/misspell v0.3.4/go.mod h1:qj6jICC3Q7zFZvVWo7KLAzC3yx5G7kyvSDkc90ppPyw=
@@ -213,7 +209,6 @@ github.com/stretchr/testify v1.4.0/go.mod h1:j7eGeouHqKxXV5pUuKE4zz7dFj8WfuZ+81P
 github.com/stretchr/testify v1.6.1/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/h/Wwjteg=
 github.com/stretchr/testify v1.7.0/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/h/Wwjteg=
 github.com/stretchr/testify v1.7.1/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/h/Wwjteg=
-github.com/stretchr/testify v1.7.4/go.mod h1:yNjHg4UonilssWZ8iaSj1OCr/vHnekPRkoO+kdMU+MU=
 github.com/stretchr/testify v1.8.0 h1:pSgiaMZlXftHpm5L7V1+rVB+AZJydKsMxsQBIJw4PKk=
 github.com/stretchr/testify v1.8.0/go.mod h1:yNjHg4UonilssWZ8iaSj1OCr/vHnekPRkoO+kdMU+MU=
 github.com/subosito/gotenv v1.2.0/go.mod h1:N0PQaV/YGNqwC0u51sEeR/aUtSLEXKX9iv69rRypqCw=

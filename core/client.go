@@ -1,14 +1,14 @@
 package core
 
 import (
-	"context"
-	"encoding/json"
-	"fmt"
-	"io"
-	"os"
-	"path/filepath"
+  "context"
+  "encoding/json"
+  "fmt"
+  "io"
+  "os"
+  "path/filepath"
 
-	"github.com/chyroc/lark"
+  "github.com/chyroc/lark"
 )
 
 type Client struct {
@@ -19,7 +19,7 @@ func NewClient(appID, appSecret, domain string) *Client {
   return &Client{
     larkClient: lark.New(
       lark.WithAppCredential(appID, appSecret),
-      lark.WithOpenBaseURL("https://open." + domain),
+      lark.WithOpenBaseURL("https://open."+domain),
     ),
   }
 }
@@ -53,7 +53,7 @@ func (c *Client) DownloadImage(ctx context.Context, imgToken string) (string, er
   if err != nil {
     return imgToken, err
   }
-  file, err := os.OpenFile(filename, os.O_CREATE | os.O_WRONLY, 0o666)
+  file, err := os.OpenFile(filename, os.O_CREATE|os.O_WRONLY, 0o666)
   if err != nil {
     return imgToken, err
   }
@@ -75,14 +75,14 @@ func (c *Client) GetDocxContent(ctx context.Context, docToken string) (*lark.Doc
   docx := &lark.DocxDocument{
     DocumentID: resp.Document.DocumentID,
     RevisionID: resp.Document.RevisionID,
-    Title: resp.Document.Title,
+    Title:      resp.Document.Title,
   }
   var blocks []*lark.DocxBlock
   var pageToken *string
   for {
     resp2, _, err := c.larkClient.Drive.GetDocxBlockListOfDocument(ctx, &lark.GetDocxBlockListOfDocumentReq{
       DocumentID: docx.DocumentID,
-      PageToken: pageToken,
+      PageToken:  pageToken,
     })
     if err != nil {
       return docx, nil, err
@@ -105,3 +105,12 @@ func (c *Client) GetDocxContent(ctx context.Context, docToken string) (*lark.Doc
   return docx, blocks, nil
 }
 
+func (c *Client) GetWikiNodeInfo(ctx context.Context, token string) (*lark.GetWikiNodeRespNode, error) {
+  resp, _, err := c.larkClient.Drive.GetWikiNode(ctx, &lark.GetWikiNodeReq{
+    Token: token,
+  })
+  if err != nil {
+    return nil, err
+  }
+  return resp.Node, nil
+}

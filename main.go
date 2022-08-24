@@ -1,17 +1,17 @@
 package main
 
 import (
-	"context"
-	"fmt"
-	"log"
-	"os"
-	"regexp"
-	"strings"
+  "context"
+  "fmt"
+  "log"
+  "os"
+  "regexp"
+  "strings"
 
-	"github.com/88250/lute"
-	"github.com/Wsine/feishu2md/core"
-	"github.com/Wsine/feishu2md/utils"
-	"github.com/urfave/cli/v2"
+  "github.com/88250/lute"
+  "github.com/Wsine/feishu2md/core"
+  "github.com/Wsine/feishu2md/utils"
+  "github.com/urfave/cli/v2"
 )
 
 func handleConfigCommand(appId, appSecret string) error {
@@ -56,11 +56,12 @@ func handleUrlArgument(url string) error {
     return err
   }
 
-  reg := regexp.MustCompile("^https://[a-zA-Z0-9]+.(feishu.cn|larksuite.com)/(docs|docx)/([a-zA-Z0-9]+)")
+  reg := regexp.MustCompile("^https://[a-zA-Z0-9-]+.(feishu.cn|larksuite.com)/(docs|docx|wiki)/([a-zA-Z0-9]+)")
   matchResult := reg.FindStringSubmatch(url)
   if matchResult == nil || len(matchResult) != 4 {
     return fmt.Errorf("Invalid feishu/larksuite URL format\n")
   }
+
   domain := matchResult[1]
   docType := matchResult[2]
   docToken := matchResult[3]
@@ -76,6 +77,16 @@ func handleUrlArgument(url string) error {
   parser := core.NewParser(ctx)
   markdown := ""
 
+  // for a wiki page, we need to renew docType and docToken first
+  if docType == "wiki" {
+    node, err := client.GetWikiNodeInfo(ctx, docToken)
+    if err != nil {
+      return err
+    }
+    docType = node.ObjType
+    docToken = node.ObjToken
+  }
+
   if docType == "docx" {
     docx, blocks, err := client.GetDocxContent(ctx, docToken)
     if err != nil {
@@ -90,7 +101,7 @@ func handleUrlArgument(url string) error {
     markdown = parser.ParseDocContent(doc)
   }
 
-  for _, imgToken := range(parser.ImgTokens) {
+  for _, imgToken := range parser.ImgTokens {
     localLink, err := client.DownloadImage(ctx, imgToken)
     if err != nil {
       return err
@@ -98,7 +109,7 @@ func handleUrlArgument(url string) error {
     markdown = strings.Replace(markdown, imgToken, localLink, 1)
   }
 
-  engine := lute.New(func (l *lute.Lute) {
+  engine := lute.New(func(l *lute.Lute) {
     l.RenderOptions.AutoSpace = true
   })
   result := engine.FormatStr("md", markdown)
@@ -114,9 +125,9 @@ func handleUrlArgument(url string) error {
 
 func main() {
   app := &cli.App{
-    Name: "feishu2md",
+    Name:    "feishu2md",
     Version: "v1.0.1",
-    Usage: "download feishu/larksuite document to markdown file",
+    Usage:   "download feishu/larksuite document to markdown file",
     Action: func(ctx *cli.Context) error {
       if ctx.NArg() > 0 {
         url := ctx.Args().Get(0)
@@ -128,16 +139,16 @@ func main() {
     },
     Commands: []*cli.Command{
       {
-        Name: "config",
+        Name:  "config",
         Usage: "read config file or set field(s) if provided",
         Flags: []cli.Flag{
           &cli.StringFlag{
-            Name: "appId",
+            Name:  "appId",
             Value: "",
             Usage: "set app id for the OPEN api",
           },
           &cli.StringFlag{
-            Name: "appSecret",
+            Name:  "appSecret",
             Value: "",
             Usage: "set app secret for the OPEN api",
           },
