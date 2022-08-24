@@ -20,13 +20,13 @@ func LoadEnv() {
 
 	err := godotenv.Load(string(rootPath) + `/.env`)
 	if err != nil {
-    log.Fatal("Can not load .env file")
+		log.Fatal("Can not load .env file")
 		os.Exit(-1)
 	}
 }
 
 func RootDir() string {
-  _, b, _, _ := runtime.Caller(0)
-  root := filepath.Join(filepath.Dir(b), "..")
-  return root
+	_, b, _, _ := runtime.Caller(0)
+	root := filepath.Join(filepath.Dir(b), "..")
+	return root
 }
