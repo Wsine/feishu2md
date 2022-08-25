@@ -126,7 +126,7 @@ func handleUrlArgument(url string) error {
 func main() {
 	app := &cli.App{
 		Name:    "feishu2md",
-		Version: "v1.0.1",
+		Version: "v1.1.0",
 		Usage:   "download feishu/larksuite document to markdown file",
 		Action: func(ctx *cli.Context) error {
 			if ctx.NArg() > 0 {
