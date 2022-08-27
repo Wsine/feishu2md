@@ -6,6 +6,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/Wsine/feishu2md/utils"
 	"github.com/chyroc/lark"
 )
 
@@ -131,7 +132,7 @@ func (p *Parser) ParseDocTextRun(tr *lark.DocTextRun) string {
 			postWrite = "`"
 		} else if link := style.Link; link != nil {
 			buf.WriteString("[")
-			postWrite = fmt.Sprintf("](%s)", link.URL)
+			postWrite = fmt.Sprintf("](%s)", utils.UnescapeURL(link.URL))
 		}
 	}
 	buf.WriteString(tr.Text)
@@ -141,7 +142,7 @@ func (p *Parser) ParseDocTextRun(tr *lark.DocTextRun) string {
 
 func (p *Parser) ParseDocDocsLink(l *lark.DocDocsLink) string {
 	buf := new(strings.Builder)
-	buf.WriteString(fmt.Sprintf("[](%s)", l.URL))
+	buf.WriteString(fmt.Sprintf("[](%s)", utils.UnescapeURL(l.URL)))
 	return buf.String()
 }
 
@@ -282,7 +283,7 @@ func (p *Parser) ParseDocxTextElement(e *lark.DocxTextElement) string {
 		buf.WriteString(e.MentionUser.UserID)
 	}
 	if e.MentionDoc != nil {
-		buf.WriteString(fmt.Sprintf("[%s](%s)", e.MentionDoc.Title, e.MentionDoc.URL))
+		buf.WriteString(fmt.Sprintf("[%s](%s)", e.MentionDoc.Title, utils.UnescapeURL(e.MentionDoc.URL)))
 	}
 	if e.Equation != nil {
 		buf.WriteString("%%" + e.Equation.Content + "%%")
@@ -311,7 +312,7 @@ func (p *Parser) ParseDocxTextElementTextRun(tr *lark.DocxTextElementTextRun) st
 			postWrite = "`"
 		} else if link := style.Link; link != nil {
 			buf.WriteString("[")
-			postWrite = fmt.Sprintf("](%s)", link.URL)
+			postWrite = fmt.Sprintf("](%s)", utils.UnescapeURL(link.URL))
 		}
 	}
 	buf.WriteString(tr.Content)
