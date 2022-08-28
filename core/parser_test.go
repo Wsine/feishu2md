@@ -1,9 +1,11 @@
 package core_test
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"os"
 	"path"
@@ -51,4 +53,45 @@ func TestParseDocxContent(t *testing.T) {
 
 	parser := core.NewParser(context.Background())
 	fmt.Println(parser.ParseDocxContent(data.Document, data.Blocks))
+}
+
+func TestParseDocContent_table(t *testing.T) {
+	type test struct {
+		name      string
+		inputJSON string
+		expectMD  string
+	}
+
+	tests := []test{
+		{
+			name:      "parse code block",
+			inputJSON: "docs_code_block.json",
+			expectMD:  "docs_code_block.md",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			root := utils.RootDir()
+			jsonFile, err := os.Open(path.Join(root, "data", tt.inputJSON))
+			utils.CheckErr(err)
+			defer jsonFile.Close()
+			mdFile, err := os.Open(path.Join(root, "data", tt.expectMD))
+			utils.CheckErr(err)
+			defer mdFile.Close()
+
+			docs := new(lark.DocContent)
+			err = json.NewDecoder(jsonFile).Decode(docs)
+			utils.CheckErr(err)
+			parser := core.NewParser(context.Background())
+			got := parser.ParseDocContent(docs)
+
+			var expect bytes.Buffer
+			_ , err = io.Copy(&expect, mdFile)
+			utils.CheckErr(err)
+			if want:= expect.String();  got != want {
+				t.Errorf("got %v, want %v", got, want)
+			}
+		})
+	}
 }
