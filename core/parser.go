@@ -27,7 +27,7 @@ func (p *Parser) ParseDocContent(docs *lark.DocContent) string {
 	buf := new(strings.Builder)
 	buf.WriteString(p.ParseDocParagraph(docs.Title, true))
 	buf.WriteString("\n")
-	buf.WriteString(p.ParseDocBody(docs.Body))
+	buf.WriteString(p.ParseDocBody(docs.Body, false))
 	return buf.String()
 }
 
@@ -76,11 +76,13 @@ func (p *Parser) ParseDocParagraph(para *lark.DocParagraph, isTitle bool) string
 	return buf.String()
 }
 
-func (p *Parser) ParseDocBody(body *lark.DocBody) string {
+func (p *Parser) ParseDocBody(body *lark.DocBody, isCode bool) string {
 	buf := new(strings.Builder)
 	for _, b := range body.Blocks {
 		buf.WriteString(p.ParseDocBlock(b))
-		buf.WriteString("\n")
+		if !isCode {
+			buf.WriteString("\n")
+		}
 	}
 	return buf.String()
 }
@@ -171,9 +173,9 @@ func (p *Parser) ParseDocImageItem(img *lark.DocImageItem) string {
 func (p *Parser) ParseDocCode(c *lark.DocCode) string {
 	buf := new(strings.Builder)
 	buf.WriteString("```")
-	buf.WriteString(c.Language)
+	buf.WriteString(utils.CodeLanguage(c.Language))
 	buf.WriteString("\n")
-	buf.WriteString(p.ParseDocBody(c.Body))
+	buf.WriteString(p.ParseDocBody(c.Body, true))
 	buf.WriteString("```")
 	buf.WriteString("\n")
 	return buf.String()
@@ -240,9 +242,13 @@ func (p *Parser) ParseDocxBlock(b *lark.DocxBlock) string {
 		buf.WriteString("1. ")
 		buf.WriteString(p.ParseDocxBlockText(b.Ordered))
 	case lark.DocxBlockTypeCode:
-		buf.WriteString("```\n")
+		buf.WriteString("```")
+		if style := b.Code.Style; style != nil {
+			buf.WriteString(utils.CodeLanguage(style.Language))
+		}
+		buf.WriteString("\n")
 		buf.WriteString(p.ParseDocxBlockText(b.Code))
-		buf.WriteString("\n```")
+		buf.WriteString("```")
 	case lark.DocxBlockTypeQuote:
 		buf.WriteString("> ")
 		buf.WriteString(p.ParseDocxBlockText(b.Quote))
