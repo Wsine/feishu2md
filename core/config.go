@@ -19,17 +19,19 @@ type FeishuConfig struct {
 }
 
 type OutputConfig struct {
-	ImageDir string `json:"image_dir"`
+	ImageDir        string `json:"image_dir"`
+	TitleAsFilename bool   `json:"title_as_filename"`
 }
 
-func NewConfig(appId, appSecret, imgDir string) *Config {
+func NewConfig(appId, appSecret string) *Config {
 	return &Config{
 		Feishu: FeishuConfig{
 			AppId:     appId,
 			AppSecret: appSecret,
 		},
 		Output: OutputConfig{
-			ImageDir: imgDir,
+			ImageDir:        "static",
+			TitleAsFilename: false,
 		},
 	}
 }

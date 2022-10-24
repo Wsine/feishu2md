@@ -20,7 +20,7 @@ func handleConfigCommand(appId, appSecret string) error {
 		return err
 	}
 	if _, err := os.Stat(configPath); os.IsNotExist(err) {
-		config := core.NewConfig(appId, appSecret, "static")
+		config := core.NewConfig(appId, appSecret)
 		if err = config.WriteConfig2File(configPath); err != nil {
 			return err
 		}
@@ -65,16 +65,17 @@ func handleUrlArgument(url string) error {
 	domain := matchResult[1]
 	docType := matchResult[2]
 	docToken := matchResult[3]
-	fmt.Println("Captured doc token:", docToken)
+	fmt.Println("Captured document token:", docToken)
 
 	ctx := context.Background()
-	ctx = context.WithValue(ctx, "ImageDir", config.Output.ImageDir)
+	ctx = context.WithValue(ctx, "OutputConfig", config.Output)
 
 	client := core.NewClient(
 		config.Feishu.AppId, config.Feishu.AppSecret, domain,
 	)
 
 	parser := core.NewParser(ctx)
+	title := ""
 	markdown := ""
 
 	// for a wiki page, we need to renew docType and docToken first
@@ -93,12 +94,14 @@ func handleUrlArgument(url string) error {
 			return err
 		}
 		markdown = parser.ParseDocxContent(docx, blocks)
+		title = docx.Title
 	} else {
 		doc, err := client.GetDocContent(ctx, docToken)
 		if err != nil {
 			return err
 		}
 		markdown = parser.ParseDocContent(doc)
+		title = doc.Title.Elements[0].TextRun.Text
 	}
 
 	for _, imgToken := range parser.ImgTokens {
@@ -115,6 +118,9 @@ func handleUrlArgument(url string) error {
 	result := engine.FormatStr("md", markdown)
 
 	mdName := fmt.Sprintf("%s.md", docToken)
+	if config.Output.TitleAsFilename {
+		mdName = fmt.Sprintf("%s.md", title)
+	}
 	if err = os.WriteFile(mdName, []byte(result), 0o644); err != nil {
 		return err
 	}
@@ -126,7 +132,7 @@ func handleUrlArgument(url string) error {
 func main() {
 	app := &cli.App{
 		Name:    "feishu2md",
-		Version: "v1.1.0",
+		Version: "v1.2.0",
 		Usage:   "download feishu/larksuite document to markdown file",
 		Action: func(ctx *cli.Context) error {
 			if ctx.NArg() > 0 {
