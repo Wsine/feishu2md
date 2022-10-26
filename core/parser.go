@@ -173,8 +173,8 @@ func (p *Parser) ParseDocCode(c *lark.DocCode) string {
 	buf.WriteString("```")
 	buf.WriteString(strings.ToLower(c.Language))
 	buf.WriteString("\n")
-	buf.WriteString(p.ParseDocBody(c.Body))
-	buf.WriteString("```")
+	buf.WriteString(strings.TrimSpace(p.ParseDocBody(c.Body)))
+	buf.WriteString("\n```")
 	buf.WriteString("\n")
 	return buf.String()
 }
@@ -241,7 +241,7 @@ func (p *Parser) ParseDocxBlock(b *lark.DocxBlock) string {
 		buf.WriteString(p.ParseDocxBlockText(b.Ordered))
 	case lark.DocxBlockTypeCode:
 		buf.WriteString("```\n")
-		buf.WriteString(p.ParseDocxBlockText(b.Code))
+		buf.WriteString(strings.TrimSpace(p.ParseDocxBlockText(b.Code)))
 		buf.WriteString("\n```")
 	case lark.DocxBlockTypeQuote:
 		buf.WriteString("> ")
