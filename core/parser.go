@@ -171,7 +171,7 @@ func (p *Parser) ParseDocImageItem(img *lark.DocImageItem) string {
 func (p *Parser) ParseDocCode(c *lark.DocCode) string {
 	buf := new(strings.Builder)
 	buf.WriteString("```")
-	buf.WriteString(c.Language)
+	buf.WriteString(strings.ToLower(c.Language))
 	buf.WriteString("\n")
 	buf.WriteString(p.ParseDocBody(c.Body))
 	buf.WriteString("```")
