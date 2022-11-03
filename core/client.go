@@ -8,6 +8,7 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/Wsine/feishu2md/utils"
 	"github.com/chyroc/lark"
 )
 
@@ -36,6 +37,11 @@ func (c *Client) GetDocContent(ctx context.Context, docToken string) (*lark.DocC
 	if err != nil {
 		return doc, err
 	}
+
+	if ctx.Value("Verbose").(bool) {
+		fmt.Println(utils.PrettyPrint(doc))
+	}
+
 	return doc, nil
 }
 
@@ -93,15 +99,18 @@ func (c *Client) GetDocxContent(ctx context.Context, docToken string) (*lark.Doc
 			break
 		}
 	}
-	// data := struct {
-	//   Document *lark.DocxDocument `json:"document"`
-	//   Blocks []*lark.DocxBlock `json:"blocks"`
-	// } {
-	//   Document: docx,
-	//   Blocks: blocks,
-	// }
-	// jsonData, _ := json.Marshal(data)
-	// fmt.Println(string(jsonData))
+
+	if ctx.Value("Verbose").(bool) {
+		data := struct {
+			Document *lark.DocxDocument `json:"document"`
+			Blocks   []*lark.DocxBlock  `json:"blocks"`
+		}{
+			Document: docx,
+			Blocks:   blocks,
+		}
+		fmt.Println(utils.PrettyPrint(data))
+	}
+
 	return docx, blocks, nil
 }
 
