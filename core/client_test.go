@@ -28,7 +28,10 @@ func TestNewClient(t *testing.T) {
 func TestGetDocContent(t *testing.T) {
 	appID, appSecret := getIdAndSecretFromEnv()
 	c := core.NewClient(appID, appSecret, "feishu.cn")
-	content, err := c.GetDocContent(context.Background(), "doccnzSnjwt7Bd01MMcnNWpwV4d")
+	content, err := c.GetDocContent(
+		context.WithValue(context.Background(), "Verbose", false),
+		"doccnzSnjwt7Bd01MMcnNWpwV4d",
+	)
 	if err != nil {
 		t.Error(err)
 	}
@@ -45,7 +48,11 @@ func TestDownloadImage(t *testing.T) {
 	imgToken := "boxcnA1QKPanfMhLxzF1eMhoArM"
 	filename, err := c.DownloadImage(
 		context.WithValue(
-			context.Background(), "ImageDir", "static",
+			context.Background(),
+			"OutputConfig", core.OutputConfig{
+				ImageDir:        "static",
+				TitleAsFilename: true,
+			},
 		),
 		imgToken,
 	)
@@ -61,7 +68,10 @@ func TestDownloadImage(t *testing.T) {
 func TestGetDocxContent(t *testing.T) {
 	appID, appSecret := getIdAndSecretFromEnv()
 	c := core.NewClient(appID, appSecret, "feishu.cn")
-	docx, blocks, err := c.GetDocxContent(context.Background(), "doxcnXhd93zqoLnmVPGIPTy7AFe")
+	docx, blocks, err := c.GetDocxContent(
+		context.WithValue(context.Background(), "Verbose", false),
+		"doxcnXhd93zqoLnmVPGIPTy7AFe",
+	)
 	if err != nil {
 		t.Error(err)
 	}

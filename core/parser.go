@@ -286,7 +286,7 @@ func (p *Parser) ParseDocxTextElement(e *lark.DocxTextElement) string {
 		buf.WriteString(fmt.Sprintf("[%s](%s)", e.MentionDoc.Title, utils.UnescapeURL(e.MentionDoc.URL)))
 	}
 	if e.Equation != nil {
-		buf.WriteString("%%" + e.Equation.Content + "%%")
+		buf.WriteString("$$" + strings.TrimSuffix(e.Equation.Content, "\n") + "$$")
 	}
 	return buf.String()
 }

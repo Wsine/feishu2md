@@ -46,7 +46,7 @@ func handleConfigCommand(appId, appSecret string) error {
 	return nil
 }
 
-func handleUrlArgument(url string) error {
+func handleUrlArgument(url string, verbose bool) error {
 	configPath, err := core.GetConfigFilePath()
 	if err != nil {
 		return err
@@ -68,6 +68,7 @@ func handleUrlArgument(url string) error {
 	fmt.Println("Captured document token:", docToken)
 
 	ctx := context.Background()
+	ctx = context.WithValue(ctx, "Verbose", verbose)
 	ctx = context.WithValue(ctx, "OutputConfig", config.Output)
 
 	client := core.NewClient(
@@ -132,12 +133,20 @@ func handleUrlArgument(url string) error {
 func main() {
 	app := &cli.App{
 		Name:    "feishu2md",
-		Version: "v1.2.0",
+		Version: "v1.2.2",
 		Usage:   "download feishu/larksuite document to markdown file",
+		Flags: []cli.Flag{
+			&cli.BoolFlag{
+				Name:    "verbose",
+				Aliases: []string{"vv"},
+				Usage:   "verbose the intermediate output",
+			},
+		},
 		Action: func(ctx *cli.Context) error {
+			verbose := ctx.Bool("verbose")
 			if ctx.NArg() > 0 {
 				url := ctx.Args().Get(0)
-				return handleUrlArgument(url)
+				return handleUrlArgument(url, verbose)
 			} else {
 				cli.ShowAppHelp(ctx)
 			}
