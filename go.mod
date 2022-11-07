@@ -6,6 +6,7 @@ require (
 	github.com/88250/lute v1.7.3
 	github.com/chyroc/lark v0.0.97-0.20220706015537-dc21f96c8ebd
 	github.com/elliotchance/orderedmap/v2 v2.2.0
+	github.com/grokify/html-strip-tags-go v0.0.1
 	github.com/joho/godotenv v1.4.0
 	github.com/olekukonko/tablewriter v0.0.5
 	github.com/urfave/cli/v2 v2.6.0

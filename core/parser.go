@@ -11,6 +11,7 @@ import (
 	"github.com/Wsine/feishu2md/utils"
 	"github.com/chyroc/lark"
 	"github.com/elliotchance/orderedmap/v2"
+	strip "github.com/grokify/html-strip-tags-go"
 	"github.com/olekukonko/tablewriter"
 )
 
@@ -34,7 +35,6 @@ func renderMarkdownTable(data [][]string) string {
 	table.SetAutoWrapText(false)
 	table.SetAutoFormatHeaders(false)
 	table.SetAutoMergeCells(false)
-	table.SetReflowDuringAutoWrap(false)
 	table.SetBorders(tablewriter.Border{Left: true, Top: false, Right: true, Bottom: false})
 	table.SetHeader(data[0])
 	table.AppendBulk(data[1:])
@@ -230,7 +230,8 @@ func (p *Parser) ParseDocTableCell(cell *lark.DocTableCell) string {
 		if content == "" {
 			continue
 		}
-		contents = append(contents, strings.Join(strings.Fields(strings.TrimSpace(content)), " "))
+		content = strings.Join(strings.Fields(strings.TrimSpace(strip.StripTags(content))), " ")
+		contents = append(contents, content)
 	}
 	return strings.Join(contents, " ")
 }
@@ -438,7 +439,8 @@ func (p *Parser) ParseDocxBlockTableCell(blockId string, blockMap *orderedmap.Or
 		if content == "" {
 			continue
 		}
-		contents = append(contents, strings.Join(strings.Fields(strings.TrimSpace(content)), " "))
+		content = strings.Join(strings.Fields(strings.TrimSpace(strip.StripTags(content))), " ")
+		contents = append(contents, content)
 		// remove table cell children block from map
 		blockMap.Delete(block.BlockID)
 	}
