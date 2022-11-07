@@ -116,14 +116,14 @@ func (p *Parser) ParseDocTextRun(tr *lark.DocTextRun) string {
 	postWrite := ""
 	if style := tr.Style; style != nil {
 		if style.Bold {
-			buf.WriteString("**")
-			postWrite = "**"
+			buf.WriteString("<strong>")
+			postWrite = "</strong>"
 		} else if style.Italic {
-			buf.WriteString("*")
-			postWrite = "*"
+			buf.WriteString("<em>")
+			postWrite = "</em>"
 		} else if style.StrikeThrough {
-			buf.WriteString("~~")
-			postWrite = "~~"
+			buf.WriteString("<del>")
+			postWrite = "</del>"
 		} else if style.Underline {
 			buf.WriteString("<u>")
 			postWrite = "</u>"
@@ -296,14 +296,14 @@ func (p *Parser) ParseDocxTextElementTextRun(tr *lark.DocxTextElementTextRun) st
 	postWrite := ""
 	if style := tr.TextElementStyle; style != nil {
 		if style.Bold {
-			buf.WriteString("**")
-			postWrite = "**"
+			buf.WriteString("<strong>")
+			postWrite = "</strong>"
 		} else if style.Italic {
-			buf.WriteString("*")
-			postWrite = "*"
+			buf.WriteString("<em>")
+			postWrite = "</em>"
 		} else if style.Strikethrough {
-			buf.WriteString("~~")
-			postWrite = "~~"
+			buf.WriteString("<del>")
+			postWrite = "</del>"
 		} else if style.Underline {
 			buf.WriteString("<u>")
 			postWrite = "</u>"
