@@ -1,0 +1,4012 @@
+{
+  "document": {
+    "document_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+    "revision_id": 2,
+    "title": "Markdown Reference"
+  },
+  "blocks": [
+    {
+      "block_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "children": [
+        "doxcnh7GoIAYqz7bQHsHBgnWWwL",
+        "doxcn3CPtIkTE892EtRvfSlndPf",
+        "doxcnHVBe4nponRGwQ5rBoBwt4e",
+        "doxcnRXlkbH9ntQt94BhI6hP1Ef",
+        "doxcnZImcGqkN5kMhWADz0qylb7",
+        "doxcnML6HuwvRoYYOf6GsJc2cme",
+        "doxcnL8IHEEcL5EebQ3FEtGFann",
+        "doxcniJ6XdbmZh5HEydgnmS1Xof",
+        "doxcnrT6JmMDQhwxzpt6eqqpZXc",
+        "doxcneI6NC4bLnTdigxFl778Sln",
+        "doxcnC7EsKUFFSYKdHnYIy6uJT8",
+        "doxcnC0BGHcDg9sgrUXZeafGHjc",
+        "doxcnCXYtT6GbinTErIdaM2jeqe",
+        "doxcnMjUIx06p27XNSaGZepTi2E",
+        "doxcnIuwKbWqbUDagPgwFV0QEBh",
+        "doxcnuXMTHUOi5jQwUUyYSAFaRh",
+        "doxcnb87hjZj7qtckj1GqkvlVMF",
+        "doxcnohVbrv3aSrqXKapBMsm8dc",
+        "doxcnIddjrQojSadwTHVg8Kq35c",
+        "doxcnuBAdzQuXCytllNf6fz98Rf",
+        "doxcnmfskQAKMNu38v0wETgfo7e",
+        "doxcnkr7iNddJOfZd3n2LNitTvh",
+        "doxcnlfxLuFYjnpnTwRDnChRd1r",
+        "doxcne4auZ8ZCsfzydDEzVTfJ7b",
+        "doxcnsWu1pIUFzsggyap0ZWWlce",
+        "doxcn1hdarJC0jfNCEWN55mgWlh",
+        "doxcn0wiDMrpiHctb9E2fi3FQPh",
+        "doxcnl7jKDCwnQcpYNgcF2NTogd",
+        "doxcn7FqsU75qUBd16zzcnDFeGb",
+        "doxcnJLMiKXnIyF0WH6PCKHRYJh",
+        "doxcnxAvjV0FK8JPvrqMWbRog5g",
+        "doxcnv0pBHMg6Duu47chabhTpBb",
+        "doxcnwRJ2ausa1Jpp7eMHylph0d",
+        "doxcnsthBlfCEjXJSBqDXjneMgg",
+        "doxcnDyLIpEIeV9PVe5fnZh33ed",
+        "doxcngK8IqidXbLBxwrAlMWr6Jg",
+        "doxcnfa60tZXEY5mkfjLc22j6vc",
+        "doxcn2hVXpkIgH1jeiq4Nc4X0qd",
+        "doxcnc1dS6HOibS5hm3MncXz1Sc",
+        "doxcn3JFHWoayhe74qv2MsmCpae",
+        "doxcnnnhskLPID35LumXT5hCyyf",
+        "doxcnUmDdE9TvuV4ku0z9P0ZcGc",
+        "doxcnDL73bxuIAipgzGOn9hfz7e",
+        "doxcn11MbpNXuZGkrXTAB91QgAe",
+        "doxcn4lMVGJ5DBzszE7hrZZg4ch",
+        "doxcndPeSULn9YFalavjsrshePf",
+        "doxcnoQ04prwL6Y1VFVhX7cYi2c",
+        "doxcnzzQUUeydQLd5BasluP8ugF",
+        "doxcnSfDhEcsXrvl9wrxD62LsLh",
+        "doxcn1WQdmeRwyGdQ2ySz02Lq4d",
+        "doxcnSVFT8KzybYdeGnQWQQrUgc",
+        "doxcn2ZgM1t0mNaWQhzGLcvSywe",
+        "doxcn083UCQxbVUeKz90ACB44be",
+        "doxcnbuXx0y7hA59udoZdD7Woce",
+        "doxcnhMoTcYCoQa8m69RjiMr0Xz",
+        "doxcn5H79wVHtAcegyZuMwByNYd",
+        "doxcnKnxoiFnanr3yHDY7rRiWMc",
+        "doxcnK3LlsTMDusN06dV4oVeNEs",
+        "doxcnOL5HvvaQgYcwdmqMuZAZSd",
+        "doxcnwo2iI7u9U2N337yLPx5fxc",
+        "doxcnE2CpYLUGB6T9wjCdAJws76",
+        "doxcnXde9IGOcy7n0BNEqstqULc",
+        "doxcnoCzlhpXGImi6f9y3tQq6Pe",
+        "doxcnXybEsewIBhw2sSFvCNyJKd",
+        "doxcnLiQRAGIYOPzXNtikf0fz0X",
+        "doxcnpWAwEZuIbVDQByjbXvzZxe",
+        "doxcnEgmHXPX8KATvLwubdH50Mb",
+        "doxcnlcS9ZZWENUzGVkzyMD3Mib",
+        "doxcnpwls3BaZqGuBGNhE25A2Sh",
+        "doxcn7TTUJK4AUYYIXlxoldtdug",
+        "doxcnpndISmTnwbbqRFcwmPRJjg",
+        "doxcnivhUaj028lYs6LsuaUPOoe",
+        "doxcn6o8Ymt1Z34QiE1U9xY1LGf",
+        "doxcnaglpt4fk7ziG29hEeDl8Ad",
+        "doxcnaGXV9ecgNekbUtlvSRfTGc",
+        "doxcnfMcEnAhTJnFpjZvCR8yzbd",
+        "doxcnnnIrYENAJkVCbCcUKdCAYb",
+        "doxcn6EBsvCELUnEKORQeFhZw3b",
+        "doxcnPcmfIOCAudjPDt6dtQbsdg",
+        "doxcnzxrLbAE4UlfLMnbvQRdKWe",
+        "doxcnV4I6c9n1LoQ1vmx0RGvvyc",
+        "doxcngiaNLL0yqXahZvqNIYaBFf",
+        "doxcnrUR2KUbDMoCNDtLPPq4Rmf",
+        "doxcnqhrOcziDj6N6DoIhnT0FLg",
+        "doxcnq9WUDOSmFMl3IiwYlbzs4e",
+        "doxcnpvPXccuSvrZ3i0t7h6RRw5",
+        "doxcnZ3k1OFE7mxRActtUELfyvg",
+        "doxcnuqSxhspfS1txCke8EYlwxf",
+        "doxcnIkmhZeDOUlklc2XhhJixjf",
+        "doxcnhlbtcjd4JogeSOKtCZYhjb",
+        "doxcnfIpceF7xHvudZkgI3fuSEf",
+        "doxcnPa6OLiSyVE9I5aVGuwxBYd",
+        "doxcnCfYuLoYTMnZtcCHE28FvT3",
+        "doxcngKhUqZBOsechimzip3Rjgb",
+        "doxcnTQhmPq8Huwnig17mYrimje",
+        "doxcnkHAHUX07VfAqr8hC8olFFF",
+        "doxcnJNFjLmsC4h6MNiyf83h1Nf",
+        "doxcn9TyvYZ4ECS49uUSLw3rq3n",
+        "doxcnNHGQvBSLBbzUlLOenVsdfh",
+        "doxcnjGoYg58NJdBuiMDFlqgLrc",
+        "doxcntrCJg0o9UEeEuxODF4LrNc",
+        "doxcnX2lqqy7UGRx85Re0DOAuif",
+        "doxcnRilN2ce8ki8Tlz2HSZWbJb",
+        "doxcnVWaG5dtv2DyaLxEWkRxzuf",
+        "doxcnn0DWRQoVAJQZirGlx1U9Zc",
+        "doxcnTsBb1ywGWOlzVv0G6ETGxg",
+        "doxcnjXht2TED8hMffwm9FqAC7g",
+        "doxcn0pAGNWMbVcOdoAJ59vfO6f",
+        "doxcnfn0nkHE7mBsrEvocYYG8ch",
+        "doxcnRbGhNDeoQjJ8qGdhT4Fnpf",
+        "doxcnQRjONvilfvyLbZRsP41Yle",
+        "doxcn7fZxAqp4M7x6Zl8bnDpWvc",
+        "doxcn9F0Ma02eE01CAblfiPRBvd",
+        "doxcnFrYMCBrkzvTSKqeXnb94ah",
+        "doxcnpMNeN3wHQWSZQMZk3xIQwg",
+        "doxcnih4sJM7CrDQZ80gYiAqHVd",
+        "doxcn8cYgmn8tuUaG1aV8jG4kKc",
+        "doxcndEc6Rvu4TWU5C9Pua94QEc",
+        "doxcn8KaRG55Ruqyo9EOGtzHWnh",
+        "doxcnZT0ZUWwu0SAXNDH3a6elwc",
+        "doxcnY7cUIQVBqYuxZnP8odJE0d",
+        "doxcn7PzBqYxlqXC3DPeWhtSH9b",
+        "doxcnCwpYW5XVtyjEdtOow7at1b",
+        "doxcnWMrjDMBgCcVAbZ3JGyYcId",
+        "doxcnoUc1dh3GbhZa45YvDrbr1e",
+        "doxcnVG1MzpWhMFVEOHgT351wkb",
+        "doxcnaL0WT20bbF2CuiteeS8Kqg",
+        "doxcnwUXHifNQX2LFEZf1KmvgOc",
+        "doxcnvpZYjPL4Qq7mxPkYLziv2g",
+        "doxcnsk19z35wlUUgqLYmgPvFrg",
+        "doxcnydDSiMXyvVzVjjZ7OxViAe",
+        "doxcnWJ5yLuwBCL2B5mPEeMVbkf",
+        "doxcnDGYoLZklGrvhBpIq7BRSsg",
+        "doxcnJL74ZVb6VkBEle5RAQ0N1g",
+        "doxcn819NsnvGVCZoeXCi64thje",
+        "doxcnoWRhUhQGbLTuMkgNG18STF",
+        "doxcnUelQSbaoTndPNNiaKZ93gc",
+        "doxcnTuiSDMtWCwKxy08AFe08VP",
+        "doxcnfd974sgMp7sb7ATmeHIHWf",
+        "doxcnUZvcwGXfTw1KacrnluF2Tu",
+        "doxcnUzYv9TthdoOAw5LTY6QWrd",
+        "doxcnQJI36t4Q7SNSwEXcl7ARme",
+        "doxcn0Aa0xamsVpD7RLWucZbTYg"
+      ],
+      "block_type": 1,
+      "page": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Markdown Reference",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnh7GoIAYqz7bQHsHBgnWWwL",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 3,
+      "heading1": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Markdown For Typora",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcn3CPtIkTE892EtRvfSlndPf",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 4,
+      "heading2": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Overview",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnHVBe4nponRGwQ5rBoBwt4e",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Markdown",
+              "text_element_style": {
+                "bold": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " is created by ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "Daring Fireball",
+              "text_element_style": {
+                "link": {
+                  "url": "http%3A%2F%2Fdaringfireball.net%2F"
+                }
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": "; the original guideline is ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "here",
+              "text_element_style": {
+                "link": {
+                  "url": "http%3A%2F%2Fdaringfireball.net%2Fprojects%2Fmarkdown%2Fsyntax"
+                }
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": ". Its syntax, however, varies between different parsers or editors. ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "Typora",
+              "text_element_style": {
+                "bold": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " is using ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "GitHub Flavored Markdown",
+              "text_element_style": {
+                "link": {
+                  "url": "https%3A%2F%2Fhelp.github.com%2Farticles%2Fgithub-flavored-markdown%2F"
+                }
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": ".",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnRXlkbH9ntQt94BhI6hP1Ef",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "[toc]",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnZImcGqkN5kMhWADz0qylb7",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 4,
+      "heading2": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Block Elements",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnML6HuwvRoYYOf6GsJc2cme",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 5,
+      "heading3": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Paragraph and line breaks",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnL8IHEEcL5EebQ3FEtGFann",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "A paragraph is simply one or more consecutive lines of text. In markdown source code, paragraphs are separated by two or more blank lines. In Typora, you only need one blank line (press ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "Return",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " once) to create a new paragraph.",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcniJ6XdbmZh5HEydgnmS1Xof",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Press ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "Shift",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " + ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "Return",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " to create a single line break. Most other markdown parsers will ignore single line breaks, so in order to make other markdown parsers recognize your line break, you can leave two spaces at the end of the line, or insert ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "\u003cbr/\u003e",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": ".",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnrT6JmMDQhwxzpt6eqqpZXc",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 5,
+      "heading3": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Headers",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcneI6NC4bLnTdigxFl778Sln",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Headers use 1-6 hash (",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "#",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": ") characters at the start of the line, corresponding to header levels 1-6. For example:",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnC7EsKUFFSYKdHnYIy6uJT8",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 14,
+      "code": {
+        "style": {
+          "language": 39
+        },
+        "elements": [
+          {
+            "text_run": {
+              "content": "# This is an H1\n\n## This is an H2\n\n",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "###### This is an H6",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnC0BGHcDg9sgrUXZeafGHjc",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "In Typora, input ‘#’s followed by title content, and press ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "Return",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " key will create a header.",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnCXYtT6GbinTErIdaM2jeqe",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 5,
+      "heading3": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Blockquotes",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnMjUIx06p27XNSaGZepTi2E",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Markdown uses email-style \u003e characters for block quoting. They are presented as:",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnIuwKbWqbUDagPgwFV0QEBh",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 14,
+      "code": {
+        "style": {
+          "language": 39
+        },
+        "elements": [
+          {
+            "text_run": {
+              "content": "\u003e This is a blockquote with two paragraphs. This is first paragraph.\n\u003e\n\u003e This is second pragraph. Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.\n\n\n\n",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "\u003e This is another blockquote with one paragraph. There is three empty line to seperate two blockquote.",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnuXMTHUOi5jQwUUyYSAFaRh",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "In Typora, inputting ‘\u003e’ followed by your quote contents will generate a quote block. Typora will insert a proper ‘\u003e’ or line break for you. Nested block quotes (a block quote inside another block quote) by adding additional levels of ‘\u003e’.",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnb87hjZj7qtckj1GqkvlVMF",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 5,
+      "heading3": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Lists",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnohVbrv3aSrqXKapBMsm8dc",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Input ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "* list item 1",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " will create an unordered list - the ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "*",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " symbol can be replace with ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "+",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " or ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "-",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": ".",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnIddjrQojSadwTHVg8Kq35c",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Input ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "1. list item 1",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " will create an ordered list - their markdown source code is as follows:",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnuBAdzQuXCytllNf6fz98Rf",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 14,
+      "code": {
+        "style": {
+          "language": 39
+        },
+        "elements": [
+          {
+            "text_run": {
+              "content": "## un-ordered list\n*   Red\n*   Green\n*   Blue\n\n## ordered list\n1.  Red\n2.         Green\n",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "3.        Blue",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnmfskQAKMNu38v0wETgfo7e",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 5,
+      "heading3": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Task List",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnkr7iNddJOfZd3n2LNitTvh",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Task lists are lists with items marked as either [ ] or [x] (incomplete or complete). For example:",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnlfxLuFYjnpnTwRDnChRd1r",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 14,
+      "code": {
+        "style": {
+          "language": 39
+        },
+        "elements": [
+          {
+            "text_run": {
+              "content": "- [ ] a task list item\n- [ ] list syntax required\n- [ ] normal **formatting**, @mentions, #1234 refs\n- [ ] incomplete\n",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "- [x] completed",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcne4auZ8ZCsfzydDEzVTfJ7b",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "You can change the complete/incomplete state by clicking on the checkbox before the item.",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnsWu1pIUFzsggyap0ZWWlce",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 5,
+      "heading3": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "(Fenced) Code Blocks",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcn1hdarJC0jfNCEWN55mgWlh",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Typora only supports fences in GitHub Flavored Markdown. Original code blocks in markdown are not supported.",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcn0wiDMrpiHctb9E2fi3FQPh",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Using fences is easy: Input ``` and press ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "return",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": ". Add an optional language identifier after ``` and we'll run it through syntax highlighting:",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnl7jKDCwnQcpYNgcF2NTogd",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 14,
+      "code": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Here's an example:\n\n```js\nfunction test() {\n  console.log(\"notice the blank line before this function?\");\n}\n```\n\nsyntax highlighting:\n```ruby\nrequire 'redcarpet'\nmarkdown = Redcarpet.new(\"Hello World!\")\nputs markdown.to_html\n",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "```",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcn7FqsU75qUBd16zzcnDFeGb",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 5,
+      "heading3": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Math Blocks",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnJLMiKXnIyF0WH6PCKHRYJh",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "You can render ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "LaTeX",
+              "text_element_style": {
+                "italic": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " mathematical expressions using ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "MathJax",
+              "text_element_style": {
+                "bold": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": ".",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnxAvjV0FK8JPvrqMWbRog5g",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "To add a mathematical expression, input ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "$$",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " and press the 'Return' key. This will trigger an input field which accepts ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "Tex/LaTex",
+              "text_element_style": {
+                "italic": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " source. For example:",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnv0pBHMg6Duu47chabhTpBb",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "equation": {
+              "content": "\\mathbf{V}_1 \\times \\mathbf{V}_2 = \\begin{vmatrix}\\mathbf{i} \u0026 \\mathbf{j} \u0026 \\mathbf{k} \\\\\\frac{\\partial X}{\\partial u} \u0026 \\frac{\\partial Y}{\\partial u} \u0026 0 \\\\\\frac{\\partial X}{\\partial v} \u0026 \\frac{\\partial Y}{\\partial v} \u0026 0 \\\\\\end{vmatrix}"
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnwRJ2ausa1Jpp7eMHylph0d",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "In the markdown source file, the math block is a ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "LaTeX",
+              "text_element_style": {
+                "italic": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " expression wrapped by a pair of ‘$$’ marks:",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnsthBlfCEjXJSBqDXjneMgg",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 14,
+      "code": {
+        "style": {
+          "language": 39
+        },
+        "elements": [
+          {
+            "text_run": {
+              "content": "$$\n\\mathbf{V}_1 \\times \\mathbf{V}_2 =  \\begin{vmatrix}\n\\mathbf{i} \u0026 \\mathbf{j} \u0026 \\mathbf{k} \\\\\n\\frac{\\partial X}{\\partial u} \u0026  \\frac{\\partial Y}{\\partial u} \u0026 0 \\\\\n\\frac{\\partial X}{\\partial v} \u0026  \\frac{\\partial Y}{\\partial v} \u0026 0 \\\\\n\\end{vmatrix}\n",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "$$",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnDyLIpEIeV9PVe5fnZh33ed",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "You can find more details ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "here",
+              "text_element_style": {
+                "link": {
+                  "url": "https%3A%2F%2Fsupport.typora.io%2FMath%2F"
+                }
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": ".",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcngK8IqidXbLBxwrAlMWr6Jg",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 5,
+      "heading3": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Tables",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnfa60tZXEY5mkfjLc22j6vc",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Input ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "| First Header | Second Header |",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " and press the ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "return",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " key. This will create a table with two columns.",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcn2hVXpkIgH1jeiq4Nc4X0qd",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "After a table is created, putting focus on that table will open up a toolbar for the table where you can resize, align, or delete the table. You can also use the context menu to copy and add/delete individual columns/rows.",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnc1dS6HOibS5hm3MncXz1Sc",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "The full syntax for tables is described below, but it is not necessary to know the full syntax in detail as the markdown source code for tables is generated automatically by Typora.",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcn3JFHWoayhe74qv2MsmCpae",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "In markdown source code, they look like:",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnnnhskLPID35LumXT5hCyyf",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 14,
+      "code": {
+        "style": {
+          "language": 39
+        },
+        "elements": [
+          {
+            "text_run": {
+              "content": "| First Header  | Second Header |\n| ------------- | ------------- |\n| Content Cell  | Content Cell  |\n",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "| Content Cell  | Content Cell  |",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnUmDdE9TvuV4ku0z9P0ZcGc",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "You can also include inline Markdown such as links, bold, italics, or strikethrough in the table.",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnDL73bxuIAipgzGOn9hfz7e",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Finally, by including colons (",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": ":",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": ") within the header row, you can define text in that column to be left-aligned, right-aligned, or center-aligned:",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcn11MbpNXuZGkrXTAB91QgAe",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 14,
+      "code": {
+        "style": {
+          "language": 39
+        },
+        "elements": [
+          {
+            "text_run": {
+              "content": "| Left-Aligned  | Center Aligned  | Right Aligned |\n| :------------ |:---------------:| -----:|\n| col 3 is      | some wordy text | $1600 |\n| col 2 is      | centered        |   $12 |\n",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "| zebra stripes | are neat        |    $1 |",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcn4lMVGJ5DBzszE7hrZZg4ch",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "A colon on the left-most side indicates a left-aligned column; a colon on the right-most side indicates a right-aligned column; a colon on both sides indicates a center-aligned column.",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcndPeSULn9YFalavjsrshePf",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 5,
+      "heading3": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Footnotes",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnoQ04prwL6Y1VFVhX7cYi2c",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 14,
+      "code": {
+        "style": {
+          "language": 39
+        },
+        "elements": [
+          {
+            "text_run": {
+              "content": "You can create footnotes like this[^footnote].\n\n",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "[^footnote]: Here is the *text* of the **footnote**.",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnzzQUUeydQLd5BasluP8ugF",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "will produce:",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnSfDhEcsXrvl9wrxD62LsLh",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "You can create footnotes like this[1].",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcn1WQdmeRwyGdQ2ySz02Lq4d",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Hover over the ‘footnote’ superscript to see content of the footnote.",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnSVFT8KzybYdeGnQWQQrUgc",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 5,
+      "heading3": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Horizontal Rules",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcn2ZgM1t0mNaWQhzGLcvSywe",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Inputting ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "***",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " or ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "---",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " on a blank line and pressing ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "return",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " will draw a horizontal line.",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcn083UCQxbVUeKz90ACB44be",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 22,
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnbuXx0y7hA59udoZdD7Woce",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 5,
+      "heading3": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "YAML Front Matter",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnhMoTcYCoQa8m69RjiMr0Xz",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Typora now supports ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "YAML Front Matter",
+              "text_element_style": {
+                "link": {
+                  "url": "http%3A%2F%2Fjekyllrb.com%2Fdocs%2Ffrontmatter%2F"
+                }
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": ". Input ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "---",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " at the top of the article and then press ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "Return",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " to introduce a metadata block. Alternatively, you can insert a metadata block from the top menu of Typora.",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcn5H79wVHtAcegyZuMwByNYd",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 5,
+      "heading3": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Table of Contents (TOC)",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnKnxoiFnanr3yHDY7rRiWMc",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Input ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "[toc]",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " and press the ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "Return",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " key. This will create a “Table of Contents” section. The TOC extracts all headers from the document, and its contents are updated automatically as you add to the document.",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnK3LlsTMDusN06dV4oVeNEs",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 4,
+      "heading2": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Span Elements",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnOL5HvvaQgYcwdmqMuZAZSd",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Span elements will be parsed and rendered right after typing. Moving the cursor in middle of those span elements will expand those elements into markdown source. Below is an explanation of the syntax for each span element.",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnwo2iI7u9U2N337yLPx5fxc",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 5,
+      "heading3": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Links",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnE2CpYLUGB6T9wjCdAJws76",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Markdown supports two styles of links: inline and reference.",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnXde9IGOcy7n0BNEqstqULc",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "In both styles, the link text is delimited by [square brackets].",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnoCzlhpXGImi6f9y3tQq6Pe",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "To create an inline link, use a set of regular parentheses immediately after the link text’s closing square bracket. Inside the parentheses, put the URL where you want the link to point, along with an optional title for the link, surrounded in quotes. For example:",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnXybEsewIBhw2sSFvCNyJKd",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 14,
+      "code": {
+        "style": {
+          "language": 39
+        },
+        "elements": [
+          {
+            "text_run": {
+              "content": "This is [an example](http://example.com/ \"Title\") inline link.\n\n",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "[This link](http://example.net/) has no title attribute.",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnLiQRAGIYOPzXNtikf0fz0X",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "will produce:",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnpWAwEZuIbVDQByjbXvzZxe",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "This is ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "an example",
+              "text_element_style": {
+                "link": {
+                  "url": "http%3A%2F%2Fexample.com%2F"
+                }
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " inline link. (",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "\u003cp\u003eThis is \u003ca href=\"http://example.com/\" title=\"Title\"\u003e",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": ")",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnEgmHXPX8KATvLwubdH50Mb",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "This link",
+              "text_element_style": {
+                "link": {
+                  "url": "http%3A%2F%2Fexample.net%2F"
+                }
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " has no title attribute. (",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "\u003cp\u003e\u003ca href=\"http://example.net/\"\u003eThis link\u003c/a\u003e has no",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": ")",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnlcS9ZZWENUzGVkzyMD3Mib",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 6,
+      "heading4": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Internal Links",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnpwls3BaZqGuBGNhE25A2Sh",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "You can set the href to headers",
+              "text_element_style": {
+                "bold": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": ", which will create a bookmark that allow you to jump to that section after clicking. For example:",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcn7TTUJK4AUYYIXlxoldtdug",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Command(on Windows: Ctrl) + Click This link will jump to header ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "Block Elements",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": ". To see how to write that, please move cursor or click that link with ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "⌘",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " key pressed to expand the element into markdown source.",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnpndISmTnwbbqRFcwmPRJjg",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 6,
+      "heading4": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Reference Links",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnivhUaj028lYs6LsuaUPOoe",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Reference-style links use a second set of square brackets, inside which you place a label of your choosing to identify the link:",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcn6o8Ymt1Z34QiE1U9xY1LGf",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 14,
+      "code": {
+        "style": {
+          "language": 39
+        },
+        "elements": [
+          {
+            "text_run": {
+              "content": "This is [an example][id] reference-style link.\n\nThen, anywhere in the document, you define your link label on a line by itself like this:\n\n",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "[id]: http://example.com/  \"Optional Title Here\"",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnaglpt4fk7ziG29hEeDl8Ad",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "In Typora, they will be rendered like so:",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnaGXV9ecgNekbUtlvSRfTGc",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "This is ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "an example",
+              "text_element_style": {
+                "link": {
+                  "url": "http%3A%2F%2Fexample.com%2F"
+                }
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " reference-style link.",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnfMcEnAhTJnFpjZvCR8yzbd",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "The implicit link name shortcut allows you to omit the name of the link, in which case the link text itself is used as the name. Just use an empty set of square brackets — for example, to link the word “Google” to the google.com web site, you could simply write:",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnnnIrYENAJkVCbCcUKdCAYb",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 14,
+      "code": {
+        "style": {
+          "language": 39
+        },
+        "elements": [
+          {
+            "text_run": {
+              "content": "[Google][]\nAnd then define the link:\n\n",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "[Google]: http://google.com/",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcn6EBsvCELUnEKORQeFhZw3b",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "In Typora, clicking the link will expand it for editing, and command+click will open the hyperlink in your web browser.",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnPcmfIOCAudjPDt6dtQbsdg",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 5,
+      "heading3": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "URLs",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnzxrLbAE4UlfLMnbvQRdKWe",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Typora allows you to insert URLs as links, wrapped by ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "\u003c",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": "brackets",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "\u003e",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": ".",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnV4I6c9n1LoQ1vmx0RGvvyc",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "\u003ci@typora.io\u003e",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " becomes ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "i@typora.io",
+              "text_element_style": {
+                "link": {
+                  "url": "https%3A%2F%2Fmailto%3Ai%40typora.io"
+                }
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": ".",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcngiaNLL0yqXahZvqNIYaBFf",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Typora will also automatically link standard URLs. e.g: ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "www.google.com",
+              "text_element_style": {
+                "link": {
+                  "url": "http%3A%2F%2Fwww.google.com"
+                }
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": ".",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnrUR2KUbDMoCNDtLPPq4Rmf",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 5,
+      "heading3": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Images",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnqhrOcziDj6N6DoIhnT0FLg",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Images have similar syntax as links, but they require an additional ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "!",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " char before the start of the link. The syntax for inserting an image looks like this:",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnq9WUDOSmFMl3IiwYlbzs4e",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 14,
+      "code": {
+        "style": {
+          "language": 39
+        },
+        "elements": [
+          {
+            "text_run": {
+              "content": "![Alt text](/path/to/img.jpg)\n\n",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "![Alt text](/path/to/img.jpg \"Optional title\")",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnpvPXccuSvrZ3i0t7h6RRw5",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "You are able to use drag \u0026 drop to insert an image from an image file or your web browser. You can modify the markdown source code by clicking on the image. A relative path will be used if the image that is added using drag \u0026 drop is in same directory or sub-directory as the document you're currently editing.",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnZ3k1OFE7mxRActtUELfyvg",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "If you’re using markdown for building websites, you may specify a URL prefix for the image preview on your local computer with property ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "typora-root-url",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " in YAML Front Matters. For example, input ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "typora-root-url:/User/Abner/Website/typora.io/",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " in YAML Front Matters, and then ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "![alt](/blog/img/test.png)",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " will be treated as ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "![alt](file:///User/Abner/Website/typora.io/blog/img/test.png)",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " in Typora.",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnuqSxhspfS1txCke8EYlwxf",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "You can find more details ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "here",
+              "text_element_style": {
+                "link": {
+                  "url": "https%3A%2F%2Fsupport.typora.io%2FImages%2F"
+                }
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": ".",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnIkmhZeDOUlklc2XhhJixjf",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 5,
+      "heading3": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Emphasis",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnhlbtcjd4JogeSOKtCZYhjb",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Markdown treats asterisks (",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "*",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": ") and underscores (",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "_",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": ") as indicators of emphasis. Text wrapped with one ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "*",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " or ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "_",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " will be wrapped with an HTML ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "\u003cem\u003e",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " tag. E.g:",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnfIpceF7xHvudZkgI3fuSEf",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 14,
+      "code": {
+        "style": {
+          "language": 39
+        },
+        "elements": [
+          {
+            "text_run": {
+              "content": "*single asterisks*\n\n",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "_single underscores_",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnPa6OLiSyVE9I5aVGuwxBYd",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "output:",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnCfYuLoYTMnZtcCHE28FvT3",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "single asterisks",
+              "text_element_style": {
+                "italic": true
+              }
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcngKhUqZBOsechimzip3Rjgb",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "single underscores",
+              "text_element_style": {
+                "italic": true
+              }
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnTQhmPq8Huwnig17mYrimje",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "GFM will ignore underscores in words, which is commonly used in code and names, like this:",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnkHAHUX07VfAqr8hC8olFFF",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 15,
+      "quote": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "wow_great_stuff",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnJNFjLmsC4h6MNiyf83h1Nf",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 15,
+      "quote": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "do_this_and_do_that_and_another_thing.",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcn9TyvYZ4ECS49uUSLw3rq3n",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "To produce a literal asterisk or underscore at a position where it would otherwise be used as an emphasis delimiter, you can backslash escape it:",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnNHGQvBSLBbzUlLOenVsdfh",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 14,
+      "code": {
+        "style": {
+          "language": 39
+        },
+        "elements": [
+          {
+            "text_run": {
+              "content": "\\*this text is surrounded by literal asterisks\\*",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnjGoYg58NJdBuiMDFlqgLrc",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Typora recommends using the ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "*",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " symbol.",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcntrCJg0o9UEeEuxODF4LrNc",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 5,
+      "heading3": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Strong",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnX2lqqy7UGRx85Re0DOAuif",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "A double ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "*",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " or ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "_",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " will cause its enclosed contents to be wrapped with an HTML ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "\u003cstrong\u003e",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " tag, e.g:",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnRilN2ce8ki8Tlz2HSZWbJb",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 14,
+      "code": {
+        "style": {
+          "language": 39
+        },
+        "elements": [
+          {
+            "text_run": {
+              "content": "**double asterisks**\n\n",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "__double underscores__",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnVWaG5dtv2DyaLxEWkRxzuf",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "output:",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnn0DWRQoVAJQZirGlx1U9Zc",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "double asterisks",
+              "text_element_style": {
+                "bold": true
+              }
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnTsBb1ywGWOlzVv0G6ETGxg",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "double underscores",
+              "text_element_style": {
+                "bold": true
+              }
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnjXht2TED8hMffwm9FqAC7g",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Typora recommends using the ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "**",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " symbol.",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcn0pAGNWMbVcOdoAJ59vfO6f",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 5,
+      "heading3": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Code",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnfn0nkHE7mBsrEvocYYG8ch",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "To indicate an inline span of code, wrap it with backtick quotes (`). Unlike a pre-formatted code block, a code span indicates code within a normal paragraph. For example:",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnRbGhNDeoQjJ8qGdhT4Fnpf",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 14,
+      "code": {
+        "style": {
+          "language": 39
+        },
+        "elements": [
+          {
+            "text_run": {
+              "content": "Use the `printf()` function.",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnQRjONvilfvyLbZRsP41Yle",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "will produce:",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcn7fZxAqp4M7x6Zl8bnDpWvc",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Use the ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "printf()",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " function.",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcn9F0Ma02eE01CAblfiPRBvd",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 5,
+      "heading3": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Strikethrough",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnFrYMCBrkzvTSKqeXnb94ah",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "GFM adds syntax to create strikethrough text, which is missing from standard Markdown.",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnpMNeN3wHQWSZQMZk3xIQwg",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "~~Mistaken text.~~",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " becomes ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "Mistaken text.",
+              "text_element_style": {
+                "strikethrough": true
+              }
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnih4sJM7CrDQZ80gYiAqHVd",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 5,
+      "heading3": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Underlines",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcn8cYgmn8tuUaG1aV8jG4kKc",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Underline is powered by raw HTML.",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcndEc6Rvu4TWU5C9Pua94QEc",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "\u003cu\u003eUnderline\u003c/u\u003e",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " becomes ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "Underline",
+              "text_element_style": {
+                "underline": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": ".",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcn8KaRG55Ruqyo9EOGtzHWnh",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 5,
+      "heading3": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Emoji :smile:",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnZT0ZUWwu0SAXNDH3a6elwc",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Input emoji with syntax ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": ":smile:",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": ".",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnY7cUIQVBqYuxZnP8odJE0d",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "User can trigger auto-complete suggestions for emoji by pressing ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "ESC",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " key, or trigger it automatically after enabling it on preference panel. Also, inputting UTF-8 emoji characters directly is also supported by going to ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "Edit",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " -\u003e ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "Emoji \u0026 Symbols",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " in the menu bar (macOS).",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcn7PzBqYxlqXC3DPeWhtSH9b",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 5,
+      "heading3": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Inline Math",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnCwpYW5XVtyjEdtOow7at1b",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "To use this feature, please enable it first in the ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "Preference",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " Panel -\u003e ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "Markdown",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " Tab. Then, use ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "$",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " to wrap a TeX command. For example: ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "$\\lim_{x \\to \\infty} \\exp(-x) = 0$",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " will be rendered as LaTeX command.",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnWMrjDMBgCcVAbZ3JGyYcId",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "To trigger inline preview for inline math: input “$”, then press the ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "ESC",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " key, then input a TeX command.",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnoUc1dh3GbhZa45YvDrbr1e",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "You can find more details ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "here",
+              "text_element_style": {
+                "link": {
+                  "url": "https%3A%2F%2Fsupport.typora.io%2FMath%2F"
+                }
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": ".",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnVG1MzpWhMFVEOHgT351wkb",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 5,
+      "heading3": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Subscript",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnaL0WT20bbF2CuiteeS8Kqg",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "To use this feature, please enable it first in the ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "Preference",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " Panel -\u003e ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "Markdown",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " Tab. Then, use ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "~",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " to wrap subscript content. For example: ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "H~2~O",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": ", ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "X~long\\ text~",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": "/",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnwUXHifNQX2LFEZf1KmvgOc",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 5,
+      "heading3": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Superscript",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnvpZYjPL4Qq7mxPkYLziv2g",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "To use this feature, please enable it first in the ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "Preference",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " Panel -\u003e ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "Markdown",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " Tab. Then, use ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "^",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " to wrap superscript content. For example: ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "X^2^",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": ".",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnsk19z35wlUUgqLYmgPvFrg",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 5,
+      "heading3": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Highlight",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnydDSiMXyvVzVjjZ7OxViAe",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "To use this feature, please enable it first in the ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "Preference",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " Panel -\u003e ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "Markdown",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " Tab. Then, use ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "==",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " to wrap highlight content. For example: ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "==highlight==",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": ".",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnWJ5yLuwBCL2B5mPEeMVbkf",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 4,
+      "heading2": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "HTML",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnDGYoLZklGrvhBpIq7BRSsg",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "You can use HTML to style content what pure Markdown does not support. For example, use ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "\u003cspan style=\"color:red\"\u003ethis text is red\u003c/span\u003e",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " to add text with red color.",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnJL74ZVb6VkBEle5RAQ0N1g",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 5,
+      "heading3": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Embed Contents",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcn819NsnvGVCZoeXCi64thje",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Some websites provide iframe-based embed code which you can also paste into Typora. For example:",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnoWRhUhQGbLTuMkgNG18STF",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 14,
+      "code": {
+        "style": {
+          "language": 39
+        },
+        "elements": [
+          {
+            "text_run": {
+              "content": "\u003ciframe height='265' scrolling='no' title='Fancy Animated SVG Menu' src='http://codepen.io/jeangontijo/embed/OxVywj/?height=265\u0026theme-id=0\u0026default-tab=css,result\u0026embed-version=2' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%;'\u003e\u003c/iframe\u003e",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnUelQSbaoTndPNNiaKZ93gc",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 5,
+      "heading3": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Video",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnTuiSDMtWCwKxy08AFe08VP",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "You can use the ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "\u003cvideo\u003e",
+              "text_element_style": {
+                "inline_code": true
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " HTML tag to embed videos. For example:",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnfd974sgMp7sb7ATmeHIHWf",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 14,
+      "code": {
+        "style": {
+          "language": 39
+        },
+        "elements": [
+          {
+            "text_run": {
+              "content": "\u003cvideo src=\"xxx.mp4\" /\u003e",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnUZvcwGXfTw1KacrnluF2Tu",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 5,
+      "heading3": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "Other HTML Support",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnUzYv9TthdoOAw5LTY6QWrd",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "You can find more details ",
+              "text_element_style": {}
+            }
+          },
+          {
+            "text_run": {
+              "content": "here",
+              "text_element_style": {
+                "link": {
+                  "url": "https%3A%2F%2Fsupport.typora.io%2FHTML%2F"
+                }
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": ".",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    },
+    {
+      "block_id": "doxcnQJI36t4Q7SNSwEXcl7ARme",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 22,
+      "divider": {}
+    },
+    {
+      "block_id": "doxcn0Aa0xamsVpD7RLWucZbTYg",
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
+      "block_type": 2,
+      "text": {
+        "style": {},
+        "elements": [
+          {
+            "text_run": {
+              "content": "[1]Here is the text of the footnote. ",
+              "text_element_style": {}
+            }
+          }
+        ]
+      },
+      "divider": {}
+    }
+  ]
+}
