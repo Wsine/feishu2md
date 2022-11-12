@@ -2,12 +2,17 @@ package core
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
+	"log"
 	"strconv"
 	"strings"
 
 	"github.com/Wsine/feishu2md/utils"
 	"github.com/chyroc/lark"
+	"github.com/elliotchance/orderedmap/v2"
+	strip "github.com/grokify/html-strip-tags-go"
+	"github.com/olekukonko/tablewriter"
 )
 
 type Parser struct {
@@ -17,6 +22,24 @@ type Parser struct {
 
 func NewParser(ctx context.Context) *Parser {
 	return &Parser{ctx: ctx, ImgTokens: make([]string, 0)}
+}
+
+// =============================================================
+// Parser utils
+// =============================================================
+
+func renderMarkdownTable(data [][]string) string {
+	builder := &strings.Builder{}
+	table := tablewriter.NewWriter(builder)
+	table.SetCenterSeparator("|")
+	table.SetAutoWrapText(false)
+	table.SetAutoFormatHeaders(false)
+	table.SetAutoMergeCells(false)
+	table.SetBorders(tablewriter.Border{Left: true, Top: false, Right: true, Bottom: false})
+	table.SetHeader(data[0])
+	table.AppendBulk(data[1:])
+	table.Render()
+	return builder.String()
 }
 
 // =============================================================
@@ -93,6 +116,8 @@ func (p *Parser) ParseDocBlock(b *lark.DocBlock) string {
 		return p.ParseDocGallery(b.Gallery)
 	case lark.DocBlockTypeCode:
 		return p.ParseDocCode(b.Code)
+	case lark.DocBlockTypeTable:
+		return p.ParseDocTable(b.Table)
 	default:
 		return ""
 	}
@@ -179,16 +204,75 @@ func (p *Parser) ParseDocCode(c *lark.DocCode) string {
 	return buf.String()
 }
 
+func (p *Parser) ParseDocTableCell(cell *lark.DocTableCell) string {
+	// DocTableCell {
+	//     "columnIndex": int,
+	//     "zoneId": string,
+	//     "body": {object(Body)}
+	// }
+	// convert body(interface{}) to DocBody
+	bytes, err := json.Marshal(cell.Body)
+	if err != nil {
+		log.Printf("failed to marshal %v, err: %s\n", cell.Body, err)
+		return ""
+	}
+	var body lark.DocBody
+	err = json.Unmarshal(bytes, &body)
+	if err != nil {
+		log.Printf("failed to unmarshal '%s', err: %s\n", string(bytes), err)
+		return ""
+	}
+
+	// flatten contents to one line
+	var contents []string
+	for _, block := range body.Blocks {
+		content := p.ParseDocBlock(block)
+		if content == "" {
+			continue
+		}
+		content = strings.Join(strings.Fields(strings.TrimSpace(strip.StripTags(content))), " ")
+		contents = append(contents, content)
+	}
+	return strings.Join(contents, " ")
+}
+
+func (p *Parser) ParseDocTable(t *lark.DocTable) string {
+	// - First row as header
+	// - Ignore cell merging
+	var rows [][]string
+	for _, row := range t.TableRows {
+		var cells []string
+		for _, cell := range row.TableCells {
+			cells = append(cells, p.ParseDocTableCell(cell))
+		}
+		rows = append(rows, cells)
+	}
+
+	buf := new(strings.Builder)
+	buf.WriteString("\n")
+	buf.WriteString(renderMarkdownTable(rows))
+	buf.WriteString("\n")
+	return buf.String()
+}
+
 // =============================================================
 // Parse the new version of document (docx)
 // =============================================================
 
 func (p *Parser) ParseDocxContent(doc *lark.DocxDocument, blocks []*lark.DocxBlock) string {
+	// block map
+	// - Table cell block needs block map to collect children blocks
+	// - ParseDocxContent needs block map to avoid duplicate rendering
+	blockMap := orderedmap.NewOrderedMap[string, *lark.DocxBlock]()
+	for _, block := range blocks {
+		blockMap.Set(block.BlockID, block)
+	}
+
 	buf := new(strings.Builder)
 	// buf.WriteString(p.ParseDocxDocument(doc))
 	// buf.WriteString("\n")
 	for _, v := range blocks {
-		buf.WriteString(p.ParseDocxBlock(v))
+		buf.WriteString(p.ParseDocxBlock(v, blockMap))
 		buf.WriteString("\n")
 	}
 	return buf.String()
@@ -198,7 +282,12 @@ func (p *Parser) ParseDocxDocument(doc *lark.DocxDocument) string {
 	return doc.Title
 }
 
-func (p *Parser) ParseDocxBlock(b *lark.DocxBlock) string {
+func (p *Parser) ParseDocxBlock(b *lark.DocxBlock, blockMap *orderedmap.OrderedMap[string, *lark.DocxBlock]) string {
+	if _, ok := blockMap.Get(b.BlockID); blockMap != nil && !ok {
+		// ignore rendered children block
+		return ""
+	}
+
 	buf := new(strings.Builder)
 	switch b.BlockType {
 	case lark.DocxBlockTypePage:
@@ -259,6 +348,10 @@ func (p *Parser) ParseDocxBlock(b *lark.DocxBlock) string {
 		buf.WriteString(p.ParseDocxBlockText(b.Todo))
 	case lark.DocxBlockTypeImage:
 		buf.WriteString(p.ParseDocxBlockImage(b.Image))
+	case lark.DocxBlockTypeTableCell:
+		buf.WriteString(p.ParseDocxBlockTableCell(b.BlockID, blockMap))
+	case lark.DocxBlockTypeTable:
+		buf.WriteString(p.ParseDocxBlockTable(b.ParentID, b.Table, blockMap))
 	default:
 		return ""
 	}
@@ -331,5 +424,53 @@ func (p *Parser) ParseDocxBlockImage(img *lark.DocxBlockImage) string {
 func (p *Parser) ParseDocxWhatever(body *lark.DocBody) string {
 	buf := new(strings.Builder)
 
+	return buf.String()
+}
+
+func (p *Parser) ParseDocxBlockTableCell(blockId string, blockMap *orderedmap.OrderedMap[string, *lark.DocxBlock]) string {
+	var contents []string
+	for el := blockMap.Front(); el != nil; el = el.Next() {
+		block := el.Value
+		if block.ParentID != blockId {
+			continue
+		}
+
+		content := p.ParseDocxBlock(block, blockMap)
+		if content == "" {
+			continue
+		}
+		content = strings.Join(strings.Fields(strings.TrimSpace(strip.StripTags(content))), " ")
+		contents = append(contents, content)
+		// remove table cell children block from map
+		blockMap.Delete(block.BlockID)
+	}
+	return strings.Join(contents, " ")
+}
+
+func (p *Parser) ParseDocxBlockTable(documentId string, t *lark.DocxBlockTable, blockMap *orderedmap.OrderedMap[string, *lark.DocxBlock]) string {
+	// - First row as header
+	// - Ignore cell merging
+	var rows [][]string
+	for i, blockId := range t.Cells {
+		block, ok := blockMap.Get(blockId)
+		if !ok {
+			log.Printf("got invalid block cell '%s', document: %s\n", blockId, documentId)
+			continue
+		}
+
+		content := p.ParseDocxBlock(block, blockMap)
+		rowIndex := int64(i) / t.Property.ColumnSize
+		if len(rows) < int(rowIndex)+1 {
+			rows = append(rows, []string{})
+		}
+		rows[rowIndex] = append(rows[rowIndex], content)
+		// remove table cell block from map
+		blockMap.Delete(blockId)
+	}
+
+	buf := new(strings.Builder)
+	buf.WriteString("\n")
+	buf.WriteString(renderMarkdownTable(rows))
+	buf.WriteString("\n")
 	return buf.String()
 }
