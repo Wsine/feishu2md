@@ -10,7 +10,7 @@ import (
 
 	"github.com/Wsine/feishu2md/utils"
 	"github.com/chyroc/lark"
-	"github.com/elliotchance/orderedmap/v2"
+	"github.com/elliotchance/orderedmap"
 	strip "github.com/grokify/html-strip-tags-go"
 	"github.com/olekukonko/tablewriter"
 )
@@ -263,7 +263,7 @@ func (p *Parser) ParseDocxContent(doc *lark.DocxDocument, blocks []*lark.DocxBlo
 	// block map
 	// - Table cell block needs block map to collect children blocks
 	// - ParseDocxContent needs block map to avoid duplicate rendering
-	blockMap := orderedmap.NewOrderedMap[string, *lark.DocxBlock]()
+	blockMap := orderedmap.NewOrderedMap()
 	for _, block := range blocks {
 		blockMap.Set(block.BlockID, block)
 	}
@@ -282,7 +282,7 @@ func (p *Parser) ParseDocxDocument(doc *lark.DocxDocument) string {
 	return doc.Title
 }
 
-func (p *Parser) ParseDocxBlock(b *lark.DocxBlock, blockMap *orderedmap.OrderedMap[string, *lark.DocxBlock]) string {
+func (p *Parser) ParseDocxBlock(b *lark.DocxBlock, blockMap *orderedmap.OrderedMap) string {
 	if _, ok := blockMap.Get(b.BlockID); blockMap != nil && !ok {
 		// ignore rendered children block
 		return ""
@@ -427,10 +427,10 @@ func (p *Parser) ParseDocxWhatever(body *lark.DocBody) string {
 	return buf.String()
 }
 
-func (p *Parser) ParseDocxBlockTableCell(blockId string, blockMap *orderedmap.OrderedMap[string, *lark.DocxBlock]) string {
+func (p *Parser) ParseDocxBlockTableCell(blockId string, blockMap *orderedmap.OrderedMap) string {
 	var contents []string
 	for el := blockMap.Front(); el != nil; el = el.Next() {
-		block := el.Value
+		block := el.Value.(*lark.DocxBlock)
 		if block.ParentID != blockId {
 			continue
 		}
@@ -447,7 +447,7 @@ func (p *Parser) ParseDocxBlockTableCell(blockId string, blockMap *orderedmap.Or
 	return strings.Join(contents, " ")
 }
 
-func (p *Parser) ParseDocxBlockTable(documentId string, t *lark.DocxBlockTable, blockMap *orderedmap.OrderedMap[string, *lark.DocxBlock]) string {
+func (p *Parser) ParseDocxBlockTable(documentId string, t *lark.DocxBlockTable, blockMap *orderedmap.OrderedMap) string {
 	// - First row as header
 	// - Ignore cell merging
 	var rows [][]string
@@ -458,7 +458,7 @@ func (p *Parser) ParseDocxBlockTable(documentId string, t *lark.DocxBlockTable, 
 			continue
 		}
 
-		content := p.ParseDocxBlock(block, blockMap)
+		content := p.ParseDocxBlock(block.(*lark.DocxBlock), blockMap)
 		rowIndex := int64(i) / t.Property.ColumnSize
 		if len(rows) < int(rowIndex)+1 {
 			rows = append(rows, []string{})
