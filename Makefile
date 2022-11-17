@@ -11,3 +11,7 @@ endif
 .PHONY: clean
 clean:  ## Clean build bundles
 	rm -rf ./bin
+
+.PHONY: format
+format:
+	gofmt -l -w .
