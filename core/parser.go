@@ -67,6 +67,7 @@ func (p *Parser) ParseDocParagraph(para *lark.DocParagraph, isTitle bool) string
 				buf.WriteString(strings.Repeat("#", int(style.HeadingLevel)))
 				buf.WriteString(" ")
 			} else if list := style.List; list != nil {
+				buf.WriteString(strings.Repeat("  ", list.IndentLevel-1))
 				switch list.Type {
 				case "number":
 					buf.WriteString(strconv.Itoa(list.Number) + ".")
@@ -323,9 +324,31 @@ func (p *Parser) ParseDocxBlock(b *lark.DocxBlock, blockMap *orderedmap.OrderedM
 		buf.WriteString("######### ")
 		buf.WriteString(p.ParseDocxBlockText(b.Heading9))
 	case lark.DocxBlockTypeBullet:
+		// calculate indent level
+		indentLevel := 1
+		parent := blockMap.GetOrDefault(b.ParentID, nil)
+		for {
+			if parent == nil || parent.(*lark.DocxBlock).BlockType != lark.DocxBlockTypeBullet {
+				break
+			}
+			indentLevel += 1
+			parent = blockMap.GetOrDefault(parent.(*lark.DocxBlock).ParentID, nil)
+		}
+		buf.WriteString(strings.Repeat("  ", indentLevel-1))
 		buf.WriteString("- ")
 		buf.WriteString(p.ParseDocxBlockText(b.Bullet))
 	case lark.DocxBlockTypeOrdered:
+		// calculate indent level
+		indentLevel := 1
+		parent := blockMap.GetOrDefault(b.ParentID, nil)
+		for {
+			if parent == nil || parent.(*lark.DocxBlock).BlockType != lark.DocxBlockTypeOrdered {
+				break
+			}
+			indentLevel += 1
+			parent = blockMap.GetOrDefault(parent.(*lark.DocxBlock).ParentID, nil)
+		}
+		buf.WriteString(strings.Repeat("  ", indentLevel-1))
 		buf.WriteString("1. ")
 		buf.WriteString(p.ParseDocxBlockText(b.Ordered))
 	case lark.DocxBlockTypeCode:
