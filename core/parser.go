@@ -58,7 +58,9 @@ func (p *Parser) ParseDocParagraph(para *lark.DocParagraph, isTitle bool) string
 	buf := new(strings.Builder)
 	if isTitle {
 		buf.WriteString("# ")
-		buf.WriteString(para.Elements[0].TextRun.Text)
+		for _, elem := range para.Elements {
+			buf.WriteString(elem.TextRun.Text)
+		}
 		buf.WriteString("\n")
 	} else {
 		postWrite := ""

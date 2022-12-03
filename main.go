@@ -102,7 +102,9 @@ func handleUrlArgument(url string, verbose bool) error {
 			return err
 		}
 		markdown = parser.ParseDocContent(doc)
-		title = doc.Title.Elements[0].TextRun.Text
+		for _, element := range doc.Title.Elements {
+			title += element.TextRun.Text
+		}
 	}
 
 	for _, imgToken := range parser.ImgTokens {
