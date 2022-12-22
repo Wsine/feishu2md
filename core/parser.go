@@ -227,16 +227,17 @@ func (p *Parser) ParseDocTableCell(cell *lark.DocTableCell) string {
 	}
 
 	// flatten contents to one line
-	var contents []string
+	var contents string
 	for _, block := range body.Blocks {
 		content := p.ParseDocBlock(block)
 		if content == "" {
 			continue
 		}
-		content = strings.Join(strings.Fields(strings.TrimSpace(strip.StripTags(content))), " ")
-		contents = append(contents, content)
+		contents += content
 	}
-	return strings.Join(contents, " ")
+	contents = strings.Join(strings.Fields(strings.ReplaceAll(strings.TrimSpace(strip.StripTags(contents)), "\n",
+		"<br/>")), " ")
+	return contents
 }
 
 func (p *Parser) ParseDocTable(t *lark.DocTable) string {
@@ -453,9 +454,13 @@ func (p *Parser) ParseDocxWhatever(body *lark.DocBody) string {
 }
 
 func (p *Parser) ParseDocxBlockTableCell(blockId string, blockMap *orderedmap.OrderedMap) string {
-	var contents []string
-	for el := blockMap.Front(); el != nil; el = el.Next() {
-		block := el.Value.(*lark.DocxBlock)
+	var contents string
+	for _, key := range blockMap.Keys() {
+		value, ok := blockMap.Get(key)
+		if !ok {
+			continue
+		}
+		block := value.(*lark.DocxBlock)
 		if block.ParentID != blockId {
 			continue
 		}
@@ -464,12 +469,12 @@ func (p *Parser) ParseDocxBlockTableCell(blockId string, blockMap *orderedmap.Or
 		if content == "" {
 			continue
 		}
-		content = strings.Join(strings.Fields(strings.TrimSpace(strip.StripTags(content))), " ")
-		contents = append(contents, content)
+		contents += content
 		// remove table cell children block from map
 		blockMap.Delete(block.BlockID)
 	}
-	return strings.Join(contents, " ")
+	contents = strings.Join(strings.Fields(strings.ReplaceAll(strings.TrimSpace(strip.StripTags(contents)), "\n", "<br/>")), " ")
+	return contents
 }
 
 func (p *Parser) ParseDocxBlockTable(documentId string, t *lark.DocxBlockTable, blockMap *orderedmap.OrderedMap) string {
