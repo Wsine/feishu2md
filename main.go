@@ -135,7 +135,7 @@ func handleUrlArgument(url string, verbose bool) error {
 func main() {
 	app := &cli.App{
 		Name:    "feishu2md",
-		Version: "v1.3.0",
+		Version: "v1.3.4",
 		Usage:   "download feishu/larksuite document to markdown file",
 		Flags: []cli.Flag{
 			&cli.BoolFlag{

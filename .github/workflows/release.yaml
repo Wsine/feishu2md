@@ -10,7 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        goos: [linux, windows, darwin]
+        # goos: [linux, windows, darwin]
+        goos: [linux, windows]  # exclude darwin, see #40
         goarch: [amd64, arm64]
         exclude:
           - goarch: arm64
@@ -28,6 +29,28 @@ jobs:
           pre_command: export CGO_ENABLED=0
           ldflags: "-s -w"
           executable_compression: "upx -9"
+          project_path: "."
+          binary_name: "feishu2md"
+          extra_files: README.md
+  releases-darwin:
+    name: Release feishu2md binaries
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        goos: [darwin]  # specialize for darwin, see #40
+        goarch: [amd64, arm64]
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v2
+      - name: Parallel build
+        uses: wangyoucao577/go-release-action@v1.30
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          goos: ${{ matrix.goos }}
+          goarch: ${{ matrix.goarch }}
+          goversion: 1.17
+          pre_command: export CGO_ENABLED=0
+          ldflags: "-s -w"
           project_path: "."
           binary_name: "feishu2md"
           extra_files: README.md
