@@ -103,6 +103,10 @@ func (p *Parser) ParseDocParagraph(para *lark.DocParagraph, isTitle bool) string
 }
 
 func (p *Parser) ParseDocBody(body *lark.DocBody) string {
+	if body == nil {
+		return ""
+	}
+
 	buf := new(strings.Builder)
 	for _, b := range body.Blocks {
 		buf.WriteString(p.ParseDocBlock(b))
