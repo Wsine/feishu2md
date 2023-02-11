@@ -370,7 +370,7 @@ func (p *Parser) ParseDocxBlock(b *lark.DocxBlock, blockMap *orderedmap.OrderedM
 		buf.WriteString(p.ParseDocxBlockText(b.Equation))
 		buf.WriteString("\n$$")
 	case lark.DocxBlockTypeTodo:
-		if b.Ordered.Style.Done {
+		if b.Todo.Style.Done {
 			buf.WriteString("- [x] ")
 		} else {
 			buf.WriteString("- [ ] ")
