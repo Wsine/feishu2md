@@ -382,6 +382,8 @@ func (p *Parser) ParseDocxBlock(b *lark.DocxBlock, blockMap *orderedmap.OrderedM
 		buf.WriteString(p.ParseDocxBlockTableCell(b.BlockID, blockMap))
 	case lark.DocxBlockTypeTable:
 		buf.WriteString(p.ParseDocxBlockTable(b.ParentID, b.Table, blockMap))
+  case lark.DocxBlockTypeQuoteContainer:
+		buf.WriteString(p.ParseDocxBlockQuoteContainer(b.BlockID, b.QuoteContainer, blockMap))
 	default:
 		return ""
 	}
@@ -507,4 +509,28 @@ func (p *Parser) ParseDocxBlockTable(documentId string, t *lark.DocxBlockTable, 
 	buf.WriteString(renderMarkdownTable(rows))
 	buf.WriteString("\n")
 	return buf.String()
+}
+
+func (p *Parser) ParseDocxBlockQuoteContainer(blockId string, q *lark.DocxBlocQuoteContainer, blockMap *orderedmap.OrderedMap) string {
+  contents := "> "
+	for _, key := range blockMap.Keys() {
+		value, ok := blockMap.Get(key)
+		if !ok {
+			continue
+		}
+		block := value.(*lark.DocxBlock)
+		if block.ParentID != blockId {
+			continue
+		}
+
+		content := p.ParseDocxBlock(block, blockMap)
+		if content == "" {
+			continue
+		}
+		contents += content
+		// remove quote container children block from map
+		blockMap.Delete(block.BlockID)
+	}
+	contents = strings.Join(strings.Fields(strings.ReplaceAll(strings.TrimSpace(strip.StripTags(contents)), "\n", "<br/>")), " ")
+	return contents
 }
