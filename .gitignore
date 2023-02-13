@@ -17,5 +17,6 @@ bin/
 feishu2md-amd64.zip
 .env
 static
+VERSION
 
 .idea

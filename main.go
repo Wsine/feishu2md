@@ -133,9 +133,14 @@ func handleUrlArgument(url string, verbose bool) error {
 }
 
 func main() {
+	version, err := os.ReadFile("VERSION")
+	if err != nil {
+		version = []byte("v1-test")
+	}
+
 	app := &cli.App{
 		Name:    "feishu2md",
-		Version: "v1.3.4",
+		Version: strings.TrimSpace(string(version)),
 		Usage:   "download feishu/larksuite document to markdown file",
 		Flags: []cli.Flag{
 			&cli.BoolFlag{
