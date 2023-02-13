@@ -28,6 +28,76 @@ func NewParser(ctx context.Context) *Parser {
 // Parser utils
 // =============================================================
 
+var DocxCodeLang2MdStr = map[lark.DocxCodeLanguage]string{
+	lark.DocxCodeLanguagePlainText:    "",
+	lark.DocxCodeLanguageABAP:         "abap",
+	lark.DocxCodeLanguageAda:          "ada",
+	lark.DocxCodeLanguageApache:       "apache",
+	lark.DocxCodeLanguageApex:         "apex",
+	lark.DocxCodeLanguageAssembly:     "assembly",
+	lark.DocxCodeLanguageBash:         "bash",
+	lark.DocxCodeLanguageCSharp:       "csharp",
+	lark.DocxCodeLanguageCPlusPlus:    "cpp",
+	lark.DocxCodeLanguageC:            "c",
+	lark.DocxCodeLanguageCOBOL:        "cobol",
+	lark.DocxCodeLanguageCSS:          "css",
+	lark.DocxCodeLanguageCoffeeScript: "coffeescript",
+	lark.DocxCodeLanguageD:            "d",
+	lark.DocxCodeLanguageDart:         "dart",
+	lark.DocxCodeLanguageDelphi:       "delphi",
+	lark.DocxCodeLanguageDjango:       "django",
+	lark.DocxCodeLanguageDockerfile:   "dockerfile",
+	lark.DocxCodeLanguageErlang:       "erlang",
+	lark.DocxCodeLanguageFortran:      "fortran",
+	lark.DocxCodeLanguageFoxPro:       "foxpro",
+	lark.DocxCodeLanguageGo:           "go",
+	lark.DocxCodeLanguageGroovy:       "groovy",
+	lark.DocxCodeLanguageHTML:         "html",
+	lark.DocxCodeLanguageHTMLBars:     "htmlbars",
+	lark.DocxCodeLanguageHTTP:         "http",
+	lark.DocxCodeLanguageHaskell:      "haskell",
+	lark.DocxCodeLanguageJSON:         "json",
+	lark.DocxCodeLanguageJava:         "java",
+	lark.DocxCodeLanguageJavaScript:   "javascript",
+	lark.DocxCodeLanguageJulia:        "julia",
+	lark.DocxCodeLanguageKotlin:       "kotlin",
+	lark.DocxCodeLanguageLateX:        "latex",
+	lark.DocxCodeLanguageLisp:         "lisp",
+	lark.DocxCodeLanguageLogo:         "logo",
+	lark.DocxCodeLanguageLua:          "lua",
+	lark.DocxCodeLanguageMATLAB:       "matlab",
+	lark.DocxCodeLanguageMakefile:     "makefile",
+	lark.DocxCodeLanguageMarkdown:     "markdown",
+	lark.DocxCodeLanguageNginx:        "nginx",
+	lark.DocxCodeLanguageObjective:    "objectivec",
+	lark.DocxCodeLanguageOpenEdgeABL:  "openedge-abl",
+	lark.DocxCodeLanguagePHP:          "php",
+	lark.DocxCodeLanguagePerl:         "perl",
+	lark.DocxCodeLanguagePostScript:   "postscript",
+	lark.DocxCodeLanguagePower:        "powershell",
+	lark.DocxCodeLanguageProlog:       "prolog",
+	lark.DocxCodeLanguageProtoBuf:     "protobuf",
+	lark.DocxCodeLanguagePython:       "python",
+	lark.DocxCodeLanguageR:            "r",
+	lark.DocxCodeLanguageRPG:          "rpg",
+	lark.DocxCodeLanguageRuby:         "ruby",
+	lark.DocxCodeLanguageRust:         "rust",
+	lark.DocxCodeLanguageSAS:          "sas",
+	lark.DocxCodeLanguageSCSS:         "scss",
+	lark.DocxCodeLanguageSQL:          "sql",
+	lark.DocxCodeLanguageScala:        "scala",
+	lark.DocxCodeLanguageScheme:       "scheme",
+	lark.DocxCodeLanguageScratch:      "scratch",
+	lark.DocxCodeLanguageShell:        "shell",
+	lark.DocxCodeLanguageSwift:        "swift",
+	lark.DocxCodeLanguageThrift:       "thrift",
+	lark.DocxCodeLanguageTypeScript:   "typescript",
+	lark.DocxCodeLanguageVBScript:     "vbscript",
+	lark.DocxCodeLanguageVisual:       "vbnet",
+	lark.DocxCodeLanguageXML:          "xml",
+	lark.DocxCodeLanguageYAML:         "yaml",
+}
+
 func renderMarkdownTable(data [][]string) string {
 	builder := &strings.Builder{}
 	table := tablewriter.NewWriter(builder)
@@ -359,7 +429,7 @@ func (p *Parser) ParseDocxBlock(b *lark.DocxBlock, blockMap *orderedmap.OrderedM
 		buf.WriteString("1. ")
 		buf.WriteString(p.ParseDocxBlockText(b.Ordered))
 	case lark.DocxBlockTypeCode:
-		buf.WriteString("```\n")
+		buf.WriteString("```" + DocxCodeLang2MdStr[b.Code.Style.Language] + "\n")
 		buf.WriteString(strings.TrimSpace(p.ParseDocxBlockText(b.Code)))
 		buf.WriteString("\n```")
 	case lark.DocxBlockTypeQuote:
@@ -382,7 +452,7 @@ func (p *Parser) ParseDocxBlock(b *lark.DocxBlock, blockMap *orderedmap.OrderedM
 		buf.WriteString(p.ParseDocxBlockTableCell(b.BlockID, blockMap))
 	case lark.DocxBlockTypeTable:
 		buf.WriteString(p.ParseDocxBlockTable(b.ParentID, b.Table, blockMap))
-  case lark.DocxBlockTypeQuoteContainer:
+	case lark.DocxBlockTypeQuoteContainer:
 		buf.WriteString(p.ParseDocxBlockQuoteContainer(b.BlockID, b.QuoteContainer, blockMap))
 	default:
 		return ""
@@ -512,7 +582,7 @@ func (p *Parser) ParseDocxBlockTable(documentId string, t *lark.DocxBlockTable, 
 }
 
 func (p *Parser) ParseDocxBlockQuoteContainer(blockId string, q *lark.DocxBlocQuoteContainer, blockMap *orderedmap.OrderedMap) string {
-  contents := "> "
+	contents := "> "
 	for _, key := range blockMap.Keys() {
 		value, ok := blockMap.Get(key)
 		if !ok {
