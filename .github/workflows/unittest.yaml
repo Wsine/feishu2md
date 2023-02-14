@@ -1,10 +1,8 @@
 name: unittest
 
 on:
-  push:
-    branches:
-      - main
-  pull_request_target:
+  pull_request:
+    types: [opened, reopened, synchronize]
     branches:
       - main
   workflow_dispatch:
