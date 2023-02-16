@@ -19,8 +19,6 @@ jobs:
     steps:
       - name: Checkout the code
         uses: actions/checkout@v2
-      - name: Create version file
-        run: echo ${{ github.event.release.tag_name }} > VERSION
       - name: Parallel build
         uses: wangyoucao577/go-release-action@v1.30
         with:
@@ -29,7 +27,7 @@ jobs:
           goarch: ${{ matrix.goarch }}
           goversion: 1.17
           pre_command: export CGO_ENABLED=0
-          ldflags: "-s -w"
+          ldflags: "-s -w -X main.version=${{ github.event.release.tag_name }}"
           executable_compression: "upx -9"
           project_path: "."
           binary_name: "feishu2md"
@@ -44,8 +42,6 @@ jobs:
     steps:
       - name: Checkout the code
         uses: actions/checkout@v2
-      - name: Create version file
-        run: echo ${{ github.event.release.tag_name }} > VERSION
       - name: Parallel build
         uses: wangyoucao577/go-release-action@v1.30
         with:
@@ -54,7 +50,7 @@ jobs:
           goarch: ${{ matrix.goarch }}
           goversion: 1.17
           pre_command: export CGO_ENABLED=0
-          ldflags: "-s -w"
+          ldflags: "-s -w -X main.version=${{ github.event.release.tag_name }}"
           project_path: "."
           binary_name: "feishu2md"
           extra_files: README.md
