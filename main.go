@@ -14,6 +14,8 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
+var version = "v1-test"
+
 func handleConfigCommand(appId, appSecret string) error {
 	configPath, err := core.GetConfigFilePath()
 	if err != nil {
@@ -133,11 +135,6 @@ func handleUrlArgument(url string, verbose bool) error {
 }
 
 func main() {
-	version, err := os.ReadFile("VERSION")
-	if err != nil {
-		version = []byte("v1-test")
-	}
-
 	app := &cli.App{
 		Name:    "feishu2md",
 		Version: strings.TrimSpace(string(version)),
