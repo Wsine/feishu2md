@@ -7,6 +7,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"time"
 
 	"github.com/Wsine/feishu2md/utils"
 	"github.com/chyroc/lark"
@@ -21,6 +22,7 @@ func NewClient(appID, appSecret, domain string) *Client {
 		larkClient: lark.New(
 			lark.WithAppCredential(appID, appSecret),
 			lark.WithOpenBaseURL("https://open."+domain),
+			lark.WithTimeout(60*time.Second),
 		),
 	}
 }
