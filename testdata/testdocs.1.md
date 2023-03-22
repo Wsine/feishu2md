@@ -58,7 +58,7 @@ Feishu2Md 已开源并发布在 Github 中： [https://github.com/Wsine/feishu2m
 调用示例：
 
 ```bash
-feishu2md [](https://oaztcemx3k.feishu.cn/docs/doccnrOvzeQ8BSnfsXj8jwJHC3c#)
+feishu2md https://oaztcemx3k.feishu.cn/docs/doccnrOvzeQ8BSnfsXj8jwJHC3c#
 ```
 
 ![](boxcnKbWMvZeFbEJV4ZDcepCIDf)

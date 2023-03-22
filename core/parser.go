@@ -275,9 +275,20 @@ func (p *Parser) ParseDocCode(c *lark.DocCode) string {
 	buf.WriteString("```")
 	buf.WriteString(strings.ToLower(c.Language))
 	buf.WriteString("\n")
-	buf.WriteString(strings.TrimSpace(p.ParseDocBody(c.Body)))
-	buf.WriteString("\n```")
-	buf.WriteString("\n")
+
+	for _, b := range c.Body.Blocks {
+		for _, elem := range b.Paragraph.Elements {
+			switch elem.Type {
+			case lark.DocParagraphElementTypeTextRun:
+				buf.WriteString(elem.TextRun.Text)
+			case lark.DocParagraphElementTypeDocsLink:
+				buf.WriteString(elem.DocsLink.URL)
+			}
+		}
+		buf.WriteString("\n")
+	}
+
+	buf.WriteString("```\n")
 	return buf.String()
 }
 
