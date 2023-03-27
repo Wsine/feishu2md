@@ -63,17 +63,7 @@ OPTIONS:
 
 通过 `feishu2md config --appId <your_id> --appSecret <your_secret>` 命令即可生成该工具的配置文件。
 
-通过 `feishu2md config` 命令可以查看是否成功配置。
-
-生成的配置文件路径为：
-
-- Windows: %AppData%/feishu2md/config.json
-
-- Linux: $XDG_CONFIG_HOME/feishu2md/config.json
-
-- Mac: $XDG_CONFIG_HOME/feishu2md/config.json
-
-如无配置 XDG_CONFIG_HOME 环境变量，则默认为 ~/.config 目录。
+通过 `feishu2md config` 命令可以查看配置文件路径以及是否成功配置。
 
 更多的配置选项请手动打开配置文件更改。
 

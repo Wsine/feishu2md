@@ -21,6 +21,7 @@ func handleConfigCommand(appId, appSecret string) error {
 	if err != nil {
 		return err
 	}
+	fmt.Println("Configuration file on: " + configPath)
 	if _, err := os.Stat(configPath); os.IsNotExist(err) {
 		config := core.NewConfig(appId, appSecret)
 		if err = config.WriteConfig2File(configPath); err != nil {
