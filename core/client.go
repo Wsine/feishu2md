@@ -41,7 +41,11 @@ func (c *Client) GetDocContent(ctx context.Context, docToken string) (*lark.DocC
 	}
 
 	if ctx.Value("Verbose").(bool) {
-		fmt.Println(utils.PrettyPrint(doc))
+		pdoc := utils.PrettyPrint(doc)
+		fmt.Println(pdoc)
+		if err = os.WriteFile(fmt.Sprintf("%s_verbose.json", docToken), []byte(pdoc), 0o644); err != nil {
+			return nil, err
+		}
 	}
 
 	return doc, nil
@@ -110,7 +114,11 @@ func (c *Client) GetDocxContent(ctx context.Context, docToken string) (*lark.Doc
 			Document: docx,
 			Blocks:   blocks,
 		}
-		fmt.Println(utils.PrettyPrint(data))
+		pdata := utils.PrettyPrint(data)
+		fmt.Println(pdata)
+		if err = os.WriteFile(fmt.Sprintf("%s_verbose.json", docToken), []byte(pdata), 0o644); err != nil {
+			return nil, nil, err
+		}
 	}
 
 	return docx, blocks, nil
