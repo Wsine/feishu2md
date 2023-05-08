@@ -473,14 +473,16 @@ func (p *Parser) ParseDocxBlock(b *lark.DocxBlock, blockMap *orderedmap.OrderedM
 
 func (p *Parser) ParseDocxBlockText(b *lark.DocxBlockText) string {
 	buf := new(strings.Builder)
+	numElem := len(b.Elements)
 	for _, e := range b.Elements {
-		buf.WriteString(p.ParseDocxTextElement(e))
+		inline := numElem > 1
+		buf.WriteString(p.ParseDocxTextElement(e, inline))
 	}
 	buf.WriteString("\n")
 	return buf.String()
 }
 
-func (p *Parser) ParseDocxTextElement(e *lark.DocxTextElement) string {
+func (p *Parser) ParseDocxTextElement(e *lark.DocxTextElement, inline bool) string {
 	buf := new(strings.Builder)
 	if e.TextRun != nil {
 		buf.WriteString(p.ParseDocxTextElementTextRun(e.TextRun))
@@ -492,7 +494,11 @@ func (p *Parser) ParseDocxTextElement(e *lark.DocxTextElement) string {
 		buf.WriteString(fmt.Sprintf("[%s](%s)", e.MentionDoc.Title, utils.UnescapeURL(e.MentionDoc.URL)))
 	}
 	if e.Equation != nil {
-		buf.WriteString("$$" + strings.TrimSuffix(e.Equation.Content, "\n") + "$$")
+		symbol := "$$"
+		if inline {
+			symbol = "$"
+		}
+		buf.WriteString(symbol + strings.TrimSuffix(e.Equation.Content, "\n") + symbol)
 	}
 	return buf.String()
 }
