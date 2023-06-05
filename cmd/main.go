@@ -59,7 +59,7 @@ func handleUrlArgument(url string, verbose bool) error {
 		return err
 	}
 
-	reg := regexp.MustCompile("^https://[a-zA-Z0-9-]+.(feishu.cn|larksuite.com)/(docs|docx|wiki)/([a-zA-Z0-9]+)")
+	reg := regexp.MustCompile("^https://[a-zA-Z0-9-]+.(feishu.cn|larksuite.com)/(docx|wiki)/([a-zA-Z0-9]+)")
 	matchResult := reg.FindStringSubmatch(url)
 	if matchResult == nil || len(matchResult) != 4 {
 		return fmt.Errorf("Invalid feishu/larksuite URL format\n")
@@ -92,23 +92,12 @@ func handleUrlArgument(url string, verbose bool) error {
 		docToken = node.ObjToken
 	}
 
-	if docType == "docx" {
-		docx, blocks, err := client.GetDocxContent(ctx, docToken)
-		if err != nil {
-			return err
-		}
-		markdown = parser.ParseDocxContent(docx, blocks)
-		title = docx.Title
-	} else {
-		doc, err := client.GetDocContent(ctx, docToken)
-		if err != nil {
-			return err
-		}
-		markdown = parser.ParseDocContent(doc)
-		for _, element := range doc.Title.Elements {
-			title += element.TextRun.Text
-		}
+	docx, blocks, err := client.GetDocxContent(ctx, docToken)
+	if err != nil {
+		return err
 	}
+	markdown = parser.ParseDocxContent(docx, blocks)
+	title = docx.Title
 
 	for _, imgToken := range parser.ImgTokens {
 		localLink, err := client.DownloadImage(ctx, imgToken)

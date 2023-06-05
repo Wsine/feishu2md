@@ -51,7 +51,6 @@ func downloadHandler(c *gin.Context) {
 	)
 
 	parser := core.NewParser(ctx)
-	title := ""
 	markdown := ""
 
 	// for a wiki page, we need to renew docType and docToken first
@@ -66,27 +65,13 @@ func downloadHandler(c *gin.Context) {
 		docToken = node.ObjToken
 	}
 
-	if docType == "docx" {
-		docx, blocks, err := client.GetDocxContent(ctx, docToken)
-		if err != nil {
-			c.String(http.StatusInternalServerError, "Internal error: client.GetDocxContent")
-			log.Panicf("error: %s", err)
-			return
-		}
-		markdown = parser.ParseDocxContent(docx, blocks)
-		title = docx.Title
-	} else {
-		doc, err := client.GetDocContent(ctx, docToken)
-		if err != nil {
-			c.String(http.StatusInternalServerError, "Internal error: client.GetDocContent")
-			log.Panicf("error: %s", err)
-			return
-		}
-		markdown = parser.ParseDocContent(doc)
-		for _, element := range doc.Title.Elements {
-			title += element.TextRun.Text
-		}
+	docx, blocks, err := client.GetDocxContent(ctx, docToken)
+	if err != nil {
+		c.String(http.StatusInternalServerError, "Internal error: client.GetDocxContent")
+		log.Panicf("error: %s", err)
+		return
 	}
+	markdown = parser.ParseDocxContent(docx, blocks)
 
 	zipBuffer := new(bytes.Buffer)
 	writer := zip.NewWriter(zipBuffer)

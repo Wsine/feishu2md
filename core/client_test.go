@@ -25,23 +25,6 @@ func TestNewClient(t *testing.T) {
 	}
 }
 
-func TestGetDocContent(t *testing.T) {
-	appID, appSecret := getIdAndSecretFromEnv()
-	c := core.NewClient(appID, appSecret, "feishu.cn")
-	content, err := c.GetDocContent(
-		context.WithValue(context.Background(), "Verbose", false),
-		"doccnzSnjwt7Bd01MMcnNWpwV4d",
-	)
-	if err != nil {
-		t.Error(err)
-	}
-	title := content.Title.Elements[0].TextRun.Text
-	fmt.Println(title)
-	if title == "" {
-		t.Errorf("Error: parsed title is empty")
-	}
-}
-
 func TestDownloadImage(t *testing.T) {
 	appID, appSecret := getIdAndSecretFromEnv()
 	c := core.NewClient(appID, appSecret, "feishu.cn")
