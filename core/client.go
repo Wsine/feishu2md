@@ -3,7 +3,6 @@ package core
 import (
 	"bytes"
 	"context"
-	"encoding/json"
 	"fmt"
 	"io"
 	"os"
@@ -26,30 +25,6 @@ func NewClient(appID, appSecret, domain string) *Client {
 			lark.WithTimeout(60*time.Second),
 		),
 	}
-}
-
-func (c *Client) GetDocContent(ctx context.Context, docToken string) (*lark.DocContent, error) {
-	resp, _, err := c.larkClient.Drive.GetDriveDocContent(ctx, &lark.GetDriveDocContentReq{
-		DocToken: docToken,
-	})
-	if err != nil {
-		return nil, err
-	}
-	doc := &lark.DocContent{}
-	err = json.Unmarshal([]byte(resp.Content), doc)
-	if err != nil {
-		return doc, err
-	}
-
-	if ctx.Value("Verbose").(bool) {
-		pdoc := utils.PrettyPrint(doc)
-		fmt.Println(pdoc)
-		if err = os.WriteFile(fmt.Sprintf("%s_verbose.json", docToken), []byte(pdoc), 0o644); err != nil {
-			return nil, err
-		}
-	}
-
-	return doc, nil
 }
 
 func (c *Client) DownloadImage(ctx context.Context, imgToken string) (string, error) {
