@@ -20,3 +20,6 @@ static
 VERSION
 
 .idea
+node_modules
+.next
+.vercel

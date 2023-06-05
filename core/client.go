@@ -1,6 +1,7 @@
 package core
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -75,6 +76,21 @@ func (c *Client) DownloadImage(ctx context.Context, imgToken string) (string, er
 		return imgToken, err
 	}
 	return filename, nil
+}
+
+func (c *Client) DownloadImageRaw(ctx context.Context, imgToken string) (string, []byte, error) {
+	resp, _, err := c.larkClient.Drive.DownloadDriveMedia(ctx, &lark.DownloadDriveMediaReq{
+		FileToken: imgToken,
+	})
+	if err != nil {
+		return imgToken, nil, err
+	}
+	imgDir := ctx.Value("OutputConfig").(OutputConfig).ImageDir
+	fileext := filepath.Ext(resp.Filename)
+	filename := fmt.Sprintf("%s/%s%s", imgDir, imgToken, fileext)
+	buf := new(bytes.Buffer)
+	buf.ReadFrom(resp.File)
+	return filename, buf.Bytes(), nil
 }
 
 func (c *Client) GetDocxContent(ctx context.Context, docToken string) (*lark.DocxDocument, []*lark.DocxBlock, error) {
