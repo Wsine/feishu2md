@@ -3,23 +3,25 @@ package core
 import (
 	"context"
 	"fmt"
-	"log"
 	"strings"
 
 	"github.com/Wsine/feishu2md/utils"
 	"github.com/chyroc/lark"
-	"github.com/elliotchance/orderedmap"
-	strip "github.com/grokify/html-strip-tags-go"
 	"github.com/olekukonko/tablewriter"
 )
 
 type Parser struct {
 	ctx       context.Context
 	ImgTokens []string
+	blockMap  map[string]*lark.DocxBlock
 }
 
 func NewParser(ctx context.Context) *Parser {
-	return &Parser{ctx: ctx, ImgTokens: make([]string, 0)}
+	return &Parser{
+		ctx:       ctx,
+		ImgTokens: make([]string, 0),
+		blockMap:  make(map[string]*lark.DocxBlock),
+	}
 }
 
 // =============================================================
@@ -115,41 +117,21 @@ func renderMarkdownTable(data [][]string) string {
 // =============================================================
 
 func (p *Parser) ParseDocxContent(doc *lark.DocxDocument, blocks []*lark.DocxBlock) string {
-	// block map
-	// - Table cell block needs block map to collect children blocks
-	// - ParseDocxContent needs block map to avoid duplicate rendering
-	blockMap := orderedmap.NewOrderedMap()
 	for _, block := range blocks {
-		blockMap.Set(block.BlockID, block)
+		p.blockMap[block.BlockID] = block
 	}
 
-	buf := new(strings.Builder)
-	// buf.WriteString(p.ParseDocxDocument(doc))
-	// buf.WriteString("\n")
-	for _, v := range blocks {
-		buf.WriteString(p.ParseDocxBlock(v, blockMap))
-		buf.WriteString("\n")
-	}
-	return buf.String()
+	entryBlock := p.blockMap[doc.DocumentID]
+	return p.ParseDocxBlock(entryBlock)
 }
 
-func (p *Parser) ParseDocxDocument(doc *lark.DocxDocument) string {
-	return doc.Title
-}
-
-func (p *Parser) ParseDocxBlock(b *lark.DocxBlock, blockMap *orderedmap.OrderedMap) string {
-	if _, ok := blockMap.Get(b.BlockID); blockMap != nil && !ok {
-		// ignore rendered children block
-		return ""
-	}
-
+func (p *Parser) ParseDocxBlock(b *lark.DocxBlock) string {
 	buf := new(strings.Builder)
 	switch b.BlockType {
 	case lark.DocxBlockTypePage:
-		buf.WriteString("# ")
-		buf.WriteString(p.ParseDocxBlockText(b.Page))
+		buf.WriteString(p.ParseDocxBlockPage(b))
 	case lark.DocxBlockTypeText:
-		return p.ParseDocxBlockText(b.Text)
+		buf.WriteString(p.ParseDocxBlockText(b.Text))
 	case lark.DocxBlockTypeHeading1:
 		buf.WriteString("# ")
 		buf.WriteString(p.ParseDocxBlockText(b.Heading1))
@@ -178,44 +160,20 @@ func (p *Parser) ParseDocxBlock(b *lark.DocxBlock, blockMap *orderedmap.OrderedM
 		buf.WriteString("######### ")
 		buf.WriteString(p.ParseDocxBlockText(b.Heading9))
 	case lark.DocxBlockTypeBullet:
-		// calculate indent level
-		indentLevel := 1
-		parent := blockMap.GetOrDefault(b.ParentID, nil)
-		for {
-			if parent == nil || parent.(*lark.DocxBlock).BlockType != lark.DocxBlockTypeBullet {
-				break
-			}
-			indentLevel += 1
-			parent = blockMap.GetOrDefault(parent.(*lark.DocxBlock).ParentID, nil)
-		}
-		buf.WriteString(strings.Repeat("  ", indentLevel-1))
-		buf.WriteString("- ")
-		buf.WriteString(p.ParseDocxBlockText(b.Bullet))
+		buf.WriteString(p.ParseDocxBlockBullet(b))
 	case lark.DocxBlockTypeOrdered:
-		// calculate indent level
-		indentLevel := 1
-		parent := blockMap.GetOrDefault(b.ParentID, nil)
-		for {
-			if parent == nil || parent.(*lark.DocxBlock).BlockType != lark.DocxBlockTypeOrdered {
-				break
-			}
-			indentLevel += 1
-			parent = blockMap.GetOrDefault(parent.(*lark.DocxBlock).ParentID, nil)
-		}
-		buf.WriteString(strings.Repeat("  ", indentLevel-1))
-		buf.WriteString("1. ")
-		buf.WriteString(p.ParseDocxBlockText(b.Ordered))
+		buf.WriteString(p.ParseDocxBlockOrdered(b))
 	case lark.DocxBlockTypeCode:
 		buf.WriteString("```" + DocxCodeLang2MdStr[b.Code.Style.Language] + "\n")
 		buf.WriteString(strings.TrimSpace(p.ParseDocxBlockText(b.Code)))
-		buf.WriteString("\n```")
+		buf.WriteString("\n```\n")
 	case lark.DocxBlockTypeQuote:
 		buf.WriteString("> ")
 		buf.WriteString(p.ParseDocxBlockText(b.Quote))
 	case lark.DocxBlockTypeEquation:
 		buf.WriteString("$$\n")
 		buf.WriteString(p.ParseDocxBlockText(b.Equation))
-		buf.WriteString("\n$$")
+		buf.WriteString("\n$$\n")
 	case lark.DocxBlockTypeTodo:
 		if b.Todo.Style.Done {
 			buf.WriteString("- [x] ")
@@ -226,14 +184,29 @@ func (p *Parser) ParseDocxBlock(b *lark.DocxBlock, blockMap *orderedmap.OrderedM
 	case lark.DocxBlockTypeImage:
 		buf.WriteString(p.ParseDocxBlockImage(b.Image))
 	case lark.DocxBlockTypeTableCell:
-		buf.WriteString(p.ParseDocxBlockTableCell(b.BlockID, blockMap))
+		buf.WriteString(p.ParseDocxBlockTableCell(b))
 	case lark.DocxBlockTypeTable:
-		buf.WriteString(p.ParseDocxBlockTable(b.ParentID, b.Table, blockMap))
+		buf.WriteString(p.ParseDocxBlockTable(b.Table))
 	case lark.DocxBlockTypeQuoteContainer:
-		buf.WriteString(p.ParseDocxBlockQuoteContainer(b.BlockID, b.QuoteContainer, blockMap))
+		buf.WriteString(p.ParseDocxBlockQuoteContainer(b))
 	default:
-		return ""
 	}
+	return buf.String()
+}
+
+func (p *Parser) ParseDocxBlockPage(b *lark.DocxBlock) string {
+	buf := new(strings.Builder)
+
+	buf.WriteString("# ")
+	buf.WriteString(p.ParseDocxBlockText(b.Page))
+	buf.WriteString("\n")
+
+	for _, childId := range b.Children {
+		childBlock := p.blockMap[childId]
+		buf.WriteString(p.ParseDocxBlock(childBlock))
+		buf.WriteString("\n")
+	}
+
 	return buf.String()
 }
 
@@ -257,7 +230,8 @@ func (p *Parser) ParseDocxTextElement(e *lark.DocxTextElement, inline bool) stri
 		buf.WriteString(e.MentionUser.UserID)
 	}
 	if e.MentionDoc != nil {
-		buf.WriteString(fmt.Sprintf("[%s](%s)", e.MentionDoc.Title, utils.UnescapeURL(e.MentionDoc.URL)))
+		buf.WriteString(
+			fmt.Sprintf("[%s](%s)", e.MentionDoc.Title, utils.UnescapeURL(e.MentionDoc.URL)))
 	}
 	if e.Equation != nil {
 		symbol := "$$"
@@ -312,78 +286,95 @@ func (p *Parser) ParseDocxWhatever(body *lark.DocBody) string {
 	return buf.String()
 }
 
-func (p *Parser) ParseDocxBlockTableCell(blockId string, blockMap *orderedmap.OrderedMap) string {
-	var contents string
-	for _, key := range blockMap.Keys() {
-		value, ok := blockMap.Get(key)
-		if !ok {
-			continue
-		}
-		block := value.(*lark.DocxBlock)
-		if block.ParentID != blockId {
-			continue
-		}
+func (p *Parser) ParseDocxBlockBullet(b *lark.DocxBlock) string {
+	buf := new(strings.Builder)
 
-		content := p.ParseDocxBlock(block, blockMap)
-		if content == "" {
-			continue
-		}
-		contents += content
-		// remove table cell children block from map
-		blockMap.Delete(block.BlockID)
+	// calculate indent level
+	parent := p.blockMap[b.ParentID]
+	indentLevel := 0
+	for parent.BlockType == lark.DocxBlockTypeBullet {
+		indentLevel += 1
+		parent = p.blockMap[parent.ParentID]
 	}
-	contents = strings.Join(strings.Fields(strings.ReplaceAll(strings.TrimSpace(strip.StripTags(contents)), "\n", "<br/>")), " ")
-	return contents
+
+	buf.WriteString(strings.Repeat("  ", indentLevel))
+	buf.WriteString("- ")
+	buf.WriteString(p.ParseDocxBlockText(b.Bullet))
+
+	return buf.String()
 }
 
-func (p *Parser) ParseDocxBlockTable(documentId string, t *lark.DocxBlockTable, blockMap *orderedmap.OrderedMap) string {
+func (p *Parser) ParseDocxBlockOrdered(b *lark.DocxBlock) string {
+	buf := new(strings.Builder)
+
+	// calculate order and indent level
+	parent := p.blockMap[b.ParentID]
+	order := 1
+	for idx, child := range parent.Children {
+		if child == b.BlockID {
+			for i := idx - 1; i >= 0; i-- {
+				if p.blockMap[parent.Children[i]].BlockType == lark.DocxBlockTypeOrdered {
+					order += 1
+				} else {
+					break
+				}
+			}
+			break
+		}
+	}
+	indentLevel := 0
+	for parent.BlockType == lark.DocxBlockTypeBullet {
+		indentLevel += 1
+		parent = p.blockMap[parent.ParentID]
+	}
+
+	buf.WriteString(strings.Repeat("  ", indentLevel))
+	buf.WriteString(fmt.Sprintf("%d. ", order))
+	buf.WriteString(p.ParseDocxBlockText(b.Ordered))
+
+	return buf.String()
+}
+
+func (p *Parser) ParseDocxBlockTableCell(b *lark.DocxBlock) string {
+	buf := new(strings.Builder)
+
+	for _, child := range b.Children {
+		block := p.blockMap[child]
+		content := p.ParseDocxBlock(block)
+		buf.WriteString(content)
+	}
+
+	return buf.String()
+}
+
+func (p *Parser) ParseDocxBlockTable(t *lark.DocxBlockTable) string {
 	// - First row as header
 	// - Ignore cell merging
 	var rows [][]string
 	for i, blockId := range t.Cells {
-		block, ok := blockMap.Get(blockId)
-		if !ok {
-			log.Printf("got invalid block cell '%s', document: %s\n", blockId, documentId)
-			continue
-		}
-
-		content := p.ParseDocxBlock(block.(*lark.DocxBlock), blockMap)
+		block := p.blockMap[blockId]
+		cellContent := p.ParseDocxBlock(block)
 		rowIndex := int64(i) / t.Property.ColumnSize
 		if len(rows) < int(rowIndex)+1 {
 			rows = append(rows, []string{})
 		}
-		rows[rowIndex] = append(rows[rowIndex], content)
-		// remove table cell block from map
-		blockMap.Delete(blockId)
+		rows[rowIndex] = append(rows[rowIndex], cellContent)
 	}
 
 	buf := new(strings.Builder)
-	buf.WriteString("\n")
 	buf.WriteString(renderMarkdownTable(rows))
 	buf.WriteString("\n")
 	return buf.String()
 }
 
-func (p *Parser) ParseDocxBlockQuoteContainer(blockId string, q *lark.DocxBlocQuoteContainer, blockMap *orderedmap.OrderedMap) string {
-	contents := "> "
-	for _, key := range blockMap.Keys() {
-		value, ok := blockMap.Get(key)
-		if !ok {
-			continue
-		}
-		block := value.(*lark.DocxBlock)
-		if block.ParentID != blockId {
-			continue
-		}
+func (p *Parser) ParseDocxBlockQuoteContainer(b *lark.DocxBlock) string {
+	buf := new(strings.Builder)
 
-		content := p.ParseDocxBlock(block, blockMap)
-		if content == "" {
-			continue
-		}
-		contents += content
-		// remove quote container children block from map
-		blockMap.Delete(block.BlockID)
+	for _, child := range b.Children {
+		block := p.blockMap[child]
+		buf.WriteString("> ")
+		buf.WriteString(p.ParseDocxBlock(block))
 	}
-	contents = strings.Join(strings.Fields(strings.ReplaceAll(strings.TrimSpace(strip.StripTags(contents)), "\n", "<br/>")), " ")
-	return contents
+
+	return buf.String()
 }
