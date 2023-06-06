@@ -3,6 +3,7 @@ package core_test
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"os"
 	"path"
@@ -40,6 +41,7 @@ func TestParseDocxContent(t *testing.T) {
 
 			parser := core.NewParser(context.Background())
 			mdParsed := parser.ParseDocxContent(data.Document, data.Blocks)
+			fmt.Println(mdParsed)
 			mdParsed = engine.FormatStr("md", mdParsed)
 
 			mdFile, err := ioutil.ReadFile(path.Join(root, "testdata", td+".md"))

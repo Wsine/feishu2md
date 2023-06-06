@@ -102,6 +102,7 @@ puts markdown.to_html
 ```
 
 ```
+
 ### Math Blocks
 
 You can render <em>LaTeX</em> mathematical expressions using <strong>MathJax</strong>.
