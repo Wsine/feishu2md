@@ -174,6 +174,8 @@ Hover over the ‘footnote’ superscript to see content of the footnote.
 
 Inputting `***` or `---` on a blank line and pressing `return` will draw a horizontal line.
 
+---
+
 ### YAML Front Matter
 
 Typora now supports [YAML Front Matter](http://jekyllrb.com/docs/frontmatter/). Input `---` at the top of the article and then press `Return` to introduce a metadata block. Alternatively, you can insert a metadata block from the top menu of Typora.
@@ -384,5 +386,7 @@ You can use the `<video>` HTML tag to embed videos. For example:
 ### Other HTML Support
 
 You can find more details [here](https://support.typora.io/HTML/).
+
+---
 
 [1]Here is the text of the footnote. 
