@@ -5,14 +5,14 @@ go 1.17
 require (
 	github.com/88250/lute v1.7.3
 	github.com/chyroc/lark v0.0.97-0.20220706015537-dc21f96c8ebd
-	github.com/grokify/html-strip-tags-go v0.0.1
 	github.com/joho/godotenv v1.4.0
 	github.com/olekukonko/tablewriter v0.0.5
 	github.com/urfave/cli/v2 v2.6.0
 )
 
 require (
-	github.com/elliotchance/orderedmap v1.5.0
+	github.com/gin-gonic/gin v1.9.0
+	github.com/pkg/errors v0.9.1
 	github.com/stretchr/testify v1.8.1
 )
 
@@ -25,7 +25,6 @@ require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/dlclark/regexp2 v1.4.0 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
-	github.com/gin-gonic/gin v1.9.0 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
 	github.com/go-playground/validator/v10 v10.11.2 // indirect
