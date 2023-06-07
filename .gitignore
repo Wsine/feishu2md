@@ -14,7 +14,7 @@
 # Dependency directories (remove the comment below to include it)
 # vendor/
 bin/
-feishu2md-amd64.zip
+feishu2md
 .env
 static
 VERSION

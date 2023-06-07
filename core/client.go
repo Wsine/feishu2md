@@ -9,7 +9,6 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/Wsine/feishu2md/utils"
 	"github.com/chyroc/lark"
 )
 
@@ -27,14 +26,13 @@ func NewClient(appID, appSecret, domain string) *Client {
 	}
 }
 
-func (c *Client) DownloadImage(ctx context.Context, imgToken string) (string, error) {
+func (c *Client) DownloadImage(ctx context.Context, imgToken, imgDir string) (string, error) {
 	resp, _, err := c.larkClient.Drive.DownloadDriveMedia(ctx, &lark.DownloadDriveMediaReq{
 		FileToken: imgToken,
 	})
 	if err != nil {
 		return imgToken, err
 	}
-	imgDir := ctx.Value("OutputConfig").(OutputConfig).ImageDir
 	fileext := filepath.Ext(resp.Filename)
 	filename := fmt.Sprintf("%s/%s%s", imgDir, imgToken, fileext)
 	err = os.MkdirAll(filepath.Dir(filename), 0o755)
@@ -53,14 +51,13 @@ func (c *Client) DownloadImage(ctx context.Context, imgToken string) (string, er
 	return filename, nil
 }
 
-func (c *Client) DownloadImageRaw(ctx context.Context, imgToken string) (string, []byte, error) {
+func (c *Client) DownloadImageRaw(ctx context.Context, imgToken, imgDir string) (string, []byte, error) {
 	resp, _, err := c.larkClient.Drive.DownloadDriveMedia(ctx, &lark.DownloadDriveMediaReq{
 		FileToken: imgToken,
 	})
 	if err != nil {
 		return imgToken, nil, err
 	}
-	imgDir := ctx.Value("OutputConfig").(OutputConfig).ImageDir
 	fileext := filepath.Ext(resp.Filename)
 	filename := fmt.Sprintf("%s/%s%s", imgDir, imgToken, fileext)
 	buf := new(bytes.Buffer)
@@ -96,22 +93,6 @@ func (c *Client) GetDocxContent(ctx context.Context, docToken string) (*lark.Doc
 			break
 		}
 	}
-
-	if ctx.Value("Verbose").(bool) {
-		data := struct {
-			Document *lark.DocxDocument `json:"document"`
-			Blocks   []*lark.DocxBlock  `json:"blocks"`
-		}{
-			Document: docx,
-			Blocks:   blocks,
-		}
-		pdata := utils.PrettyPrint(data)
-		fmt.Println(pdata)
-		if err = os.WriteFile(fmt.Sprintf("%s_verbose.json", docToken), []byte(pdata), 0o644); err != nil {
-			return nil, nil, err
-		}
-	}
-
 	return docx, blocks, nil
 }
 

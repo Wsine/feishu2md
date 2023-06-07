@@ -30,14 +30,9 @@ func TestDownloadImage(t *testing.T) {
 	c := core.NewClient(appID, appSecret, "feishu.cn")
 	imgToken := "boxcnA1QKPanfMhLxzF1eMhoArM"
 	filename, err := c.DownloadImage(
-		context.WithValue(
-			context.Background(),
-			"OutputConfig", core.OutputConfig{
-				ImageDir:        "static",
-				TitleAsFilename: true,
-			},
-		),
+		context.Background(),
 		imgToken,
+		"static",
 	)
 	if err != nil {
 		t.Error(err)
@@ -46,13 +41,16 @@ func TestDownloadImage(t *testing.T) {
 		fmt.Println(filename)
 		t.Errorf("Error: not expected file extension")
 	}
+	if err := os.RemoveAll("static"); err != nil {
+		t.Errorf("Error: failed to clean up the folder")
+	}
 }
 
 func TestGetDocxContent(t *testing.T) {
 	appID, appSecret := getIdAndSecretFromEnv()
 	c := core.NewClient(appID, appSecret, "feishu.cn")
 	docx, blocks, err := c.GetDocxContent(
-		context.WithValue(context.Background(), "Verbose", false),
+		context.Background(),
 		"doxcnXhd93zqoLnmVPGIPTy7AFe",
 	)
 	if err != nil {

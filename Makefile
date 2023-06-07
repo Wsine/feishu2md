@@ -3,9 +3,9 @@ HAS_UPX := $(shell command -v upx 2> /dev/null)
 
 .PHONY: build
 build:
-	go build -o ./bin/feishu2md cmd/main.go
+	go build -ldflags="-X main.version=v2-`git rev-parse --short HEAD`" -o ./feishu2md cmd/*.go
 ifneq ($(and $(COMPRESS),$(HAS_UPX)),)
-	upx -9 ./bin/feishu2md
+	upx -9 ./feishu2md
 endif
 
 .PHONY: test
@@ -14,7 +14,7 @@ test:
 
 .PHONY: clean
 clean:  ## Clean build bundles
-	rm -rf ./bin
+	rm -f ./feishu2md
 
 .PHONY: format
 format:
