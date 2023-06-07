@@ -122,11 +122,12 @@ func (p *Parser) ParseDocxContent(doc *lark.DocxDocument, blocks []*lark.DocxBlo
 	}
 
 	entryBlock := p.blockMap[doc.DocumentID]
-	return p.ParseDocxBlock(entryBlock)
+	return p.ParseDocxBlock(entryBlock, 0)
 }
 
-func (p *Parser) ParseDocxBlock(b *lark.DocxBlock) string {
+func (p *Parser) ParseDocxBlock(b *lark.DocxBlock, indentLevel int) string {
 	buf := new(strings.Builder)
+	buf.WriteString(strings.Repeat("\t", indentLevel))
 	switch b.BlockType {
 	case lark.DocxBlockTypePage:
 		buf.WriteString(p.ParseDocxBlockPage(b))
@@ -160,9 +161,9 @@ func (p *Parser) ParseDocxBlock(b *lark.DocxBlock) string {
 		buf.WriteString("######### ")
 		buf.WriteString(p.ParseDocxBlockText(b.Heading9))
 	case lark.DocxBlockTypeBullet:
-		buf.WriteString(p.ParseDocxBlockBullet(b))
+		buf.WriteString(p.ParseDocxBlockBullet(b, indentLevel))
 	case lark.DocxBlockTypeOrdered:
-		buf.WriteString(p.ParseDocxBlockOrdered(b))
+		buf.WriteString(p.ParseDocxBlockOrdered(b, indentLevel))
 	case lark.DocxBlockTypeCode:
 		buf.WriteString("```" + DocxCodeLang2MdStr[b.Code.Style.Language] + "\n")
 		buf.WriteString(strings.TrimSpace(p.ParseDocxBlockText(b.Code)))
@@ -181,6 +182,8 @@ func (p *Parser) ParseDocxBlock(b *lark.DocxBlock) string {
 			buf.WriteString("- [ ] ")
 		}
 		buf.WriteString(p.ParseDocxBlockText(b.Todo))
+	case lark.DocxBlockTypeDivider:
+		buf.WriteString("---\n")
 	case lark.DocxBlockTypeImage:
 		buf.WriteString(p.ParseDocxBlockImage(b.Image))
 	case lark.DocxBlockTypeTableCell:
@@ -203,7 +206,7 @@ func (p *Parser) ParseDocxBlockPage(b *lark.DocxBlock) string {
 
 	for _, childId := range b.Children {
 		childBlock := p.blockMap[childId]
-		buf.WriteString(p.ParseDocxBlock(childBlock))
+		buf.WriteString(p.ParseDocxBlock(childBlock, 0))
 		buf.WriteString("\n")
 	}
 
@@ -286,25 +289,21 @@ func (p *Parser) ParseDocxWhatever(body *lark.DocBody) string {
 	return buf.String()
 }
 
-func (p *Parser) ParseDocxBlockBullet(b *lark.DocxBlock) string {
+func (p *Parser) ParseDocxBlockBullet(b *lark.DocxBlock, indentLevel int) string {
 	buf := new(strings.Builder)
 
-	// calculate indent level
-	parent := p.blockMap[b.ParentID]
-	indentLevel := 0
-	for parent.BlockType == lark.DocxBlockTypeBullet {
-		indentLevel += 1
-		parent = p.blockMap[parent.ParentID]
-	}
-
-	buf.WriteString(strings.Repeat("  ", indentLevel))
 	buf.WriteString("- ")
 	buf.WriteString(p.ParseDocxBlockText(b.Bullet))
+
+	for _, childId := range b.Children {
+		childBlock := p.blockMap[childId]
+		buf.WriteString(p.ParseDocxBlock(childBlock, indentLevel+1))
+	}
 
 	return buf.String()
 }
 
-func (p *Parser) ParseDocxBlockOrdered(b *lark.DocxBlock) string {
+func (p *Parser) ParseDocxBlockOrdered(b *lark.DocxBlock, indentLevel int) string {
 	buf := new(strings.Builder)
 
 	// calculate order and indent level
@@ -322,15 +321,14 @@ func (p *Parser) ParseDocxBlockOrdered(b *lark.DocxBlock) string {
 			break
 		}
 	}
-	indentLevel := 0
-	for parent.BlockType == lark.DocxBlockTypeBullet {
-		indentLevel += 1
-		parent = p.blockMap[parent.ParentID]
-	}
 
-	buf.WriteString(strings.Repeat("  ", indentLevel))
 	buf.WriteString(fmt.Sprintf("%d. ", order))
 	buf.WriteString(p.ParseDocxBlockText(b.Ordered))
+
+	for _, childId := range b.Children {
+		childBlock := p.blockMap[childId]
+		buf.WriteString(p.ParseDocxBlock(childBlock, indentLevel+1))
+	}
 
 	return buf.String()
 }
@@ -340,7 +338,7 @@ func (p *Parser) ParseDocxBlockTableCell(b *lark.DocxBlock) string {
 
 	for _, child := range b.Children {
 		block := p.blockMap[child]
-		content := p.ParseDocxBlock(block)
+		content := p.ParseDocxBlock(block, 0)
 		buf.WriteString(content)
 	}
 
@@ -353,7 +351,8 @@ func (p *Parser) ParseDocxBlockTable(t *lark.DocxBlockTable) string {
 	var rows [][]string
 	for i, blockId := range t.Cells {
 		block := p.blockMap[blockId]
-		cellContent := p.ParseDocxBlock(block)
+		cellContent := p.ParseDocxBlock(block, 0)
+		cellContent = strings.ReplaceAll(cellContent, "\n", "")
 		rowIndex := int64(i) / t.Property.ColumnSize
 		if len(rows) < int(rowIndex)+1 {
 			rows = append(rows, []string{})
@@ -373,7 +372,7 @@ func (p *Parser) ParseDocxBlockQuoteContainer(b *lark.DocxBlock) string {
 	for _, child := range b.Children {
 		block := p.blockMap[child]
 		buf.WriteString("> ")
-		buf.WriteString(p.ParseDocxBlock(block))
+		buf.WriteString(p.ParseDocxBlock(block, 0))
 	}
 
 	return buf.String()

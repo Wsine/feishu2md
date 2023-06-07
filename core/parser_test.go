@@ -25,6 +25,7 @@ func TestParseDocxContent(t *testing.T) {
 	testdata := []string{
 		"testdocx.1",
 		"testdocx.2",
+		"testdocx.3",
 	}
 	for _, td := range testdata {
 		t.Run(td, func(t *testing.T) {
