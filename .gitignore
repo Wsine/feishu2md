@@ -15,6 +15,7 @@
 # vendor/
 bin/
 feishu2md
+feishu2md4web
 .env
 static
 VERSION
