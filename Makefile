@@ -12,9 +12,21 @@ endif
 test:
 	go test ./...
 
+.PHONY: server
+server:
+	go build -o ./feishu2md4web web/*.go
+
+.PHONY: image
+image:
+	docker build -t feishu2md .
+
+.PHONY: docker
+docker:
+	docker run -it --rm -p 8080:8080 feishu2md
+
 .PHONY: clean
 clean:  ## Clean build bundles
-	rm -f ./feishu2md
+	rm -f ./feishu2md ./feishu2md4web
 
 .PHONY: format
 format:

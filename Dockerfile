@@ -1,27 +1,23 @@
 ARG GO_VERSION=1.17
-
 FROM golang:${GO_VERSION}-alpine AS builder
-
-ENV GIN_MODE=release
 
 WORKDIR /feishu2md
 
-COPY go.mod .
-COPY go.sum .
+COPY go.mod go.sum ./
 RUN go mod download
 
-COPY . .
-RUN go build -o ./app ./web/*.go
+COPY core  ./core
+COPY web ./web
+COPY utils ./utils
+RUN go build -o ./feishu2md4web ./web/*.go
 
 FROM alpine:latest
 RUN apk update && apk add --no-cache ca-certificates
 
 ENV GIN_MODE=release
 
-WORKDIR /feishu2md
-COPY --from=builder /feishu2md/app .
-COPY ./web/templ ./web/templ
+COPY --from=builder /feishu2md/feishu2md4web ./
 
 EXPOSE 8080
 
-ENTRYPOINT ["./app"]
+ENTRYPOINT ["./feishu2md4web"]

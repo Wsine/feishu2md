@@ -43,8 +43,6 @@ func downloadHandler(c *gin.Context) {
 	docToken := matchResult[3]
 
 	ctx := context.Background()
-	ctx = context.WithValue(ctx, "Verbose", false)
-	ctx = context.WithValue(ctx, "OutputConfig", config.Output)
 
 	client := core.NewClient(
 		config.Feishu.AppId, config.Feishu.AppSecret, domain,
@@ -76,7 +74,7 @@ func downloadHandler(c *gin.Context) {
 	zipBuffer := new(bytes.Buffer)
 	writer := zip.NewWriter(zipBuffer)
 	for _, imgToken := range parser.ImgTokens {
-		localLink, rawImage, err := client.DownloadImageRaw(ctx, imgToken)
+		localLink, rawImage, err := client.DownloadImageRaw(ctx, imgToken, config.Output.ImageDir)
 		if err != nil {
 			c.String(http.StatusInternalServerError, "Internal error: client.DownloadImageRaw")
 			log.Panicf("error: %s", err)
