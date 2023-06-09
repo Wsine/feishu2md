@@ -26,3 +26,8 @@ jobs:
         run: |
           touch .env
           go test -v ./...
+      - name: Build cmd tool
+        run: make
+      - name: Build docker image
+        run: make image
+
