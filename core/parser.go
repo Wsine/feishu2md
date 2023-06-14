@@ -250,15 +250,34 @@ func (p *Parser) ParseDocxTextElementTextRun(tr *lark.DocxTextElementTextRun) st
 	buf := new(strings.Builder)
 	postWrite := ""
 	if style := tr.TextElementStyle; style != nil {
+		useHTMLTags := NewConfig("", "").Output.UseHTMLTags
+		if p.ctx.Value("output") != nil {
+			useHTMLTags = p.ctx.Value("output").(OutputConfig).UseHTMLTags
+		}
 		if style.Bold {
-			buf.WriteString("<strong>")
-			postWrite = "</strong>"
+			if useHTMLTags {
+				buf.WriteString("<strong>")
+				postWrite = "</strong>"
+			} else {
+				buf.WriteString("**")
+				postWrite = "**"
+			}
 		} else if style.Italic {
-			buf.WriteString("<em>")
-			postWrite = "</em>"
+			if useHTMLTags {
+				buf.WriteString("<em>")
+				postWrite = "</em>"
+			} else {
+				buf.WriteString("_")
+				postWrite = "_"
+			}
 		} else if style.Strikethrough {
-			buf.WriteString("<del>")
-			postWrite = "</del>"
+			if useHTMLTags {
+				buf.WriteString("<del>")
+				postWrite = "</del>"
+			} else {
+				buf.WriteString("~~")
+				postWrite = "~~"
+			}
 		} else if style.Underline {
 			buf.WriteString("<u>")
 			postWrite = "</u>"

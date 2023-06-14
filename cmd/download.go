@@ -30,7 +30,7 @@ func handleUrlArgument(url string) error {
 	docToken := matchResult[3]
 	fmt.Println("Captured document token:", docToken)
 
-	ctx := context.Background()
+	ctx := context.WithValue(context.Background(), "output", config.Output)
 
 	client := core.NewClient(
 		config.Feishu.AppId, config.Feishu.AppSecret, domain,
@@ -52,12 +52,14 @@ func handleUrlArgument(url string) error {
 	title := docx.Title
 	markdown := parser.ParseDocxContent(docx, blocks)
 
-	for _, imgToken := range parser.ImgTokens {
-		localLink, err := client.DownloadImage(ctx, imgToken, config.Output.ImageDir)
-		if err != nil {
-			return err
+	if !config.Output.SkipImgDownload {
+		for _, imgToken := range parser.ImgTokens {
+			localLink, err := client.DownloadImage(ctx, imgToken, config.Output.ImageDir)
+			if err != nil {
+				return err
+			}
+			markdown = strings.Replace(markdown, imgToken, localLink, 1)
 		}
-		markdown = strings.Replace(markdown, imgToken, localLink, 1)
 	}
 
 	engine := lute.New(func(l *lute.Lute) {
