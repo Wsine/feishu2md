@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 各种报错问题汇总
+    url: https://github.com/Wsine/feishu2md/issues/71
+    about: 报错问题可能大家遇到的都差不多，可以先自行排查
+  - name: 飞书新版文档数据结构
+    url: https://open.feishu.cn/document/server-docs/docs/docs/docx-v1/docx-structure
+    about: 请查阅数据结构内是否包含所需信息再提出正确的问题
