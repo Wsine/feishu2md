@@ -3,7 +3,7 @@
 [![Golang - feishu2md](https://img.shields.io/github/go-mod/go-version/wsine/feishu2md?color=%2376e1fe&logo=go)](https://go.dev/)
 [![Unittest](https://github.com/Wsine/feishu2md/actions/workflows/unittest.yaml/badge.svg)](https://github.com/Wsine/feishu2md/actions/workflows/unittest.yaml)
 [![Release](https://img.shields.io/github/v/release/wsine/feishu2md?color=orange&logo=github)](https://github.com/Wsine/feishu2md/releases)
-[![Docker - feishu2md](https://img.shields.io/badge/Docker-feishu2md-2496ed?logo=docker&logoColor=white)](https://hub.docker.com/repository/docker/wwwsine/feishu2md)
+[![Docker - feishu2md](https://img.shields.io/badge/Docker-feishu2md-2496ed?logo=docker&logoColor=white)](https://hub.docker.com/r/wwwsine/feishu2md)
 [![Render - feishu2md](https://img.shields.io/badge/Render-feishu2md-4cfac9?logo=render&logoColor=white)](https://feishu2md.onrender.com)
 
 这是一个下载飞书文档为 Markdown 文件的工具，使用 Go 语言实现。
@@ -34,9 +34,9 @@
 
 <details>
   <summary>命令行版本</summary>
-  
+
   借助 Go 语言跨平台的特性，已编译好了主要平台的可执行文件，可以在 [Release](https://github.com/Wsine/feishu2md/releases) 中下载，并将相应平台的 feishu2md 可执行文件放置在 PATH 路径中即可。
-   
+
    **查阅帮助文档**
 
    ```bash
@@ -87,14 +87,14 @@
    示例：
 
    ```bash
-   $ feishu2md https://domain.feishu.cn/docs/docxtoken
+   $ feishu2md https://domain.feishu.cn/docx/docxtoken
    ```
 </details>
 
 <details>
   <summary>Docker版本</summary>
-  
-  Docker 镜像：[wwwsine/feishu2md](https://hub.docker.com/repository/docker/wwwsine/feishu2md)
+
+  Docker 镜像：https://hub.docker.com/r/wwwsine/feishu2md
 
    Docker 命令：`docker run -it --rm -p 8080:8080 -e FEISHU_APP_ID=<your id> -e FEISHU_APP_SECRET=<your secret> -e GIN_MODE=release wwwsine/feishu2md`
 
@@ -113,20 +113,20 @@
        ports:
          - "8080:8080"
    ```
-   
+
    启动服务 `docker compose up -d`
 
    然后访问 https://127.0.0.1:8080 粘贴文档链接即可，文档链接可以通过 **分享 > 开启链接分享 > 复制链接** 获得。
 </details>
-   
+
 <details>
   <summary>在线版本</summary>
-   
-  访问 https://feishu2md.onrender.com/ 粘贴文档链接即可，文档链接可以通过 **分享 > 开启链接分享 > 复制链接** 获得。
-  
+
   我使用个人的测试 API Token 部署了一个 Unstable 版本在 Render 平台上，该版本不会保存任何的文档资料和图片在容器中，直接通过 HTTP 从内存中返回压缩包文件，但是 Render 平台的 Log 可能会记录一些 HTTP 信息。
-   
-   在版本仅供不在意隐私或懒于配置的用户临时使用，Render 平台使用免费配额，不保证高可用性，信任链全靠开源代码，请自行斟酌。
+
+  在版本仅供不在意隐私或懒于配置的用户临时使用，Render 平台使用免费配额，不保证高可用性，信任链全靠开源代码，请自行斟酌。
+
+  访问 https://feishu2md.onrender.com/ 粘贴文档链接即可，文档链接可以通过 **分享 > 开启链接分享 > 复制链接** 获得。
 </details>
 
 ## 感谢
