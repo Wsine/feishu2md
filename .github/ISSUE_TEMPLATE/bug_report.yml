@@ -1,0 +1,42 @@
+name: 问题反馈
+description: 请「正确地」反馈问题
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        只有正确描述的问题，才最有机会被正确地解决，因此这是一个合作的过程，请付出少许努力认真对待。
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: 问题描述
+      description: 请清晰具体地描述你的问题，可以粘贴图片辅助表达。
+    validations:
+      required: true
+  - type: input
+    id: reproduce
+    attributes:
+      label: 飞书文档链接
+      description: 一份可供复现的脱敏的飞书文档对解决问题很重要，可以考虑创建一个副本，删掉个人信息相关的文字，分享 > 开启链接分享 > 复制链接，将链接粘贴在这里。
+      placeholder: https://domain.feishu.cn/docx/docxtoken
+    validations:
+      required: true
+  - type: textarea
+    id: expect-markdown
+    attributes:
+      label: 期望的 markdown 格式
+      description: 请使用纯文本的 markdown 语法填充
+      placeholder: |
+        # Title
+
+        Some **bold** text
+      render: markdown
+    validations:
+      required: true
+  - type: textarea
+    id: suggestions
+    attributes:
+      label: (可选)更多信息
+      description: 如有好的解决办法，欢迎提出你的建议。
+    validations:
+      required: false
