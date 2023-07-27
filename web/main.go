@@ -11,7 +11,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-//go:embed static/* templ/*
+//go:embed templ/*
 var f embed.FS
 
 func main() {
@@ -22,9 +22,6 @@ func main() {
 	router := gin.New()
 	templ := template.Must(template.New("").ParseFS(f, "templ/*.templ.html"))
 	router.SetHTMLTemplate(templ)
-
-	// example: /public/static/tailwind.css
-	router.StaticFS("/public", http.FS(f))
 
 	router.GET("/", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.templ.html", nil)

@@ -1,37 +1,102 @@
-<!doctype html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>feishu2md</title>
-  <!-- <script src="https://cdn.tailwindcss.com"></script> -->
-  <!-- generated from: https://play.tailwindcss.com/ -->
-  <link rel="stylesheet" href="/public/static/tailwindcss.css"/>
-</head>
-<body>
-  <div class="relative flex min-h-screen flex-col justify-center overflow-hidden bg-gray-50 py-6 sm:py-12 bg-gradient-to-r from-indigo-100 via-indigo-50 to-indigo-100">
-  <!-- <img src="https://play.tailwindcss.com/img/beams.jpg" alt="" class="absolute left-1/2 top-1/2 max-w-none -translate-x-1/2 -translate-y-1/2" width="1308" /> -->
-  <!-- <div class="absolute inset-0 bg-[url(/img/grid.svg)] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]"></div> -->
-  <div class="relative bg-white px-6 pb-8 pt-10 shadow-xl ring-1 ring-gray-900/5 sm:mx-auto sm:max-w-lg sm:rounded-lg sm:px-10">
-    <div class="mx-auto max-w-md w-screen">
-      <!-- <img src="/img/logo.svg" class="h-6" alt="Tailwind Play" /> -->
-      <span class="text-4xl">feishu2md</span>
-      <div class="divide-y divide-gray-300/50">
-        <div class="space-y-6 py-8 text-base leading-7 text-gray-600">
-          <span class="after:content-['*'] after:ml-0.5 after:text-red-500 block text-sm font-medium text-slate-700">Feishu/Lark document url:</span>
-          <input type="url" id="url" class="mt-1 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1" placeholder="https://domain.feishu.cn/docx/doxcnXhmd9GIPTyqoLn3zVP7AFe" />
-          <button class="rounded-full bg-cyan-500 hover:bg-cyan-600 text-white w-28 h-8 float-right" onclick="download()">Download</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<script>
-function download() {
-  var docUrl = encodeURIComponent(document.getElementById("url").value);
-  console.log(docUrl);
-  window.location.href = `/download?url=${docUrl}`;
-}
-</script>
-</body>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>feishu2md</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Gloria+Hallelujah&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Material+Icons&display=block"
+      rel="stylesheet"
+    />
+    <script
+      type="module"
+      src="https://unpkg.com/@material/mwc-icon?module"
+    ></script>
+    <script
+      type="module"
+      src="https://unpkg.com/wired-elements?module"
+    ></script>
+    <style>
+      body {
+        margin: 0;
+        font-family: "Gloria Hallelujah", cursive;
+        /* font-size: 16px; */
+        line-height: 1.8;
+      }
+      main {
+        padding: 16px;
+        text-align: center;
+      }
+      wired-card {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        display: block;
+      }
+      wired-icon-button {
+        margin: 0 10px;
+      }
+      section {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 30px 0 0 0;
+      }
+      wired-button {
+        margin: 8px;
+      }
+      wired-input {
+        width: 260px;
+        font-family: inherit;
+      }
+      wired-spinner {
+        margin: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <main>
+      <wired-card elevation="5">
+        <h1>feishu2md service</h1>
+      </wired-card>
+      <section>
+        <p>
+          <wired-icon-button>
+            <mwc-icon>favorite</mwc-icon> </wired-icon-button
+          >GitHub:
+          <wired-link href="https://github.com/Wsine/feishu2md" target="_blank"
+            >Wsine/feishu2md</wired-link
+          >
+        </p>
+      </section>
+
+      <section>
+        <p>Input the feishu/lark document url below:</p>
+        <wired-input
+          placeholder="https://domain.feishu.cn/docx/doxcnXhmd9GIPTyqoLn3zVP7AFe"
+        ></wired-input>
+        <wired-button elevation="2">Download</wired-button>
+        <p id="hint" style="display: none;">
+          Please wait. It may take a while to response.
+        </p>
+      </section>
+    </main>
+  </body>
+
+  <script type="module">
+    const url = document.querySelector("wired-input");
+    const button = document.querySelector("wired-button");
+    const hint = document.querySelector("#hint");
+    button.addEventListener("click", () => {
+      const docUrl = encodeURIComponent(url.value.trim());
+      console.log(docUrl);
+      hint.setAttribute("style", "display: block");
+      window.location.href = `/download?url=${docUrl}`;
+    });
+  </script>
 </html>
