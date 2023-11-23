@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"os"
+	"path/filepath"
 	"regexp"
 	"strings"
 
@@ -13,7 +14,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-func handleUrlArgument(url string) error {
+func handleUrlArgument(url, outputDir string) error {
 	configPath, err := core.GetConfigFilePath()
 	utils.CheckErr(err)
 	config, err := core.ReadConfigFromFile(configPath)
@@ -71,10 +72,20 @@ func handleUrlArgument(url string) error {
 	if config.Output.TitleAsFilename {
 		mdName = fmt.Sprintf("%s.md", title)
 	}
-	if err = os.WriteFile(mdName, []byte(result), 0o644); err != nil {
+
+	if outputDir != "." {
+		if _, err := os.Stat(outputDir); os.IsNotExist(err) {
+			if err := os.MkdirAll(outputDir, 0o755); err != nil {
+				return err
+			}
+		}
+	}
+	outputPath := filepath.Join(outputDir, mdName)
+
+	if err = os.WriteFile(outputPath, []byte(result), 0o644); err != nil {
 		return err
 	}
-	fmt.Printf("Downloaded markdown file to %s\n", mdName)
+	fmt.Printf("Downloaded markdown file to %s\n", outputPath)
 
 	return nil
 }
