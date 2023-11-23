@@ -18,11 +18,20 @@ func main() {
 		Action: func(ctx *cli.Context) error {
 			if ctx.NArg() > 0 {
 				url := ctx.Args().Get(0)
-				return handleUrlArgument(url)
+				outputDir := ctx.String("output")
+				return handleUrlArgument(url, outputDir)
 			} else {
 				cli.ShowAppHelp(ctx)
+				return nil
 			}
-			return nil
+		},
+		Flags: []cli.Flag{
+			&cli.StringFlag{
+				Name:    "output",
+				Aliases: []string{"o"},
+				Value:   ".",
+				Usage:   "Specify the output directory for the markdown files",
+			},
 		},
 		Commands: []*cli.Command{
 			{
