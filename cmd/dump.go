@@ -17,7 +17,7 @@ func handleDumpCommand(url string) error {
 	config, err := core.ReadConfigFromFile(configPath)
 	utils.CheckErr(err)
 
-	reg := regexp.MustCompile("^https://[a-zA-Z0-9-]+.(feishu.cn|larksuite.com)/(docx|wiki)/([a-zA-Z0-9]+)")
+	reg := regexp.MustCompile("^https://[a-zA-Z0-9-]+.(feishu.cn|larksuite.com|f.mioffice.cn)/(docx|wiki)/([a-zA-Z0-9]+)")
 	matchResult := reg.FindStringSubmatch(url)
 	if matchResult == nil || len(matchResult) != 4 {
 		return errors.Errorf("Invalid feishu/larksuite URL format")
