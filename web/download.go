@@ -26,7 +26,7 @@ func downloadHandler(c *gin.Context) {
 	}
 
 	// Validate the url
-	reg := regexp.MustCompile("^https://[a-zA-Z0-9-]+.(feishu.cn|larksuite.com)/(docs|docx|wiki)/([a-zA-Z0-9]+)")
+	reg := regexp.MustCompile("^https://[a-zA-Z0-9-]+.(feishu.cn|larksuite.com|f.mioffice.cn)/(docs|docx|wiki)/([a-zA-Z0-9]+)")
 	matchResult := reg.FindStringSubmatch(feishu_docx_url)
 	if matchResult == nil || len(matchResult) != 4 {
 		c.String(http.StatusBadRequest, "Invalid feishu/larksuite URL pattern")
