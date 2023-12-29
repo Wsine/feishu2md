@@ -43,22 +43,22 @@
    ```bash
    $ feishu2md -h
    NAME:
-      feishu2md - download feishu/larksuite document to markdown file
+     feishu2md - Download feishu/larksuite document to markdown file
 
    USAGE:
-      feishu2md [global options] command [command options] [arguments...]
+     feishu2md [global options] command [command options] [arguments...]
 
    VERSION:
-      v2-1f5416e
+     v2-0e25fa5
 
    COMMANDS:
-      config   Read config file or set field(s) if provided
-      dump     Dump json response of the OPEN API
-      help, h  Shows a list of commands or help for one command
+     config        Read config file or set field(s) if provided
+     download, dl  Download feishu/larksuite document to markdown file
+     help, h       Shows a list of commands or help for one command
 
    GLOBAL OPTIONS:
-      --help, -h     show help (default: false)
-      --version, -v  print the version (default: false)
+     --help, -h     show help (default: false)
+     --version, -v  print the version (default: false)
 
    $ feishu2md config -h
    NAME:
@@ -83,12 +83,12 @@
 
    **下载为 Markdown**
 
-   通过 `feishu2md <your feishu docx url>` 直接下载，文档链接可以通过 **分享 > 开启链接分享 > 复制链接** 获得。
+   通过 `feishu2md dl <your feishu docx url>` 直接下载，文档链接可以通过 **分享 > 开启链接分享 > 复制链接** 获得。
 
    示例：
 
    ```bash
-   $ feishu2md https://domain.feishu.cn/docx/docxtoken
+   $ feishu2md dl "https://domain.feishu.cn/docx/docxtoken"
    ```
 </details>
 
@@ -123,9 +123,9 @@
 <details>
   <summary>在线版本</summary>
 
-  我使用个人的测试 API Token 部署了一个 Unstable 版本在 Render 平台上，该版本不会保存任何的文档资料和图片在容器中，直接通过 HTTP 从内存中返回压缩包文件，但是 Render 平台的 Log 可能会记录一些 HTTP 信息。
+  我使用个人的测试 API Token 部署了一个 Unstable 版本在 Render 平台上，该版本不会保存任何的文档资料和图片在容器中，直接通过 HTTP 从**内存**中返回压缩包文件，但是 Render 平台的 Log 可能会记录一些 HTTP 信息。
 
-  在版本仅供不在意隐私或懒于配置的用户临时使用，Render 平台使用免费配额，不保证高可用性，信任链全靠开源代码，请自行斟酌。
+  在版本仅供不在意隐私或懒于配置的用户临时使用，也可用于测试对比是否自己的 Token 权限配置有问题。Render 平台使用免费配额，仅有 512M 内存，不保证高可用性，信任链全靠开源代码，请自行斟酌。
 
   访问 https://feishu2md.onrender.com/ 粘贴文档链接即可，文档链接可以通过 **分享 > 开启链接分享 > 复制链接** 获得。
 </details>
