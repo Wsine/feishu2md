@@ -11,6 +11,7 @@ import (
 	"github.com/Wsine/feishu2md/core"
 	"github.com/Wsine/feishu2md/utils"
 	"github.com/chyroc/lark"
+	"github.com/pkg/errors"
 )
 
 type DownloadOpts struct {
@@ -46,6 +47,9 @@ func handleDownloadCommand(url string, opts *DownloadOpts) error {
 		utils.CheckErr(err)
 		docType = node.ObjType
 		docToken = node.ObjToken
+	}
+	if docType == "docs" {
+		return errors.Errorf("Feishu Docs is no longer supported. Please refer to the Readme/Release for v1_support.")
 	}
 
 	// Process the download

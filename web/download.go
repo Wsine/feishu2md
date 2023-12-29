@@ -54,6 +54,10 @@ func downloadHandler(c *gin.Context) {
 		docType = node.ObjType
 		docToken = node.ObjToken
 	}
+	if docType == "docs" {
+		c.String(http.StatusBadRequest, "Unsupported docs document type")
+		return
+	}
 
 	docx, blocks, err := client.GetDocxContent(ctx, docToken)
 	if err != nil {
