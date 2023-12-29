@@ -5,32 +5,35 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"regexp"
 	"strings"
 
 	"github.com/88250/lute"
 	"github.com/Wsine/feishu2md/core"
 	"github.com/Wsine/feishu2md/utils"
-	"github.com/pkg/errors"
+	"github.com/chyroc/lark"
 )
 
-func handleUrlArgument(url, outputDir string) error {
+type DownloadOpts struct {
+	allowHost string
+	outputDir string
+	dump      bool
+}
+
+var downloadOpts = DownloadOpts{}
+
+func handleDownloadCommand(url string, opts *DownloadOpts) error {
+	// Validate the url to download
+	domain, docType, docToken, err := utils.ValidateDownloadURL(url, opts.allowHost)
+	utils.CheckErr(err)
+	fmt.Println("Captured document token:", docToken)
+
+	// Load config
 	configPath, err := core.GetConfigFilePath()
 	utils.CheckErr(err)
 	config, err := core.ReadConfigFromFile(configPath)
 	utils.CheckErr(err)
 
-	reg := regexp.MustCompile("^https://[a-zA-Z0-9-]+.(feishu.cn|larksuite.com|f.mioffice.cn)/(docx|wiki)/([a-zA-Z0-9]+)")
-	matchResult := reg.FindStringSubmatch(url)
-	if matchResult == nil || len(matchResult) != 4 {
-		return errors.Errorf("Invalid feishu/larksuite URL format")
-	}
-
-	domain := matchResult[1]
-	docType := matchResult[2]
-	docToken := matchResult[3]
-	fmt.Println("Captured document token:", docToken)
-
+	// Create client with context
 	ctx := context.WithValue(context.Background(), "output", config.Output)
 
 	client := core.NewClient(
@@ -45,6 +48,7 @@ func handleUrlArgument(url, outputDir string) error {
 		docToken = node.ObjToken
 	}
 
+	// Process the download
 	docx, blocks, err := client.GetDocxContent(ctx, docToken)
 	utils.CheckErr(err)
 
@@ -55,33 +59,51 @@ func handleUrlArgument(url, outputDir string) error {
 
 	if !config.Output.SkipImgDownload {
 		for _, imgToken := range parser.ImgTokens {
-			localLink, err := client.DownloadImage(ctx, imgToken, config.Output.ImageDir)
-			if err != nil {
-				return err
-			}
+			localLink, err := client.DownloadImage(
+				ctx, imgToken, filepath.Join(opts.outputDir, config.Output.ImageDir),
+			)
+			utils.CheckErr(err)
 			markdown = strings.Replace(markdown, imgToken, localLink, 1)
 		}
 	}
 
+	// Format the markdown document
 	engine := lute.New(func(l *lute.Lute) {
 		l.RenderOptions.AutoSpace = true
 	})
 	result := engine.FormatStr("md", markdown)
 
+	// Handle the output directory and name
+	if _, err := os.Stat(opts.outputDir); os.IsNotExist(err) {
+		if err := os.MkdirAll(opts.outputDir, 0o755); err != nil {
+			return err
+		}
+	}
+
+	if opts.dump {
+		jsonName := fmt.Sprintf("%s.json", docToken)
+		outputPath := filepath.Join(opts.outputDir, jsonName)
+		data := struct {
+			Document *lark.DocxDocument `json:"document"`
+			Blocks   []*lark.DocxBlock  `json:"blocks"`
+		}{
+			Document: docx,
+			Blocks:   blocks,
+		}
+		pdata := utils.PrettyPrint(data)
+
+		if err = os.WriteFile(outputPath, []byte(pdata), 0o644); err != nil {
+			return err
+		}
+		fmt.Printf("Dumped json response to %s\n", outputPath)
+	}
+
+	// Write to markdown file
 	mdName := fmt.Sprintf("%s.md", docToken)
 	if config.Output.TitleAsFilename {
 		mdName = fmt.Sprintf("%s.md", title)
 	}
-
-	if outputDir != "." {
-		if _, err := os.Stat(outputDir); os.IsNotExist(err) {
-			if err := os.MkdirAll(outputDir, 0o755); err != nil {
-				return err
-			}
-		}
-	}
-	outputPath := filepath.Join(outputDir, mdName)
-
+	outputPath := filepath.Join(opts.outputDir, mdName)
 	if err = os.WriteFile(outputPath, []byte(result), 0o644); err != nil {
 		return err
 	}

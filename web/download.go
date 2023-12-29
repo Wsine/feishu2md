@@ -9,11 +9,11 @@ import (
 	"net/http"
 	"net/url"
 	"os"
-	"regexp"
 	"strings"
 
 	"github.com/88250/lute"
 	"github.com/Wsine/feishu2md/core"
+	"github.com/Wsine/feishu2md/utils"
 	"github.com/gin-gonic/gin"
 )
 
@@ -25,29 +25,21 @@ func downloadHandler(c *gin.Context) {
 		return
 	}
 
-	// Validate the url
-	reg := regexp.MustCompile("^https://[a-zA-Z0-9-]+.(feishu.cn|larksuite.com|f.mioffice.cn)/(docs|docx|wiki)/([a-zA-Z0-9]+)")
-	matchResult := reg.FindStringSubmatch(feishu_docx_url)
-	if matchResult == nil || len(matchResult) != 4 {
-		c.String(http.StatusBadRequest, "Invalid feishu/larksuite URL pattern")
-		return
-	}
+	// Validate the url to download
+	domain, docType, docToken, err := utils.ValidateDownloadURL(feishu_docx_url, "")
+	fmt.Println("Captured document token:", docToken)
 
+	// Create client with context
+	ctx := context.Background()
 	config := core.NewConfig(
 		os.Getenv("FEISHU_APP_ID"),
 		os.Getenv("FEISHU_APP_SECRET"),
 	)
-
-	domain := matchResult[1]
-	docType := matchResult[2]
-	docToken := matchResult[3]
-
-	ctx := context.Background()
-
 	client := core.NewClient(
 		config.Feishu.AppId, config.Feishu.AppSecret, domain,
 	)
 
+	// Process the download
 	parser := core.NewParser(ctx)
 	markdown := ""
 

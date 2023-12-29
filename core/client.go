@@ -26,7 +26,7 @@ func NewClient(appID, appSecret, domain string) *Client {
 	}
 }
 
-func (c *Client) DownloadImage(ctx context.Context, imgToken, imgDir string) (string, error) {
+func (c *Client) DownloadImage(ctx context.Context, imgToken, outDir string) (string, error) {
 	resp, _, err := c.larkClient.Drive.DownloadDriveMedia(ctx, &lark.DownloadDriveMediaReq{
 		FileToken: imgToken,
 	})
@@ -34,7 +34,7 @@ func (c *Client) DownloadImage(ctx context.Context, imgToken, imgDir string) (st
 		return imgToken, err
 	}
 	fileext := filepath.Ext(resp.Filename)
-	filename := fmt.Sprintf("%s/%s%s", imgDir, imgToken, fileext)
+	filename := fmt.Sprintf("%s/%s%s", outDir, imgToken, fileext)
 	err = os.MkdirAll(filepath.Dir(filename), 0o755)
 	if err != nil {
 		return imgToken, err

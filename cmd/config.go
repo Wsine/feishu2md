@@ -8,14 +8,20 @@ import (
 	"github.com/Wsine/feishu2md/utils"
 )
 
-func handleConfigCommand(appId, appSecret string) error {
+type ConfigOpts struct {
+	appId     string
+	appSecret string
+}
+
+var configOpts = ConfigOpts{}
+
+func handleConfigCommand(opts *ConfigOpts) error {
 	configPath, err := core.GetConfigFilePath()
-	if err != nil {
-		return err
-	}
+	utils.CheckErr(err)
+
 	fmt.Println("Configuration file on: " + configPath)
 	if _, err := os.Stat(configPath); os.IsNotExist(err) {
-		config := core.NewConfig(appId, appSecret)
+		config := core.NewConfig(opts.appId, opts.appSecret)
 		if err = config.WriteConfig2File(configPath); err != nil {
 			return err
 		}
@@ -25,13 +31,13 @@ func handleConfigCommand(appId, appSecret string) error {
 		if err != nil {
 			return err
 		}
-		if appId != "" {
-			config.Feishu.AppId = appId
+		if opts.appId != "" {
+			config.Feishu.AppId = opts.appId
 		}
-		if appSecret != "" {
-			config.Feishu.AppSecret = appSecret
+		if opts.appSecret != "" {
+			config.Feishu.AppSecret = opts.appSecret
 		}
-		if appId != "" || appSecret != "" {
+		if opts.appId != "" || opts.appSecret != "" {
 			if err = config.WriteConfig2File(configPath); err != nil {
 				return err
 			}
