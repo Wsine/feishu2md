@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"fmt"
 	"net/url"
 	"regexp"
 	"strings"
@@ -24,7 +23,6 @@ func ValidateDownloadURL(url, allowHost string) (string, string, string, error) 
 
 	reg := regexp.MustCompile("^https://([\\w-]+.)?(" + strings.Join(hosts, "|") + ")/(docx|wiki)/([a-zA-Z0-9]+)")
 	matchResult := reg.FindStringSubmatch(url)
-	fmt.Println(len(matchResult), matchResult)
 	if matchResult == nil || len(matchResult) != 5 {
 		return "", "", "", errors.Errorf("Invalid feishu/larksuite/allowHost URL format")
 	}
