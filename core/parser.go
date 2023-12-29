@@ -192,6 +192,8 @@ func (p *Parser) ParseDocxBlock(b *lark.DocxBlock, indentLevel int) string {
 		buf.WriteString(p.ParseDocxBlockTable(b.Table))
 	case lark.DocxBlockTypeQuoteContainer:
 		buf.WriteString(p.ParseDocxBlockQuoteContainer(b))
+	case lark.DocxBlockTypeGrid:
+		buf.WriteString(p.ParseDocxBlockGrid(b, indentLevel))
 	default:
 	}
 	return buf.String()
@@ -392,6 +394,20 @@ func (p *Parser) ParseDocxBlockQuoteContainer(b *lark.DocxBlock) string {
 		block := p.blockMap[child]
 		buf.WriteString("> ")
 		buf.WriteString(p.ParseDocxBlock(block, 0))
+	}
+
+	return buf.String()
+}
+
+func (p *Parser) ParseDocxBlockGrid(b *lark.DocxBlock, indentLevel int) string {
+	buf := new(strings.Builder)
+
+	for _, child := range b.Children {
+		columnBlock := p.blockMap[child]
+		for _, child := range columnBlock.Children {
+			block := p.blockMap[child]
+			buf.WriteString(p.ParseDocxBlock(block, indentLevel))
+		}
 	}
 
 	return buf.String()
