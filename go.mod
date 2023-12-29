@@ -1,6 +1,6 @@
 module github.com/Wsine/feishu2md
 
-go 1.17
+go 1.21
 
 require (
 	github.com/88250/lute v1.7.3

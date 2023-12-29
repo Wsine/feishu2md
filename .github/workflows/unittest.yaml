@@ -14,9 +14,9 @@ jobs:
       - name: Checkout the code
         uses: actions/checkout@v2
       - name: Set up Go
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@v4
         with:
-          go-version: 1.17
+          go-version: 1.21
       - name: Check format
         run: test -z $(gofmt -l .)
       - name: Run testing
@@ -25,6 +25,7 @@ jobs:
           FEISHU_APP_SECRET: ${{ secrets.FEISHU_APP_SECRET }}
         run: |
           touch .env
+          go mod download
           go test -v ./...
       - name: Build cmd tool
         run: make
