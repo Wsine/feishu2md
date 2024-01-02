@@ -20,7 +20,7 @@ jobs:
       - name: Checkout the code
         uses: actions/checkout@v2
       - name: Parallel build
-        uses: wangyoucao577/go-release-action@v1.30
+        uses: wangyoucao577/go-release-action@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           goos: ${{ matrix.goos }}
@@ -43,7 +43,7 @@ jobs:
       - name: Checkout the code
         uses: actions/checkout@v2
       - name: Parallel build
-        uses: wangyoucao577/go-release-action@v1.30
+        uses: wangyoucao577/go-release-action@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           goos: ${{ matrix.goos }}
