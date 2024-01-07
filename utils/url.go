@@ -16,7 +16,7 @@ func UnescapeURL(rawURL string) string {
 }
 
 func ValidateDownloadURL(url, allowHost string) (string, string, string, error) {
-	hosts := []string{"feishu.cn", "larksuite.com"}
+	hosts := []string{"feishu.cn", "larksuite.com", "larkoffice.com"}
 	if allowHost != "" {
 		hosts = append(hosts, allowHost)
 	}
