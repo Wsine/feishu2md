@@ -3,6 +3,7 @@ package core
 import (
 	"context"
 	"fmt"
+	"reflect"
 	"strings"
 
 	"github.com/Wsine/feishu2md/utils"
@@ -134,32 +135,23 @@ func (p *Parser) ParseDocxBlock(b *lark.DocxBlock, indentLevel int) string {
 	case lark.DocxBlockTypeText:
 		buf.WriteString(p.ParseDocxBlockText(b.Text))
 	case lark.DocxBlockTypeHeading1:
-		buf.WriteString("# ")
-		buf.WriteString(p.ParseDocxBlockText(b.Heading1))
+		buf.WriteString(p.ParseDocxBlockHeading(b, 1))
 	case lark.DocxBlockTypeHeading2:
-		buf.WriteString("## ")
-		buf.WriteString(p.ParseDocxBlockText(b.Heading2))
+		buf.WriteString(p.ParseDocxBlockHeading(b, 2))
 	case lark.DocxBlockTypeHeading3:
-		buf.WriteString("### ")
-		buf.WriteString(p.ParseDocxBlockText(b.Heading3))
+		buf.WriteString(p.ParseDocxBlockHeading(b, 3))
 	case lark.DocxBlockTypeHeading4:
-		buf.WriteString("#### ")
-		buf.WriteString(p.ParseDocxBlockText(b.Heading4))
+		buf.WriteString(p.ParseDocxBlockHeading(b, 4))
 	case lark.DocxBlockTypeHeading5:
-		buf.WriteString("##### ")
-		buf.WriteString(p.ParseDocxBlockText(b.Heading5))
+		buf.WriteString(p.ParseDocxBlockHeading(b, 5))
 	case lark.DocxBlockTypeHeading6:
-		buf.WriteString("###### ")
-		buf.WriteString(p.ParseDocxBlockText(b.Heading6))
+		buf.WriteString(p.ParseDocxBlockHeading(b, 6))
 	case lark.DocxBlockTypeHeading7:
-		buf.WriteString("####### ")
-		buf.WriteString(p.ParseDocxBlockText(b.Heading7))
+		buf.WriteString(p.ParseDocxBlockHeading(b, 7))
 	case lark.DocxBlockTypeHeading8:
-		buf.WriteString("######## ")
-		buf.WriteString(p.ParseDocxBlockText(b.Heading8))
+		buf.WriteString(p.ParseDocxBlockHeading(b, 8))
 	case lark.DocxBlockTypeHeading9:
-		buf.WriteString("######### ")
-		buf.WriteString(p.ParseDocxBlockText(b.Heading9))
+		buf.WriteString(p.ParseDocxBlockHeading(b, 9))
 	case lark.DocxBlockTypeBullet:
 		buf.WriteString(p.ParseDocxBlockBullet(b, indentLevel))
 	case lark.DocxBlockTypeOrdered:
@@ -293,6 +285,23 @@ func (p *Parser) ParseDocxTextElementTextRun(tr *lark.DocxTextElementTextRun) st
 	}
 	buf.WriteString(tr.Content)
 	buf.WriteString(postWrite)
+	return buf.String()
+}
+
+func (p *Parser) ParseDocxBlockHeading(b *lark.DocxBlock, headingLevel int) string {
+	buf := new(strings.Builder)
+
+	buf.WriteString(strings.Repeat("#", headingLevel))
+	buf.WriteString(" ")
+
+	headingText := reflect.ValueOf(b).Elem().FieldByName(fmt.Sprintf("Heading%d", headingLevel))
+	buf.WriteString(p.ParseDocxBlockText(headingText.Interface().(*lark.DocxBlockText)))
+
+	for _, childId := range b.Children {
+		childBlock := p.blockMap[childId]
+		buf.WriteString(p.ParseDocxBlock(childBlock, 0))
+	}
+
 	return buf.String()
 }
 
