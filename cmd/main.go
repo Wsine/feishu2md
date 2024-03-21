@@ -53,12 +53,6 @@ func main() {
 						Usage:       "Specify the output directory for the markdown files",
 						Destination: &downloadOpts.outputDir,
 					},
-					&cli.StringFlag{
-						Name:        "allowHost",
-						Value:       "",
-						Usage:       "Additional allow host for the OPEN API",
-						Destination: &downloadOpts.allowHost,
-					},
 					&cli.BoolFlag{
 						Name:        "dump",
 						Value:       false,

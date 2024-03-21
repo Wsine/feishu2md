@@ -15,16 +15,14 @@ func UnescapeURL(rawURL string) string {
 	return rawURL
 }
 
-func ValidateDownloadURL(url, allowHost string) (string, string, string, error) {
-	hosts := []string{"feishu.cn", "larksuite.com"}
-	if allowHost != "" {
-		hosts = append(hosts, allowHost)
-	}
+func ValidateDownloadURL(url string) (string, string, string, error) {
+	hosts := []string{"feishu.cn", "larksuite.com", "larkoffice.com"}
 
 	reg := regexp.MustCompile("^https://([\\w-]+.)?(" + strings.Join(hosts, "|") + ")/(docs|docx|wiki)/([a-zA-Z0-9]+)")
 	matchResult := reg.FindStringSubmatch(url)
 	if matchResult == nil || len(matchResult) != 5 {
-		return "", "", "", errors.Errorf("Invalid feishu/larksuite/allowHost URL format")
+		return "", "", "", errors.Errorf("Invalid document URL format")
 	}
+
 	return matchResult[2], matchResult[3], matchResult[4], nil
 }

@@ -15,7 +15,6 @@ import (
 )
 
 type DownloadOpts struct {
-	allowHost string
 	outputDir string
 	dump      bool
 }
@@ -24,7 +23,7 @@ var downloadOpts = DownloadOpts{}
 
 func handleDownloadCommand(url string, opts *DownloadOpts) error {
 	// Validate the url to download
-	domain, docType, docToken, err := utils.ValidateDownloadURL(url, opts.allowHost)
+	domain, docType, docToken, err := utils.ValidateDownloadURL(url)
 	utils.CheckErr(err)
 	fmt.Println("Captured document token:", docToken)
 
