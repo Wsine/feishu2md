@@ -14,7 +14,9 @@ test:
 
 .PHONY: server
 server:
+	GOARCH=wasm GOOS=js go build -o dist/web/app.wasm web/*.go
 	go build -o ./feishu2md4web web/*.go
+	./feishu2md4web
 
 .PHONY: image
 image:
