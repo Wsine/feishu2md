@@ -17,10 +17,10 @@ func handleDumpCommand(url string) error {
 	config, err := core.ReadConfigFromFile(configPath)
 	utils.CheckErr(err)
 
-	reg := regexp.MustCompile("^https://[a-zA-Z0-9-]+.(feishu.cn|larksuite.com|f.mioffice.cn)/(docx|wiki)/([a-zA-Z0-9]+)")
+	reg := regexp.MustCompile("^https://[a-zA-Z0-9-]+\\.(?:[a-zA-Z]{2,3}\\.)?(feishu\\.cn|larksuite\\.com|f\\.mioffice\\.cn)/(docx|wiki)/([a-zA-Z0-9]+)(?:\\?[^\\s]+)?")
 	matchResult := reg.FindStringSubmatch(url)
-	if matchResult == nil || len(matchResult) != 4 {
-		return errors.Errorf("Invalid feishu/larksuite URL format")
+	if matchResult == nil || len(matchResult) < 4 {
+		return errors.Errorf("Invalid feishu/larksuite "^https://[a-zA-Z0-9-]+\\.(?:[a-zA-Z]{2,3}\\.)?(feishu\\.cn|larksuite\\.com|f\\.mioffice\\.cn)/(docx|wiki)/([a-zA-Z0-9]+)(?:\\?[^\\s]+)?"")
 	}
 
 	domain := matchResult[1]
