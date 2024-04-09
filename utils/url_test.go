@@ -36,53 +36,41 @@ func TestUnescapeURL(t *testing.T) {
 }
 
 func TestValidateDownloadURL(t *testing.T) {
-	type Args struct {
-		url       string
-		allowHost string
-	}
 	tests := []struct {
 		name  string
-		args  Args
+		url   string
 		noErr bool
 	}{
 		{
-			name: "validate feishu url success",
-			args: Args{
-				url:       "https://sample.feishu.cn/docx/doccnByZP6puODElAYySJkPIfUb",
-				allowHost: "",
-			},
+			name:  "validate feishu url success",
+			url:   "https://sample.feishu.cn/docx/doccnByZP6puODElAYySJkPIfUb",
 			noErr: true,
 		},
 		{
-			name: "validate larksuite url success",
-			args: Args{
-				url:       "https://sample.larksuite.com/wiki/doccnByZP6puODElAYySJkPIfUb",
-				allowHost: "",
-			},
+			name:  "validate larksuite url success",
+			url:   "https://sample.larksuite.com/wiki/doccnByZP6puODElAYySJkPIfUb",
 			noErr: true,
 		},
 		{
-			name: "validate feishu url success with allow host",
-			args: Args{
-				url:       "https://f.mioffice.cn/docx/doccnByZP6puODElAYySJkPIfUb",
-				allowHost: "f.mioffice.cn",
-			},
+			name:  "validate larksuite url success",
+			url:   "https://sample.sg.larksuite.com/wiki/doccnByZP6puODElAYySJkPIfUb",
 			noErr: true,
 		},
 		{
-			name: "validate arbitrary url failed",
-			args: Args{
-				url:       "https://google.com",
-				allowHost: "",
-			},
+			name:  "validate feishu url success",
+			url:   "https://sample.f.mioffice.cn/docx/doccnByZP6puODElAYySJkPIfUb",
+			noErr: true,
+		},
+		{
+			name:  "validate arbitrary url failed",
+			url:   "https://google.com",
 			noErr: false,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			url, allowHost := tt.args.url, tt.args.allowHost
-			if _, _, _, got := ValidateDownloadURL(url, allowHost); (got == nil) != tt.noErr {
-				t.Errorf("ValidateDownloadURL(%v, %v)", url, allowHost)
+			if _, _, got := ValidateDownloadURL(tt.url); (got == nil) != tt.noErr {
+				t.Errorf("ValidateDownloadURL(%v)", tt.url)
 			}
 		})
 	}

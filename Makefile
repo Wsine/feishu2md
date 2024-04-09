@@ -31,3 +31,7 @@ clean:  ## Clean build bundles
 .PHONY: format
 format:
 	gofmt -l -w .
+
+.PHONY: all
+all: build server
+	@echo "Build all done"
