@@ -26,7 +26,7 @@ func downloadHandler(c *gin.Context) {
 	}
 
 	// Validate the url to download
-	domain, docType, docToken, err := utils.ValidateDownloadURL(feishu_docx_url, "")
+	docType, docToken, err := utils.ValidateDownloadURL(feishu_docx_url)
 	fmt.Println("Captured document token:", docToken)
 
 	// Create client with context
@@ -36,7 +36,7 @@ func downloadHandler(c *gin.Context) {
 		os.Getenv("FEISHU_APP_SECRET"),
 	)
 	client := core.NewClient(
-		config.Feishu.AppId, config.Feishu.AppSecret, domain,
+		config.Feishu.AppId, config.Feishu.AppSecret,
 	)
 
 	// Process the download

@@ -16,11 +16,10 @@ type Client struct {
 	larkClient *lark.Lark
 }
 
-func NewClient(appID, appSecret, domain string) *Client {
+func NewClient(appID, appSecret string) *Client {
 	return &Client{
 		larkClient: lark.New(
 			lark.WithAppCredential(appID, appSecret),
-			lark.WithOpenBaseURL("https://open."+domain),
 			lark.WithTimeout(60*time.Second),
 		),
 	}

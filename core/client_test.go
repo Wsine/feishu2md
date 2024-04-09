@@ -34,7 +34,7 @@ func getIdAndSecretFromEnv(t *testing.T) (string, string) {
 
 func TestNewClient(t *testing.T) {
 	appID, appSecret := getIdAndSecretFromEnv(t)
-	c := core.NewClient(appID, appSecret, "feishu.cn")
+	c := core.NewClient(appID, appSecret)
 	if c == nil {
 		t.Errorf("Error creating DocClient")
 	}
@@ -42,7 +42,7 @@ func TestNewClient(t *testing.T) {
 
 func TestDownloadImage(t *testing.T) {
 	appID, appSecret := getIdAndSecretFromEnv(t)
-	c := core.NewClient(appID, appSecret, "feishu.cn")
+	c := core.NewClient(appID, appSecret)
 	imgToken := "boxcnA1QKPanfMhLxzF1eMhoArM"
 	filename, err := c.DownloadImage(
 		context.Background(),
@@ -63,7 +63,7 @@ func TestDownloadImage(t *testing.T) {
 
 func TestGetDocxContent(t *testing.T) {
 	appID, appSecret := getIdAndSecretFromEnv(t)
-	c := core.NewClient(appID, appSecret, "feishu.cn")
+	c := core.NewClient(appID, appSecret)
 	docx, blocks, err := c.GetDocxContent(
 		context.Background(),
 		"doxcnXhd93zqoLnmVPGIPTy7AFe",
@@ -83,7 +83,7 @@ func TestGetDocxContent(t *testing.T) {
 
 func TestGetWikiNodeInfo(t *testing.T) {
 	appID, appSecret := getIdAndSecretFromEnv(t)
-	c := core.NewClient(appID, appSecret, "feishu.cn")
+	c := core.NewClient(appID, appSecret)
 	const token = "wikcnLgRX9AMtvaB5x1cl57Yuah"
 	node, err := c.GetWikiNodeInfo(context.Background(), token)
 	if err != nil {

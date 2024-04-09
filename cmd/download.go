@@ -15,7 +15,6 @@ import (
 )
 
 type DownloadOpts struct {
-	allowHost string
 	outputDir string
 	dump      bool
 }
@@ -24,7 +23,7 @@ var downloadOpts = DownloadOpts{}
 
 func handleDownloadCommand(url string, opts *DownloadOpts) error {
 	// Validate the url to download
-	domain, docType, docToken, err := utils.ValidateDownloadURL(url, opts.allowHost)
+	docType, docToken, err := utils.ValidateDownloadURL(url)
 	utils.CheckErr(err)
 	fmt.Println("Captured document token:", docToken)
 
@@ -38,7 +37,7 @@ func handleDownloadCommand(url string, opts *DownloadOpts) error {
 	ctx := context.WithValue(context.Background(), "output", config.Output)
 
 	client := core.NewClient(
-		config.Feishu.AppId, config.Feishu.AppSecret, domain,
+		config.Feishu.AppId, config.Feishu.AppSecret,
 	)
 
 	// for a wiki page, we need to renew docType and docToken first

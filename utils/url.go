@@ -3,7 +3,6 @@ package utils
 import (
 	"net/url"
 	"regexp"
-	"strings"
 
 	"github.com/pkg/errors"
 )
@@ -15,16 +14,13 @@ func UnescapeURL(rawURL string) string {
 	return rawURL
 }
 
-func ValidateDownloadURL(url, allowHost string) (string, string, string, error) {
-	hosts := []string{"feishu.cn", "larksuite.com"}
-	if allowHost != "" {
-		hosts = append(hosts, allowHost)
-	}
-
-	reg := regexp.MustCompile("^https://([\\w-]+.)?(" + strings.Join(hosts, "|") + ")/(docs|docx|wiki)/([a-zA-Z0-9]+)")
+func ValidateDownloadURL(url string) (string, string, error) {
+	reg := regexp.MustCompile("^https://[\\w-.]+/(docx|wiki)/([a-zA-Z0-9]+)")
 	matchResult := reg.FindStringSubmatch(url)
-	if matchResult == nil || len(matchResult) != 5 {
-		return "", "", "", errors.Errorf("Invalid feishu/larksuite/allowHost URL format")
+	if matchResult == nil || len(matchResult) != 3 {
+		return "", "", errors.Errorf("Invalid feishu/larksuite URL format")
 	}
-	return matchResult[2], matchResult[3], matchResult[4], nil
+	docType := matchResult[1]
+	docToken := matchResult[2]
+	return docType, docToken, nil
 }
