@@ -16,6 +16,7 @@ import (
 
 type DownloadOpts struct {
 	outputDir string
+	outputFile string
 	dump      bool
 }
 
@@ -105,6 +106,9 @@ func handleDownloadCommand(url string, opts *DownloadOpts) error {
 	mdName := fmt.Sprintf("%s.md", docToken)
 	if config.Output.TitleAsFilename {
 		mdName = fmt.Sprintf("%s.md", title)
+	}
+	if opts.outputFile != "" {
+	mdName = fmt.Sprintf("%s.md", opts.outputFile)
 	}
 	outputPath := filepath.Join(opts.outputDir, mdName)
 	if err = os.WriteFile(outputPath, []byte(result), 0o644); err != nil {
