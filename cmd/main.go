@@ -56,7 +56,7 @@ func main() {
 					&cli.StringFlag{
 						Name:        "file",
 						Aliases:     []string{"f"},
-						Value:       "./",
+						Value:       "",
 						Usage:       "Specify the output filename for the markdown files",
 						Destination: &downloadOpts.outputFile,
 					},
