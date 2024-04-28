@@ -53,6 +53,13 @@ func main() {
 						Usage:       "Specify the output directory for the markdown files",
 						Destination: &downloadOpts.outputDir,
 					},
+					&cli.StringFlag{
+						Name:        "file",
+						Aliases:     []string{"f"},
+						Value:       "./",
+						Usage:       "Specify the output filename for the markdown files",
+						Destination: &downloadOpts.outputFile,
+					},
 					&cli.BoolFlag{
 						Name:        "dump",
 						Value:       false,
