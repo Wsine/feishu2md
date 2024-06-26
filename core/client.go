@@ -7,6 +7,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"sync"
 	"time"
 
 	"github.com/chyroc/lark"
@@ -117,14 +118,16 @@ func (c *Client) GetDriveFolderFileList(ctx context.Context, pageToken *string, 
 	return resp, nil
 }
 
-func (c *Client) GetDriveStructureRecursion(ctx context.Context, folderToken *string, currentPath string, pathToURL map[string]string) error {
-	resp, err := c.GetDriveFolderFileList(ctx, nil, folderToken)
+func (c *Client) GetDriveStructureRecursion(ctx context.Context, folderToken string, currentPath string, pairChannel chan Pair, wg *sync.WaitGroup) error {
+	defer wg.Done()
+
+	resp, err := c.GetDriveFolderFileList(ctx, nil, &folderToken)
 	if err != nil {
 		return err
 	}
 	files := resp.Files
 	for resp.HasMore {
-		resp, err = c.GetDriveFolderFileList(ctx, &resp.NextPageToken, folderToken)
+		resp, err = c.GetDriveFolderFileList(ctx, &resp.NextPageToken, &folderToken)
 		if err != nil {
 			return err
 		}
@@ -132,22 +135,40 @@ func (c *Client) GetDriveStructureRecursion(ctx context.Context, folderToken *st
 	}
 
 	for _, file := range files {
-		path := currentPath + "/" + file.Name
 		if file.Type == "folder" {
-			err = c.GetDriveStructureRecursion(ctx, &file.Token, path, pathToURL)
-			if err != nil {
-				return err
-			}
+			wg.Add(1)
+			go func(path string, fileToken string) {
+				err := c.GetDriveStructureRecursion(ctx, fileToken, path, pairChannel, wg)
+				if err != nil {
+					fmt.Println(err)
+				}
+			}(currentPath+"/"+file.Name, file.Token)
 		} else {
-			pathToURL[path] = file.URL
+			pairChannel <- Pair{currentPath + "/" + file.Name, file.URL}
 		}
 	}
 
 	return nil
 }
 
+type Pair struct {
+	path string
+	url  string
+}
+
 func (c *Client) GetDriveStructure(ctx context.Context, baseFolderToken *string) (map[string]string, error) {
+	pairChannel := make(chan Pair)
 	structure := map[string]string{}
-	err := c.GetDriveStructureRecursion(ctx, baseFolderToken, ".", structure)
+	wg := sync.WaitGroup{}
+	go func() {
+		for pair := range pairChannel {
+			structure[pair.path] = pair.url
+		}
+	}()
+	wg.Add(1)
+	err := c.GetDriveStructureRecursion(ctx, *baseFolderToken, ".", pairChannel, &wg)
+
+	wg.Wait()
+
 	return structure, err
 }

@@ -90,6 +90,17 @@
    ```bash
    $ feishu2md dl "https://domain.feishu.cn/docx/docxtoken"
    ```
+
+  **批量下载某文件夹内的全部文档为 Markdown**
+
+  通过`feishu2md batch <your feishu folder token>` 直接下载，文件夹链接可以通过 **分享 > 开启链接分享 > 复制链接** 获得。
+  示例：
+    
+  ```bash
+  $ feishu2md batch -o "output_directory" "folder_token"
+  ```
+
+  此功能暂时不支持Docker版本
 </details>
 
 <details>
