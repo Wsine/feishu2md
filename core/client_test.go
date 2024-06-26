@@ -93,3 +93,16 @@ func TestGetWikiNodeInfo(t *testing.T) {
 		t.Errorf("Error: node type incorrect")
 	}
 }
+
+func TestGetDriveStructure(t *testing.T) {
+	appID, appSecret := getIdAndSecretFromEnv(t)
+	c := core.NewClient(appID, appSecret)
+	baseFolderToken := "VknBfQ1pdla6AddwgkUuHT1ks7c"
+	structure, err := c.GetDriveStructure(context.Background(), &baseFolderToken)
+	if err != nil {
+		t.Error(err)
+	}
+	for path, url := range structure {
+		fmt.Printf("%s: %s\n", path, url)
+	}
+}

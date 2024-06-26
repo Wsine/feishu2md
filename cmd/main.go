@@ -76,36 +76,20 @@ func main() {
 				Usage:   "Download multiple feishu/larksuite documents to markdown files",
 				Flags: []cli.Flag{
 					&cli.StringFlag{
-						Name:        "baseDir",
-						Aliases:     []string{"b"},
-						Value:       "",
-						Usage:       "Specify the base directory for the document urls",
-						Destination: &batchDownloadOpts.baseDir,
-					},
-					&cli.StringFlag{
 						Name:        "output",
 						Aliases:     []string{"o"},
 						Value:       "./",
 						Usage:       "Specify the output directory for the markdown files",
 						Destination: &batchDownloadOpts.outputDir,
 					},
-					&cli.StringFlag{
-						Name:        "Lark space URL",
-						Aliases:     []string{"l"},
-						Value:       "xxxxxxxx.larksuite.com",
-						Usage:       "Specify the base URL for your larksuite space without https:// prefix",
-						Destination: &batchDownloadOpts.larkSpaceURL,
-					},
 				},
-				ArgsUsage: "<base directory> <output directory> <lark space URL>",
+				ArgsUsage: "<baseFolderToken>",
 				Action: func(ctx *cli.Context) error {
 					if ctx.NArg() == 0 {
 						return cli.Exit("Please specify the base directory for the document urls", 1)
 					} else {
-						baseDir := ctx.Args().Get(0)
-						output := ctx.Args().Get(1)
-						larkSpaceURL := ctx.Args().Get(2)
-						return handleBatchDownloadCommand(baseDir, output, larkSpaceURL, &batchDownloadOpts)
+						baseFolderToken := ctx.Args().First()
+						return handleBatchDownloadCommand(&batchDownloadOpts, &baseFolderToken)
 					}
 				},
 			},

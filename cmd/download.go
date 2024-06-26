@@ -62,7 +62,9 @@ func downloadDocument(url string, outputDir string, dump bool, config *core.Conf
 			localLink, err := client.DownloadImage(
 				ctx, imgToken, filepath.Join(outputDir, config.Output.ImageDir),
 			)
-			utils.CheckErr(err)
+			if utils.CheckErr(err) != nil {
+				return err
+			}
 			markdown = strings.Replace(markdown, imgToken, localLink, 1)
 		}
 	}

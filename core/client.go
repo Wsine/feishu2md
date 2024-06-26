@@ -104,3 +104,50 @@ func (c *Client) GetWikiNodeInfo(ctx context.Context, token string) (*lark.GetWi
 	}
 	return resp.Node, nil
 }
+
+func (c *Client) GetDriveFolderFileList(ctx context.Context, pageToken *string, folderToken *string) (*lark.GetDriveFileListResp, error) {
+	resp, _, err := c.larkClient.Drive.GetDriveFileList(ctx, &lark.GetDriveFileListReq{
+		PageSize:    nil,
+		PageToken:   pageToken,
+		FolderToken: folderToken,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}
+
+func (c *Client) GetDriveStructureRecursion(ctx context.Context, folderToken *string, currentPath string, pathToURL map[string]string) error {
+	resp, err := c.GetDriveFolderFileList(ctx, nil, folderToken)
+	if err != nil {
+		return err
+	}
+	files := resp.Files
+	for resp.HasMore {
+		resp, err = c.GetDriveFolderFileList(ctx, &resp.NextPageToken, folderToken)
+		if err != nil {
+			return err
+		}
+		files = append(files, resp.Files...)
+	}
+
+	for _, file := range files {
+		path := currentPath + "/" + file.Name
+		if file.Type == "folder" {
+			err = c.GetDriveStructureRecursion(ctx, &file.Token, path, pathToURL)
+			if err != nil {
+				return err
+			}
+		} else {
+			pathToURL[path] = file.URL
+		}
+	}
+
+	return nil
+}
+
+func (c *Client) GetDriveStructure(ctx context.Context, baseFolderToken *string) (map[string]string, error) {
+	structure := map[string]string{}
+	err := c.GetDriveStructureRecursion(ctx, baseFolderToken, ".", structure)
+	return structure, err
+}

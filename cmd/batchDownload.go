@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"github.com/Wsine/feishu2md/core"
 	"github.com/Wsine/feishu2md/utils"
@@ -14,10 +15,10 @@ import (
 )
 
 type BatchDownloadOpts struct {
-	baseDir      string
-	outputDir    string
-	larkSpaceURL string
+	outputDir string // Where you want to save the downloaded documents
 }
+
+var downloadFailureList = []string{}
 
 const ApiLimitsPerSec = 5
 
@@ -46,45 +47,55 @@ func parseURL(content string, larkSpaceURL string) (string, error) {
 	return "", errors.New("URL not found in the content")
 }
 
+func singleDownload(relPath string, url string, outputDir string, config *core.Config) {
+	// If the output subdirectory for relPath does not exist, create it
+	outputPath := filepath.Join(outputDir, relPath)
+	subDir := filepath.Dir(outputPath)
+	if _, err := os.Stat(subDir); os.IsNotExist(err) {
+		err := os.MkdirAll(subDir, 0755)
+		if err != nil {
+			fmt.Println("Error creating directory:", err)
+			return
+		}
+	}
+
+	// Download the document
+	err := downloadDocument(url, outputPath, false, config)
+	if err != nil {
+		fmt.Println("Error downloading document:", err)
+		downloadFailureList = append(downloadFailureList, url)
+	}
+}
+
+func logDownloadFailures() {
+	// Log the URLs that failed to download in stderr
+	if len(downloadFailureList) > 0 {
+		fmt.Fprintln(os.Stderr, "The following URLs failed to download:")
+		for _, url := range downloadFailureList {
+			fmt.Fprintln(os.Stderr, url)
+		}
+		// Print the following message in Green background color
+		_, _ = fmt.Fprintln(os.Stderr, "\033[42m\033[30mDon't worry, this is not a total failure.\033[0m")
+		_, _ = fmt.Fprintln(os.Stderr, "\033[42m\033[30mSome of your documents may have been downloaded successfully.\033[0m")
+		_, _ = fmt.Fprintln(os.Stderr, "\033[42m\033[30mYou can try to download the failed documents again.\033[0m")
+	}
+}
+
 // Batch download all the documents in the pathMap to the output directory
 // The pathMap is a map of {relativePath, url}
 // This function downloads all the documents using the url to the relativePath in the output directory
-func batchDownload(pathMap map[string]string, outputDir string) error {
-	// Load config
-	configPath, err := core.GetConfigFilePath()
-	utils.CheckErr(err)
-	config, err := core.ReadConfigFromFile(configPath)
-	utils.CheckErr(err)
+func batchDownload(pathMap map[string]string, outputDir string, config *core.Config) error {
+	utils.StopWhenErr = false
 
 	var batchErr error = nil
 
-	downloadFunc := func(relPath, url string) {
-		// If the output subdirectory for relPath does not exist, create it
-		outputPath := filepath.Join(outputDir, relPath)
-		subDir := filepath.Dir(outputPath)
-		if _, err := os.Stat(subDir); os.IsNotExist(err) {
-			err := os.MkdirAll(subDir, 0755)
-			if err != nil {
-				fmt.Println("Error creating directory:", err)
-				batchErr = err
-				return
-			}
-		}
-
-		// Download the document
-		err := downloadDocument(url, outputPath, false, config)
-		if err != nil {
-			fmt.Println("Error downloading document:", err)
-			batchErr = err
-			return
-		}
-
-		fmt.Printf("Downloaded markdown file to %s\n", filepath.Join(outputDir, relPath))
-	}
-
 	// API limit is 5 requests per second,
 	// so we use a pool of 5 goroutines added to the pool every second
-	operators := make(chan struct{}, 0)
+	readyOperators := make(chan struct{}, ApiLimitsPerSec)
+	finishedOperators := make(chan struct{}, ApiLimitsPerSec)
+	for i := 0; i < ApiLimitsPerSec; i++ {
+		finishedOperators <- struct{}{}
+	}
 	downloadFinished := false
 	// Set a timer to add 5 operators to the pool every 1.5 second (for safety)
 	go func() {
@@ -92,10 +103,9 @@ func batchDownload(pathMap map[string]string, outputDir string) error {
 			if downloadFinished {
 				break
 			}
-			for i := 0; i < ApiLimitsPerSec; i++ {
-				operators <- struct{}{}
-			}
-			<-time.After(1500 * time.Millisecond)
+			<-finishedOperators
+			readyOperators <- struct{}{}
+			<-time.After(1500 * time.Millisecond / ApiLimitsPerSec)
 		}
 	}()
 
@@ -103,88 +113,44 @@ func batchDownload(pathMap map[string]string, outputDir string) error {
 	for relPath, url := range pathMap {
 		wg.Add(1)
 		go func(relPath, url string) {
-			<-operators
-			downloadFunc(relPath, url)
+			<-readyOperators
+			singleDownload(relPath, url, outputDir, config)
+			finishedOperators <- struct{}{}
 			wg.Done()
 		}(relPath, url)
 	}
 
 	wg.Wait()
+	logDownloadFailures()
+
+	if len(downloadFailureList) > 0 {
+		batchErr = errors.New("Some documents failed to download")
+	}
 	return batchErr
 }
 
-// `baseDir` is the base directory for the all of the Feishu document direcotry
-// you downloaded
-//
-// In Feishu, you can download a document as a directory, but the directory only
-// contains a bunch of .url files, which are actually the links to the documents
-// This function will fetch all files within the base directory with .url extension
-// and download them all to the output directory with the same hierarchy structure
-//
-// For example, if you have a directory structure like this:
-// baseDir
-// ├── docFolder1
-// │   ├── doc1.url
-// │   └── doc2.url
-// └── docFolder2
-//
-//	├── doc3.url
-//	└── doc4.url
-//
-// `batchDownload` will download all the documents to the output directory with the
-// same structure:
-// outputDir
-// ├── docFolder1
-// │   ├── doc1.md
-// │   └── doc2.md
-// └── docFolder2
-//
-//	├── doc3.md
-//	└── doc4.md
-func handleBatchDownloadCommand(baseDir string, outputDir string, larkSpaceURL string, opts *BatchDownloadOpts) error {
-	// Validate the base directory
-	if _, err := os.Stat(baseDir); os.IsNotExist(err) {
-		return errors.Errorf("Base directory does not exist: %s", baseDir)
-	}
+func handleBatchDownloadCommand(opts *BatchDownloadOpts, baseFolderToken *string) error {
+	// Load config
+	configPath, err := core.GetConfigFilePath()
+	utils.CheckErr(err)
+	config, err := core.ReadConfigFromFile(configPath)
+	utils.CheckErr(err)
 
-	pathMap := make(map[string]string)
+	outputDir := opts.outputDir
 
-	// Find all files under `baseDir` with .url extension
-	err := filepath.Walk(baseDir,
-		func(path string, info os.FileInfo, err error) error {
-			// DEBUG: print path
-			fmt.Println(path)
-			if err != nil {
-				return err
-			}
-			if filepath.Ext(path) == ".url" {
-				// Read the content of the .url file
-				content, err := os.ReadFile(path)
-				if err != nil {
-					return err
-				}
-				// Parse the URL from the content
-				url, err := parseURL(string(content), larkSpaceURL)
-				if err != nil {
-					return err
-				}
-				// Save pair {relativePath, url} to the map
-				relPath, err := filepath.Rel(baseDir, path)
-				relPath = strings.TrimSuffix(relPath, ".url") + ".md"
-				if err != nil {
-					return err
-				}
-				pathMap[relPath] = url
-			}
-			return nil
-		},
+	// Create client with context
+	ctx := context.WithValue(context.Background(), "output", config.Output)
+
+	client := core.NewClient(
+		config.Feishu.AppId, config.Feishu.AppSecret,
 	)
+	pathMap, err := client.GetDriveStructure(ctx, baseFolderToken)
 
 	if err != nil {
 		return err
 	}
 
-	err = batchDownload(pathMap, outputDir)
+	err = batchDownload(pathMap, outputDir, config)
 	if err != nil {
 		return err
 	}
