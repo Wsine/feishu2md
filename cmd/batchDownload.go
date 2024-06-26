@@ -8,8 +8,6 @@ import (
 	"github.com/pkg/errors"
 	"os"
 	"path/filepath"
-	"regexp"
-	"strings"
 	"sync"
 	"time"
 )
@@ -23,29 +21,6 @@ var downloadFailureList = []string{}
 const ApiLimitsPerSec = 5
 
 var batchDownloadOpts = BatchDownloadOpts{}
-
-// Parse the content of a .url file and return the URL
-// The content of a .url file is like this:
-// [InternetShortcut]
-// URL=https://doesnotexists.larksuite.com/docx/doccnL4J5Z6QJ5Z6QJ5Z6QJ5Z6Q
-// Object=doccnL4J5Z6QJ5Z6QJ5Z6QJ5Z6Q
-// The URL is the link to the document
-func parseURL(content string, larkSpaceURL string) (string, error) {
-	lines := strings.Split(content, "\n")
-	for _, line := range lines {
-		if strings.HasPrefix(line, "URL=") {
-			URL := strings.TrimPrefix(line, "URL=")
-			// Use regex to capture the prefix of the URL:
-			// Pattern: https://{USELESS}.com/{URL}
-			pattern := fmt.Sprintf("https://.*?\\.com/(.*)")
-			URL = regexp.MustCompile(pattern).FindStringSubmatch(URL)[1]
-
-			URL = fmt.Sprintf("https://%s/%s", larkSpaceURL, URL)
-			return URL, nil
-		}
-	}
-	return "", errors.New("URL not found in the content")
-}
 
 func singleDownload(relPath string, url string, outputDir string, config *core.Config) {
 	// If the output subdirectory for relPath does not exist, create it
