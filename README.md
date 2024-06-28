@@ -38,6 +38,8 @@
 
   借助 Go 语言跨平台的特性，已编译好了主要平台的可执行文件，可以在 [Release](https://github.com/Wsine/feishu2md/releases) 中下载，并将相应平台的 feishu2md 可执行文件放置在 PATH 路径中即可。
 
+  更新：现在feishu2md已经可以通过[homebrew](https://formulae.brew.sh/formula/feishu2md)安装：`brew install feishu2md`
+
    **查阅帮助文档**
 
    ```bash
