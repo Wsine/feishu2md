@@ -17,6 +17,7 @@ import (
 type DownloadOpts struct {
 	outputDir string
 	dump      bool
+	batch     bool
 }
 
 var downloadOpts = DownloadOpts{}
@@ -120,6 +121,10 @@ func handleDownloadCommand(url string, opts *DownloadOpts) error {
 	utils.CheckErr(err)
 	config, err := core.ReadConfigFromFile(configPath)
 	utils.CheckErr(err)
+
+	if opts.batch {
+		return batchDownloadFolder(opts.outputDir, url, config)
+	}
 
 	return downloadDocument(url, opts.outputDir, opts.dump, config)
 }

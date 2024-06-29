@@ -156,7 +156,7 @@ type Pair struct {
 	url  string
 }
 
-func (c *Client) GetDriveStructure(ctx context.Context, baseFolderToken *string) (map[string]string, error) {
+func (c *Client) GetDriveStructure(ctx context.Context, baseFolderToken string) (map[string]string, error) {
 	pairChannel := make(chan Pair)
 	structure := map[string]string{}
 	wg := sync.WaitGroup{}
@@ -166,7 +166,7 @@ func (c *Client) GetDriveStructure(ctx context.Context, baseFolderToken *string)
 		}
 	}()
 	wg.Add(1)
-	err := c.GetDriveStructureRecursion(ctx, *baseFolderToken, ".", pairChannel, &wg)
+	err := c.GetDriveStructureRecursion(ctx, baseFolderToken, ".", pairChannel, &wg)
 
 	wg.Wait()
 

@@ -71,6 +71,20 @@
       --appId value      Set app id for the OPEN API
       --appSecret value  Set app secret for the OPEN API
       --help, -h         show help (default: false)
+      
+   $ feishu2md dl -h
+   NAME:
+   feishu2md download - Download feishu/larksuite document to markdown file
+
+USAGE:
+   feishu2md download [command options] <url>
+
+OPTIONS:
+   --output value, -o value  Specify the output directory for the markdown files (default: "./")
+   --batch                   batch download all documents inside a folder, where the url is the base folder token (default: false)
+   --dump                    Dump json response of the OPEN API (default: false)
+   --help, -h                show help (default: false)
+     
    ```
 
    **生成配置文件**
@@ -81,7 +95,7 @@
 
    更多的配置选项请手动打开配置文件更改。
 
-   **下载为 Markdown**
+   **下载单个文档为 Markdown**
 
    通过 `feishu2md dl <your feishu docx url>` 直接下载，文档链接可以通过 **分享 > 开启链接分享 > 复制链接** 获得。
 
@@ -93,7 +107,8 @@
 
   **批量下载某文件夹内的全部文档为 Markdown**
 
-  通过`feishu2md batch <your feishu folder token>` 直接下载，文件夹链接可以通过 **分享 > 开启链接分享 > 复制链接** 获得。
+  通过`feishu2md dl --batch <your feishu folder token or url>` 直接下载，文件夹链接可以通过 **分享 > 开启链接分享 > 复制链接** 获得。
+
   示例：
     
   ```bash

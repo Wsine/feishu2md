@@ -8,19 +8,14 @@ import (
 	"github.com/pkg/errors"
 	"os"
 	"path/filepath"
+	"strings"
 	"sync"
 	"time"
 )
 
-type BatchDownloadOpts struct {
-	outputDir string // Where you want to save the downloaded documents
-}
-
 var downloadFailureList = []string{}
 
 const ApiLimitsPerSec = 5
-
-var batchDownloadOpts = BatchDownloadOpts{}
 
 func singleDownload(relPath string, url string, outputDir string, config *core.Config) {
 	// If the output subdirectory for relPath does not exist, create it
@@ -104,14 +99,14 @@ func batchDownload(pathMap map[string]string, outputDir string, config *core.Con
 	return batchErr
 }
 
-func handleBatchDownloadCommand(opts *BatchDownloadOpts, baseFolderToken *string) error {
-	// Load config
-	configPath, err := core.GetConfigFilePath()
-	utils.CheckErr(err)
-	config, err := core.ReadConfigFromFile(configPath)
-	utils.CheckErr(err)
-
-	outputDir := opts.outputDir
+func batchDownloadFolder(outputDir string, urlOrToken string, config *core.Config) error {
+	baseFolderToken := urlOrToken
+	// If this is batch download and a full directory url is provided, strip the last part (token)
+	if strings.Contains(urlOrToken, "/") {
+		segments := strings.Split(urlOrToken, "/")
+		baseFolderToken = segments[len(segments)-1]
+		baseFolderToken = strings.Split(baseFolderToken, "?")[0] // In case some user copy the url with query params
+	}
 
 	// Create client with context
 	ctx := context.WithValue(context.Background(), "output", config.Output)

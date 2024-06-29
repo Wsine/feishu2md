@@ -59,6 +59,12 @@ func main() {
 						Usage:       "Dump json response of the OPEN API",
 						Destination: &downloadOpts.dump,
 					},
+					&cli.BoolFlag{
+						Name:        "batch",
+						Value:       false,
+						Usage:       "batch download all documents inside a folder, where the url is the base folder token",
+						Destination: &downloadOpts.batch,
+					},
 				},
 				ArgsUsage: "<url>",
 				Action: func(ctx *cli.Context) error {
@@ -67,29 +73,6 @@ func main() {
 					} else {
 						url := ctx.Args().First()
 						return handleDownloadCommand(url, &downloadOpts)
-					}
-				},
-			},
-			{
-				Name:    "batch",
-				Aliases: []string{"b"},
-				Usage:   "Download multiple feishu/larksuite documents to markdown files",
-				Flags: []cli.Flag{
-					&cli.StringFlag{
-						Name:        "output",
-						Aliases:     []string{"o"},
-						Value:       "./",
-						Usage:       "Specify the output directory for the markdown files",
-						Destination: &batchDownloadOpts.outputDir,
-					},
-				},
-				ArgsUsage: "<baseFolderToken>",
-				Action: func(ctx *cli.Context) error {
-					if ctx.NArg() == 0 {
-						return cli.Exit("Please specify the base directory for the document urls", 1)
-					} else {
-						baseFolderToken := ctx.Args().First()
-						return handleBatchDownloadCommand(&batchDownloadOpts, &baseFolderToken)
 					}
 				},
 			},
