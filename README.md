@@ -112,7 +112,7 @@ OPTIONS:
   示例：
     
   ```bash
-  $ feishu2md batch -o "output_directory" "folder_token"
+  $ feishu2md dl --batch -o="output_directory" "folder_token or folder_url"  
   ```
 
   此功能暂时不支持Docker版本
