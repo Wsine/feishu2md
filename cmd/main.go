@@ -59,6 +59,12 @@ func main() {
 						Usage:       "Dump json response of the OPEN API",
 						Destination: &downloadOpts.dump,
 					},
+					&cli.BoolFlag{
+						Name:        "batch",
+						Value:       false,
+						Usage:       "batch download all documents inside a folder, where the url is the base folder token",
+						Destination: &downloadOpts.batch,
+					},
 				},
 				ArgsUsage: "<url>",
 				Action: func(ctx *cli.Context) error {
