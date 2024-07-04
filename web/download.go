@@ -26,7 +26,7 @@ func downloadHandler(c *gin.Context) {
 	}
 
 	// Validate the url to download
-	docType, docToken, err := utils.ValidateDownloadURL(feishu_docx_url)
+	docType, docToken, err := utils.ValidateDocumentURL(feishu_docx_url)
 	fmt.Println("Captured document token:", docToken)
 
 	// Create client with context
@@ -40,7 +40,7 @@ func downloadHandler(c *gin.Context) {
 	)
 
 	// Process the download
-	parser := core.NewParser(ctx)
+	parser := core.NewParser(config.Output)
 	markdown := ""
 
 	// for a wiki page, we need to renew docType and docToken first

@@ -7,10 +7,10 @@ import (
 	"io"
 	"os"
 	"path/filepath"
-	"sync"
 	"time"
 
 	"github.com/chyroc/lark"
+  "github.com/chyroc/lark_rate_limiter"
 )
 
 type Client struct {
@@ -22,6 +22,7 @@ func NewClient(appID, appSecret string) *Client {
 		larkClient: lark.New(
 			lark.WithAppCredential(appID, appSecret),
 			lark.WithTimeout(60*time.Second),
+      lark.WithApiMiddleware(lark_rate_limiter.Wait(5, 5)),
 		),
 	}
 }
@@ -106,7 +107,7 @@ func (c *Client) GetWikiNodeInfo(ctx context.Context, token string) (*lark.GetWi
 	return resp.Node, nil
 }
 
-func (c *Client) GetDriveFolderFileList(ctx context.Context, pageToken *string, folderToken *string) (*lark.GetDriveFileListResp, error) {
+func (c *Client) GetDriveFolderFileList(ctx context.Context, pageToken *string, folderToken *string) ([]*lark.GetDriveFileListRespFile, error) {
 	resp, _, err := c.larkClient.Drive.GetDriveFileList(ctx, &lark.GetDriveFileListReq{
 		PageSize:    nil,
 		PageToken:   pageToken,
@@ -115,60 +116,18 @@ func (c *Client) GetDriveFolderFileList(ctx context.Context, pageToken *string, 
 	if err != nil {
 		return nil, err
 	}
-	return resp, nil
-}
-
-func (c *Client) GetDriveStructureRecursion(ctx context.Context, folderToken string, currentPath string, pairChannel chan Pair, wg *sync.WaitGroup) error {
-	defer wg.Done()
-
-	resp, err := c.GetDriveFolderFileList(ctx, nil, &folderToken)
-	if err != nil {
-		return err
-	}
-	files := resp.Files
+  files := resp.Files
 	for resp.HasMore {
-		resp, err = c.GetDriveFolderFileList(ctx, &resp.NextPageToken, &folderToken)
+		resp, _, err = c.larkClient.Drive.GetDriveFileList(ctx, &lark.GetDriveFileListReq{
+      PageSize:    nil,
+      PageToken:   &resp.NextPageToken,
+      FolderToken: folderToken,
+    })
 		if err != nil {
-			return err
+			return nil, err
 		}
 		files = append(files, resp.Files...)
 	}
-
-	for _, file := range files {
-		if file.Type == "folder" {
-			wg.Add(1)
-			go func(path string, fileToken string) {
-				err := c.GetDriveStructureRecursion(ctx, fileToken, path, pairChannel, wg)
-				if err != nil {
-					fmt.Println(err)
-				}
-			}(currentPath+"/"+file.Name, file.Token)
-		} else {
-			pairChannel <- Pair{currentPath + "/" + file.Name, file.URL}
-		}
-	}
-
-	return nil
+	return files, nil
 }
 
-type Pair struct {
-	path string
-	url  string
-}
-
-func (c *Client) GetDriveStructure(ctx context.Context, baseFolderToken string) (map[string]string, error) {
-	pairChannel := make(chan Pair)
-	structure := map[string]string{}
-	wg := sync.WaitGroup{}
-	go func() {
-		for pair := range pairChannel {
-			structure[pair.path] = pair.url
-		}
-	}()
-	wg.Add(1)
-	err := c.GetDriveStructureRecursion(ctx, baseFolderToken, ".", pairChannel, &wg)
-
-	wg.Wait()
-
-	return structure, err
-}

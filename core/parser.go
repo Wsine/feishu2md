@@ -1,7 +1,6 @@
 package core
 
 import (
-	"context"
 	"fmt"
 	"reflect"
 	"strings"
@@ -12,14 +11,14 @@ import (
 )
 
 type Parser struct {
-	ctx       context.Context
+	useHTMLTags bool
 	ImgTokens []string
 	blockMap  map[string]*lark.DocxBlock
 }
 
-func NewParser(ctx context.Context) *Parser {
+func NewParser(config OutputConfig) *Parser {
 	return &Parser{
-		ctx:       ctx,
+		useHTMLTags: config.UseHTMLTags,
 		ImgTokens: make([]string, 0),
 		blockMap:  make(map[string]*lark.DocxBlock),
 	}
@@ -244,12 +243,8 @@ func (p *Parser) ParseDocxTextElementTextRun(tr *lark.DocxTextElementTextRun) st
 	buf := new(strings.Builder)
 	postWrite := ""
 	if style := tr.TextElementStyle; style != nil {
-		useHTMLTags := NewConfig("", "").Output.UseHTMLTags
-		if p.ctx.Value("output") != nil {
-			useHTMLTags = p.ctx.Value("output").(OutputConfig).UseHTMLTags
-		}
 		if style.Bold {
-			if useHTMLTags {
+			if p.useHTMLTags {
 				buf.WriteString("<strong>")
 				postWrite = "</strong>"
 			} else {
@@ -257,7 +252,7 @@ func (p *Parser) ParseDocxTextElementTextRun(tr *lark.DocxTextElementTextRun) st
 				postWrite = "**"
 			}
 		} else if style.Italic {
-			if useHTMLTags {
+			if p.useHTMLTags {
 				buf.WriteString("<em>")
 				postWrite = "</em>"
 			} else {
@@ -265,7 +260,7 @@ func (p *Parser) ParseDocxTextElementTextRun(tr *lark.DocxTextElementTextRun) st
 				postWrite = "_"
 			}
 		} else if style.Strikethrough {
-			if useHTMLTags {
+			if p.useHTMLTags {
 				buf.WriteString("<del>")
 				postWrite = "</del>"
 			} else {

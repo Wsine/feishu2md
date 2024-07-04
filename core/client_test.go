@@ -94,15 +94,16 @@ func TestGetWikiNodeInfo(t *testing.T) {
 	}
 }
 
-func TestGetDriveStructure(t *testing.T) {
+func TestGetDriveFolderFileList(t *testing.T) {
 	appID, appSecret := getIdAndSecretFromEnv(t)
 	c := core.NewClient(appID, appSecret)
-	baseFolderToken := "VknBfQ1pdla6AddwgkUuHT1ks7c"
-	structure, err := c.GetDriveStructure(context.Background(), &baseFolderToken)
+	folderToken := "VknBfQ1pdla6AddwgkUuHT1ks7c"
+	files, err := c.GetDriveFolderFileList(
+    context.Background(), nil, &folderToken)
 	if err != nil {
 		t.Error(err)
 	}
-	for path, url := range structure {
-		fmt.Printf("%s: %s\n", path, url)
-	}
+  if len(files) == 0 {
+    t.Errorf("Error: no files found")
+  }
 }

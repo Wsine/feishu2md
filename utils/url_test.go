@@ -69,7 +69,7 @@ func TestValidateDownloadURL(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if _, _, got := ValidateDownloadURL(tt.url); (got == nil) != tt.noErr {
+			if _, _, got := ValidateDocumentURL(tt.url); (got == nil) != tt.noErr {
 				t.Errorf("ValidateDownloadURL(%v)", tt.url)
 			}
 		})
