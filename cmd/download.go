@@ -41,8 +41,8 @@ func downloadDocument(client *core.Client, ctx context.Context, url string, opts
 	}
 	if docType == "docs" {
 		return errors.Errorf(
-      `Feishu Docs is no longer supported. ` +
-      `Please refer to the Readme/Release for v1_support.`)
+			`Feishu Docs is no longer supported. ` +
+				`Please refer to the Readme/Release for v1_support.`)
 	}
 
 	// Process the download
@@ -112,75 +112,75 @@ func downloadDocument(client *core.Client, ctx context.Context, url string, opts
 }
 
 func downloadDocuments(client *core.Client, ctx context.Context, url string) error {
-  // Validate the url to download
-  folderToken, err := utils.ValidateFolderURL(url)
-  if err != nil {
-    return err
-  }
-  fmt.Println("Captured folder token:", folderToken)
+	// Validate the url to download
+	folderToken, err := utils.ValidateFolderURL(url)
+	if err != nil {
+		return err
+	}
+	fmt.Println("Captured folder token:", folderToken)
 
-  // Error channel and wait group
-  errChan := make(chan error)
-  wg := sync.WaitGroup{}
+	// Error channel and wait group
+	errChan := make(chan error)
+	wg := sync.WaitGroup{}
 
-  // Recursively go through the folder and download the documents
-  var processFolder func(ctx context.Context, folderPath, folderToken string) error
-  processFolder = func(ctx context.Context, folderPath, folderToken string) error {
-    files, err := client.GetDriveFolderFileList(ctx, nil, &folderToken)
-    if err != nil {
-      return err
-    }
-    opts := DownloadOpts{outputDir: folderPath, dump: dlOpts.dump, batch: false}
-    for _, file := range files {
-      if file.Type == "folder" {
-        _folderPath := filepath.Join(folderPath, file.Name)
-        if err := processFolder(ctx, _folderPath, file.Token); err != nil {
-          return err
-        }
-      } else if file.Type == "docx" {
-        // concurrently download the document
-        wg.Add(1)
-        go func() {
-          if err := downloadDocument(client, ctx, file.URL, &opts); err != nil {
-            errChan <- err
-          }
-          wg.Done()
-        }()
-      }
-    }
-    return nil
-  }
-  if err := processFolder(ctx, dlOpts.outputDir, folderToken); err != nil {
-    return err
-  }
+	// Recursively go through the folder and download the documents
+	var processFolder func(ctx context.Context, folderPath, folderToken string) error
+	processFolder = func(ctx context.Context, folderPath, folderToken string) error {
+		files, err := client.GetDriveFolderFileList(ctx, nil, &folderToken)
+		if err != nil {
+			return err
+		}
+		opts := DownloadOpts{outputDir: folderPath, dump: dlOpts.dump, batch: false}
+		for _, file := range files {
+			if file.Type == "folder" {
+				_folderPath := filepath.Join(folderPath, file.Name)
+				if err := processFolder(ctx, _folderPath, file.Token); err != nil {
+					return err
+				}
+			} else if file.Type == "docx" {
+				// concurrently download the document
+				wg.Add(1)
+				go func(_url string) {
+					if err := downloadDocument(client, ctx, _url, &opts); err != nil {
+						errChan <- err
+					}
+					wg.Done()
+				}(file.URL)
+			}
+		}
+		return nil
+	}
+	if err := processFolder(ctx, dlOpts.outputDir, folderToken); err != nil {
+		return err
+	}
 
-  // Wait for all the downloads to finish
-  go func() {
-    wg.Wait()
-    close(errChan)
-  }()
-  for err := range errChan {
-    return err
-  }
-  return nil
+	// Wait for all the downloads to finish
+	go func() {
+		wg.Wait()
+		close(errChan)
+	}()
+	for err := range errChan {
+		return err
+	}
+	return nil
 }
 
 func handleDownloadCommand(url string) error {
 	// Load config
 	configPath, err := core.GetConfigFilePath()
-  if err != nil {
-    return err
-  }
+	if err != nil {
+		return err
+	}
 	dlConfig, err := core.ReadConfigFromFile(configPath)
-  if err != nil {
-    return err
-  }
+	if err != nil {
+		return err
+	}
 
-  // Instantiate the client
-  client := core.NewClient(
+	// Instantiate the client
+	client := core.NewClient(
 		dlConfig.Feishu.AppId, dlConfig.Feishu.AppSecret,
 	)
-  ctx := context.Background()
+	ctx := context.Background()
 
 	if dlOpts.batch {
 		return downloadDocuments(client, ctx, url)

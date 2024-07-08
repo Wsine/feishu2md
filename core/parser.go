@@ -12,15 +12,15 @@ import (
 
 type Parser struct {
 	useHTMLTags bool
-	ImgTokens []string
-	blockMap  map[string]*lark.DocxBlock
+	ImgTokens   []string
+	blockMap    map[string]*lark.DocxBlock
 }
 
 func NewParser(config OutputConfig) *Parser {
 	return &Parser{
 		useHTMLTags: config.UseHTMLTags,
-		ImgTokens: make([]string, 0),
-		blockMap:  make(map[string]*lark.DocxBlock),
+		ImgTokens:   make([]string, 0),
+		blockMap:    make(map[string]*lark.DocxBlock),
 	}
 }
 

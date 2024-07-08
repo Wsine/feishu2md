@@ -26,11 +26,11 @@ func ValidateDocumentURL(url string) (string, string, error) {
 }
 
 func ValidateFolderURL(url string) (string, error) {
-  reg := regexp.MustCompile("^https://[\\w-.]+/drive/folder/([a-zA-Z0-9]+)")
-  matchResult := reg.FindStringSubmatch(url)
-  if matchResult == nil || len(matchResult) != 2 {
-    return "", errors.Errorf("Invalid feishu/larksuite folder URL pattern")
-  }
-  folderToken := matchResult[1]
-  return folderToken, nil
+	reg := regexp.MustCompile("^https://[\\w-.]+/drive/folder/([a-zA-Z0-9]+)")
+	matchResult := reg.FindStringSubmatch(url)
+	if matchResult == nil || len(matchResult) != 2 {
+		return "", errors.Errorf("Invalid feishu/larksuite folder URL pattern")
+	}
+	folderToken := matchResult[1]
+	return folderToken, nil
 }

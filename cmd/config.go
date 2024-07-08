@@ -17,9 +17,9 @@ var configOpts = ConfigOpts{}
 
 func handleConfigCommand() error {
 	configPath, err := core.GetConfigFilePath()
-  if err != nil {
-    return err
-  }
+	if err != nil {
+		return err
+	}
 
 	fmt.Println("Configuration file on: " + configPath)
 	if _, err := os.Stat(configPath); os.IsNotExist(err) {
