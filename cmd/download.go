@@ -6,6 +6,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"sync"
 
 	"github.com/88250/lute"
 	"github.com/Wsine/feishu2md/core"
@@ -17,28 +18,19 @@ import (
 type DownloadOpts struct {
 	outputDir string
 	dump      bool
+	batch     bool
 }
 
-var downloadOpts = DownloadOpts{}
+var dlOpts = DownloadOpts{}
+var dlConfig core.Config
 
-func handleDownloadCommand(url string, opts *DownloadOpts) error {
+func downloadDocument(client *core.Client, ctx context.Context, url string, opts *DownloadOpts) error {
 	// Validate the url to download
-	docType, docToken, err := utils.ValidateDownloadURL(url)
-	utils.CheckErr(err)
+	docType, docToken, err := utils.ValidateDocumentURL(url)
+	if err != nil {
+		return err
+	}
 	fmt.Println("Captured document token:", docToken)
-
-	// Load config
-	configPath, err := core.GetConfigFilePath()
-	utils.CheckErr(err)
-	config, err := core.ReadConfigFromFile(configPath)
-	utils.CheckErr(err)
-
-	// Create client with context
-	ctx := context.WithValue(context.Background(), "output", config.Output)
-
-	client := core.NewClient(
-		config.Feishu.AppId, config.Feishu.AppSecret,
-	)
 
 	// for a wiki page, we need to renew docType and docToken first
 	if docType == "wiki" {
@@ -48,24 +40,28 @@ func handleDownloadCommand(url string, opts *DownloadOpts) error {
 		docToken = node.ObjToken
 	}
 	if docType == "docs" {
-		return errors.Errorf("Feishu Docs is no longer supported. Please refer to the Readme/Release for v1_support.")
+		return errors.Errorf(
+			`Feishu Docs is no longer supported. ` +
+				`Please refer to the Readme/Release for v1_support.`)
 	}
 
 	// Process the download
 	docx, blocks, err := client.GetDocxContent(ctx, docToken)
 	utils.CheckErr(err)
 
-	parser := core.NewParser(ctx)
+	parser := core.NewParser(dlConfig.Output)
 
 	title := docx.Title
 	markdown := parser.ParseDocxContent(docx, blocks)
 
-	if !config.Output.SkipImgDownload {
+	if !dlConfig.Output.SkipImgDownload {
 		for _, imgToken := range parser.ImgTokens {
 			localLink, err := client.DownloadImage(
-				ctx, imgToken, filepath.Join(opts.outputDir, config.Output.ImageDir),
+				ctx, imgToken, filepath.Join(opts.outputDir, dlConfig.Output.ImageDir),
 			)
-			utils.CheckErr(err)
+			if utils.CheckErr(err) != nil {
+				return err
+			}
 			markdown = strings.Replace(markdown, imgToken, localLink, 1)
 		}
 	}
@@ -83,7 +79,7 @@ func handleDownloadCommand(url string, opts *DownloadOpts) error {
 		}
 	}
 
-	if opts.dump {
+	if dlOpts.dump {
 		jsonName := fmt.Sprintf("%s.json", docToken)
 		outputPath := filepath.Join(opts.outputDir, jsonName)
 		data := struct {
@@ -103,7 +99,7 @@ func handleDownloadCommand(url string, opts *DownloadOpts) error {
 
 	// Write to markdown file
 	mdName := fmt.Sprintf("%s.md", docToken)
-	if config.Output.TitleAsFilename {
+	if dlConfig.Output.TitleAsFilename {
 		mdName = fmt.Sprintf("%s.md", title)
 	}
 	outputPath := filepath.Join(opts.outputDir, mdName)
@@ -113,4 +109,82 @@ func handleDownloadCommand(url string, opts *DownloadOpts) error {
 	fmt.Printf("Downloaded markdown file to %s\n", outputPath)
 
 	return nil
+}
+
+func downloadDocuments(client *core.Client, ctx context.Context, url string) error {
+	// Validate the url to download
+	folderToken, err := utils.ValidateFolderURL(url)
+	if err != nil {
+		return err
+	}
+	fmt.Println("Captured folder token:", folderToken)
+
+	// Error channel and wait group
+	errChan := make(chan error)
+	wg := sync.WaitGroup{}
+
+	// Recursively go through the folder and download the documents
+	var processFolder func(ctx context.Context, folderPath, folderToken string) error
+	processFolder = func(ctx context.Context, folderPath, folderToken string) error {
+		files, err := client.GetDriveFolderFileList(ctx, nil, &folderToken)
+		if err != nil {
+			return err
+		}
+		opts := DownloadOpts{outputDir: folderPath, dump: dlOpts.dump, batch: false}
+		for _, file := range files {
+			if file.Type == "folder" {
+				_folderPath := filepath.Join(folderPath, file.Name)
+				if err := processFolder(ctx, _folderPath, file.Token); err != nil {
+					return err
+				}
+			} else if file.Type == "docx" {
+				// concurrently download the document
+				wg.Add(1)
+				go func(_url string) {
+					if err := downloadDocument(client, ctx, _url, &opts); err != nil {
+						errChan <- err
+					}
+					wg.Done()
+				}(file.URL)
+			}
+		}
+		return nil
+	}
+	if err := processFolder(ctx, dlOpts.outputDir, folderToken); err != nil {
+		return err
+	}
+
+	// Wait for all the downloads to finish
+	go func() {
+		wg.Wait()
+		close(errChan)
+	}()
+	for err := range errChan {
+		return err
+	}
+	return nil
+}
+
+func handleDownloadCommand(url string) error {
+	// Load config
+	configPath, err := core.GetConfigFilePath()
+	if err != nil {
+		return err
+	}
+	dlConfig, err := core.ReadConfigFromFile(configPath)
+	if err != nil {
+		return err
+	}
+
+	// Instantiate the client
+	client := core.NewClient(
+		dlConfig.Feishu.AppId, dlConfig.Feishu.AppSecret,
+	)
+	ctx := context.Background()
+
+	if dlOpts.batch {
+		return downloadDocuments(client, ctx, url)
+	}
+
+	return downloadDocument(client, ctx, url, &dlOpts)
 }

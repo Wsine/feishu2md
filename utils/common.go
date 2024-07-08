@@ -7,7 +7,9 @@ import (
 	"strings"
 )
 
-func CheckErr(e error) {
+var StopWhenErr = true
+
+func CheckErr(e error) error {
 	if e != nil {
 		fmt.Fprintln(os.Stderr, e)
 		fmt.Fprintf(
@@ -16,8 +18,11 @@ func CheckErr(e error) {
 			strings.Repeat("=", 20),
 			"Report the following if it is a bug",
 		)
-		panic(e)
+		if StopWhenErr {
+			panic(e)
+		}
 	}
+	return e
 }
 
 func PrettyPrint(i interface{}) string {

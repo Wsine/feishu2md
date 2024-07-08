@@ -1,10 +1,9 @@
 package core_test
 
 import (
-	"context"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"os"
 	"path"
 	"testing"
@@ -37,15 +36,15 @@ func TestParseDocxContent(t *testing.T) {
 				Document *lark.DocxDocument `json:"document"`
 				Blocks   []*lark.DocxBlock  `json:"blocks"`
 			}{}
-			byteValue, _ := ioutil.ReadAll(jsonFile)
+			byteValue, _ := io.ReadAll(jsonFile)
 			json.Unmarshal(byteValue, &data)
 
-			parser := core.NewParser(context.Background())
+			parser := core.NewParser(core.NewConfig("", "").Output)
 			mdParsed := parser.ParseDocxContent(data.Document, data.Blocks)
 			fmt.Println(mdParsed)
 			mdParsed = engine.FormatStr("md", mdParsed)
 
-			mdFile, err := ioutil.ReadFile(path.Join(root, "testdata", td+".md"))
+			mdFile, err := os.ReadFile(path.Join(root, "testdata", td+".md"))
 			utils.CheckErr(err)
 			mdExpected := string(mdFile)
 

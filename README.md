@@ -1,4 +1,4 @@
-# Feishu2Md
+# feishu2md
 
 [![Golang - feishu2md](https://img.shields.io/github/go-mod/go-version/wsine/feishu2md?color=%2376e1fe&logo=go)](https://go.dev/)
 [![Unittest](https://github.com/Wsine/feishu2md/actions/workflows/unittest.yaml/badge.svg)](https://github.com/Wsine/feishu2md/actions/workflows/unittest.yaml)
@@ -20,13 +20,13 @@
 配置文件需要填写 APP ID 和 APP SECRET 信息，请参考 [飞书官方文档](https://open.feishu.cn/document/ukTMukTMukTM/ukDNz4SO0MjL5QzM/get-) 获取。推荐设置为
 
 - 进入飞书[开发者后台](https://open.feishu.cn/app)
-- 创建企业自建应用，信息随意填写
-- 选择测试企业和人员，创建测试企业，绑定应用，切换至测试版本
-- （重要）打开权限管理，云文档，开通所有只读权限
-  - 「查看、评论和导出文档」权限 `docs:doc:readonly`
-  - 「查看 DocX 文档」权限 `docx:document:readonly`
-  - 「查看、评论和下载云空间中所有文件」权限 `drive:drive:readonly`
-  - 「查看和下载云空间中的文件」权限 `drive:file:readonly`
+- 创建企业自建应用（个人版），信息随意填写
+- （重要）打开权限管理，开通以下必要的权限（可点击以下链接参考 API 调试台->权限配置字段）
+  - [获取文档基本信息](https://open.feishu.cn/document/server-docs/docs/docs/docx-v1/document/get)，「查看新版文档」权限 `docx:document:readonly`
+  - [获取文档所有块](https://open.feishu.cn/document/server-docs/docs/docs/docx-v1/document/list)，「查看新版文档」权限 `docx:document:readonly`
+  - [下载素材](https://open.feishu.cn/document/server-docs/docs/drive-v1/media/download)，「下载云文档中的图片和附件」权限 `docs:document.media:download`
+  - [获取文件夹中的文件清单](https://open.feishu.cn/document/server-docs/docs/drive-v1/folder/list)，「查看、评论、编辑和管理云空间中所有文件」权限 `drive:file:readonly`
+  - [获取知识空间节点信息](https://open.feishu.cn/document/server-docs/docs/wiki-v2/space-node/get_node)，「查看知识库」权限 `wiki:wiki:readonly`
 - 打开凭证与基础信息，获取 App ID 和 App Secret
 
 ## 如何使用
@@ -71,6 +71,20 @@
       --appId value      Set app id for the OPEN API
       --appSecret value  Set app secret for the OPEN API
       --help, -h         show help (default: false)
+
+   $ feishu2md dl -h
+   NAME:
+      feishu2md download - Download feishu/larksuite document to markdown file
+
+   USAGE:
+      feishu2md download [command options] <url>
+
+   OPTIONS:
+      --output value, -o value  Specify the output directory for the markdown files (default: "./")
+      --dump                    Dump json response of the OPEN API (default: false)
+      --batch                   Download all documents under a folder (default: false)
+      --help, -h                show help (default: false)
+
    ```
 
    **生成配置文件**
@@ -81,15 +95,28 @@
 
    更多的配置选项请手动打开配置文件更改。
 
-   **下载为 Markdown**
+   **下载单个文档为 Markdown**
 
-   通过 `feishu2md dl <your feishu docx url>` 直接下载，文档链接可以通过 **分享 > 开启链接分享 > 复制链接** 获得。
+   通过 `feishu2md dl <your feishu docx url>` 直接下载，文档链接可以通过 **分享 > 开启链接分享 > 互联网上获得链接的人可阅读 > 复制链接** 获得。
 
    示例：
 
    ```bash
    $ feishu2md dl "https://domain.feishu.cn/docx/docxtoken"
    ```
+
+  **批量下载某文件夹内的全部文档为 Markdown**
+
+  此功能暂时不支持Docker版本
+
+  通过`feishu2md dl --batch <your feishu folder url>` 直接下载，文件夹链接可以通过 **分享 > 开启链接分享 > 互联网上获得链接的人可阅读 > 复制链接** 获得。
+
+  示例：
+
+  ```bash
+  $ feishu2md dl --batch -o output_directory "https://domain.feishu.cn/drive/folder/foldertoken"
+  ```
+
 </details>
 
 <details>

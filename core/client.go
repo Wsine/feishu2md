@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/chyroc/lark"
+	"github.com/chyroc/lark_rate_limiter"
 )
 
 type Client struct {
@@ -21,6 +22,7 @@ func NewClient(appID, appSecret string) *Client {
 		larkClient: lark.New(
 			lark.WithAppCredential(appID, appSecret),
 			lark.WithTimeout(60*time.Second),
+			lark.WithApiMiddleware(lark_rate_limiter.Wait(5, 5)),
 		),
 	}
 }
@@ -103,4 +105,28 @@ func (c *Client) GetWikiNodeInfo(ctx context.Context, token string) (*lark.GetWi
 		return nil, err
 	}
 	return resp.Node, nil
+}
+
+func (c *Client) GetDriveFolderFileList(ctx context.Context, pageToken *string, folderToken *string) ([]*lark.GetDriveFileListRespFile, error) {
+	resp, _, err := c.larkClient.Drive.GetDriveFileList(ctx, &lark.GetDriveFileListReq{
+		PageSize:    nil,
+		PageToken:   pageToken,
+		FolderToken: folderToken,
+	})
+	if err != nil {
+		return nil, err
+	}
+	files := resp.Files
+	for resp.HasMore {
+		resp, _, err = c.larkClient.Drive.GetDriveFileList(ctx, &lark.GetDriveFileListReq{
+			PageSize:    nil,
+			PageToken:   &resp.NextPageToken,
+			FolderToken: folderToken,
+		})
+		if err != nil {
+			return nil, err
+		}
+		files = append(files, resp.Files...)
+	}
+	return files, nil
 }

@@ -38,7 +38,7 @@ func main() {
 					},
 				},
 				Action: func(ctx *cli.Context) error {
-					return handleConfigCommand(&configOpts)
+					return handleConfigCommand()
 				},
 			},
 			{
@@ -51,22 +51,28 @@ func main() {
 						Aliases:     []string{"o"},
 						Value:       "./",
 						Usage:       "Specify the output directory for the markdown files",
-						Destination: &downloadOpts.outputDir,
+						Destination: &dlOpts.outputDir,
 					},
 					&cli.BoolFlag{
 						Name:        "dump",
 						Value:       false,
 						Usage:       "Dump json response of the OPEN API",
-						Destination: &downloadOpts.dump,
+						Destination: &dlOpts.dump,
+					},
+					&cli.BoolFlag{
+						Name:        "batch",
+						Value:       false,
+						Usage:       "Download all documents under a folder",
+						Destination: &dlOpts.batch,
 					},
 				},
 				ArgsUsage: "<url>",
 				Action: func(ctx *cli.Context) error {
 					if ctx.NArg() == 0 {
-						return cli.Exit("Please specify the document url", 1)
+						return cli.Exit("Please specify the document/folder url", 1)
 					} else {
 						url := ctx.Args().First()
-						return handleDownloadCommand(url, &downloadOpts)
+						return handleDownloadCommand(url)
 					}
 				},
 			},

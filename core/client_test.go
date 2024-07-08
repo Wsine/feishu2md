@@ -93,3 +93,17 @@ func TestGetWikiNodeInfo(t *testing.T) {
 		t.Errorf("Error: node type incorrect")
 	}
 }
+
+func TestGetDriveFolderFileList(t *testing.T) {
+	appID, appSecret := getIdAndSecretFromEnv(t)
+	c := core.NewClient(appID, appSecret)
+	folderToken := "G15mfSfIHlyquudfhq5cg9kdnjg"
+	files, err := c.GetDriveFolderFileList(
+		context.Background(), nil, &folderToken)
+	if err != nil {
+		t.Error(err)
+	}
+	if len(files) == 0 {
+		t.Errorf("Error: no files found")
+	}
+}

@@ -15,13 +15,15 @@ type ConfigOpts struct {
 
 var configOpts = ConfigOpts{}
 
-func handleConfigCommand(opts *ConfigOpts) error {
+func handleConfigCommand() error {
 	configPath, err := core.GetConfigFilePath()
-	utils.CheckErr(err)
+	if err != nil {
+		return err
+	}
 
 	fmt.Println("Configuration file on: " + configPath)
 	if _, err := os.Stat(configPath); os.IsNotExist(err) {
-		config := core.NewConfig(opts.appId, opts.appSecret)
+		config := core.NewConfig(configOpts.appId, configOpts.appSecret)
 		if err = config.WriteConfig2File(configPath); err != nil {
 			return err
 		}
@@ -31,13 +33,13 @@ func handleConfigCommand(opts *ConfigOpts) error {
 		if err != nil {
 			return err
 		}
-		if opts.appId != "" {
-			config.Feishu.AppId = opts.appId
+		if configOpts.appId != "" {
+			config.Feishu.AppId = configOpts.appId
 		}
-		if opts.appSecret != "" {
-			config.Feishu.AppSecret = opts.appSecret
+		if configOpts.appSecret != "" {
+			config.Feishu.AppSecret = configOpts.appSecret
 		}
-		if opts.appId != "" || opts.appSecret != "" {
+		if configOpts.appId != "" || configOpts.appSecret != "" {
 			if err = config.WriteConfig2File(configPath); err != nil {
 				return err
 			}
