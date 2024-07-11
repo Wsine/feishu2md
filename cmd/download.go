@@ -24,7 +24,7 @@ type DownloadOpts struct {
 var dlOpts = DownloadOpts{}
 var dlConfig core.Config
 
-func downloadDocument(client *core.Client, ctx context.Context, url string, opts *DownloadOpts) error {
+func downloadDocument(ctx context.Context, client *core.Client, url string, opts *DownloadOpts) error {
 	// Validate the url to download
 	docType, docToken, err := utils.ValidateDocumentURL(url)
 	if err != nil {
@@ -59,7 +59,7 @@ func downloadDocument(client *core.Client, ctx context.Context, url string, opts
 			localLink, err := client.DownloadImage(
 				ctx, imgToken, filepath.Join(opts.outputDir, dlConfig.Output.ImageDir),
 			)
-			if utils.CheckErr(err) != nil {
+			if err != nil {
 				return err
 			}
 			markdown = strings.Replace(markdown, imgToken, localLink, 1)
@@ -111,7 +111,7 @@ func downloadDocument(client *core.Client, ctx context.Context, url string, opts
 	return nil
 }
 
-func downloadDocuments(client *core.Client, ctx context.Context, url string) error {
+func downloadDocuments(ctx context.Context, client *core.Client, url string) error {
 	// Validate the url to download
 	folderToken, err := utils.ValidateFolderURL(url)
 	if err != nil {
@@ -141,7 +141,7 @@ func downloadDocuments(client *core.Client, ctx context.Context, url string) err
 				// concurrently download the document
 				wg.Add(1)
 				go func(_url string) {
-					if err := downloadDocument(client, ctx, _url, &opts); err != nil {
+					if err := downloadDocument(ctx, client, _url, &opts); err != nil {
 						errChan <- err
 					}
 					wg.Done()
@@ -171,10 +171,11 @@ func handleDownloadCommand(url string) error {
 	if err != nil {
 		return err
 	}
-	dlConfig, err := core.ReadConfigFromFile(configPath)
+	config, err := core.ReadConfigFromFile(configPath)
 	if err != nil {
 		return err
 	}
+	dlConfig = *config
 
 	// Instantiate the client
 	client := core.NewClient(
@@ -183,8 +184,8 @@ func handleDownloadCommand(url string) error {
 	ctx := context.Background()
 
 	if dlOpts.batch {
-		return downloadDocuments(client, ctx, url)
+		return downloadDocuments(ctx, client, url)
 	}
 
-	return downloadDocument(client, ctx, url, &dlOpts)
+	return downloadDocument(ctx, client, url, &dlOpts)
 }

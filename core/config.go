@@ -53,12 +53,12 @@ func ReadConfigFromFile(configPath string) (*Config, error) {
 	if err != nil {
 		return nil, err
 	}
-	config := Config{}
+	config := NewConfig("", "")
 	err = json.Unmarshal([]byte(file), &config)
 	if err != nil {
 		return nil, err
 	}
-	return &config, nil
+	return config, nil
 }
 
 func (conf *Config) WriteConfig2File(configPath string) error {
