@@ -10,17 +10,18 @@ import (
 	"time"
 
 	"github.com/chyroc/lark"
+	"github.com/chyroc/lark_rate_limiter"
 )
 
 type Client struct {
 	larkClient *lark.Lark
 }
 
-func NewClient(appID, appSecret string, domain string) *Client {
+func NewClient(appID, appSecret string) *Client {
 	return &Client{
 		larkClient: lark.New(
 			lark.WithAppCredential(appID, appSecret),
-			lark.WithOpenBaseURL("https://open."+domain),
+			lark.WithTimeout(60*time.Second),
 			lark.WithTimeout(60*time.Second),
 		),
 	}
@@ -65,22 +66,10 @@ func (c *Client) DownloadImageRaw(ctx context.Context, imgToken, imgDir string) 
 	return filename, buf.Bytes(), nil
 }
 
-func (c *Client) GetDocxContent(ctx context.Context, docToken string, UserAccessToken string) (*lark.DocxDocument, []*lark.DocxBlock, error) {
-	var resp *lark.GetDocxDocumentResp
-	var err error
-	 // 判断 UserAccessToken 是否为空
-    if UserAccessToken != "" {
-        // 调用 GetDocxDocument 方法并传递选项
-        resp, _, err = c.larkClient.Drive.GetDocxDocument(ctx, &lark.GetDocxDocumentReq{
-            DocumentID: docToken,
-        }, lark.WithUserAccessToken(UserAccessToken))
-    } else {
-        // 调用 GetDocxDocument 方法不传递选项
-        resp, _, err = c.larkClient.Drive.GetDocxDocument(ctx, &lark.GetDocxDocumentReq{
-            DocumentID: docToken,
-        })
-    }
-
+func (c *Client) GetDocxContent(ctx context.Context, docToken string) (*lark.DocxDocument, []*lark.DocxBlock, error) {
+	resp, _, err := c.larkClient.Drive.GetDocxDocument(ctx, &lark.GetDocxDocumentReq{
+		DocumentID: docToken,
+	})
 	if err != nil {
 		return nil, nil, err
 	}
@@ -92,23 +81,10 @@ func (c *Client) GetDocxContent(ctx context.Context, docToken string, UserAccess
 	var blocks []*lark.DocxBlock
 	var pageToken *string
 	for {
-		//resp2, _, err := c.larkClient.Drive.GetDocxBlockListOfDocument(ctx, &lark.GetDocxBlockListOfDocumentReq{
-		//	DocumentID: docx.DocumentID,
-		//	PageToken:  pageToken,
-		//})
-		var resp2 *lark.GetDocxBlockListOfDocumentResp
-		var err error
-		if UserAccessToken != "" {
-			resp2, _, err = c.larkClient.Drive.GetDocxBlockListOfDocument(ctx, &lark.GetDocxBlockListOfDocumentReq{
-				DocumentID: docx.DocumentID,
-				PageToken:  pageToken,
-			}, lark.WithUserAccessToken(UserAccessToken))
-		} else {
-			resp2, _, err = c.larkClient.Drive.GetDocxBlockListOfDocument(ctx, &lark.GetDocxBlockListOfDocumentReq{
-        		DocumentID: docx.DocumentID,
-       			 PageToken:  pageToken,
-    		})
-		}
+		resp2, _, err := c.larkClient.Drive.GetDocxBlockListOfDocument(ctx, &lark.GetDocxBlockListOfDocumentReq{
+			DocumentID: docx.DocumentID,
+			PageToken:  pageToken,
+		})
 		if err != nil {
 			return docx, nil, err
 		}
