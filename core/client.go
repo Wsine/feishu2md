@@ -22,7 +22,7 @@ func NewClient(appID, appSecret string) *Client {
 		larkClient: lark.New(
 			lark.WithAppCredential(appID, appSecret),
 			lark.WithTimeout(60*time.Second),
-			lark.WithTimeout(60*time.Second),
+			lark.WithApiMiddleware(lark_rate_limiter.Wait(5, 5)),
 		),
 	}
 }
