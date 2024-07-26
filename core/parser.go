@@ -133,6 +133,8 @@ func (p *Parser) ParseDocxBlock(b *lark.DocxBlock, indentLevel int) string {
 		buf.WriteString(p.ParseDocxBlockPage(b))
 	case lark.DocxBlockTypeText:
 		buf.WriteString(p.ParseDocxBlockText(b.Text))
+	case lark.DocxBlockTypeCallout:
+		buf.WriteString(p.ParseDocxBlockCallout(b))
 	case lark.DocxBlockTypeHeading1:
 		buf.WriteString(p.ParseDocxBlockHeading(b, 1))
 	case lark.DocxBlockTypeHeading2:
@@ -217,6 +219,18 @@ func (p *Parser) ParseDocxBlockText(b *lark.DocxBlockText) string {
 	return buf.String()
 }
 
+func (p *Parser) ParseDocxBlockCallout(b *lark.DocxBlock) string {
+	buf := new(strings.Builder)
+
+	buf.WriteString(">[!TIP] \n")
+
+	for _, childId := range b.Children {
+		childBlock := p.blockMap[childId]
+		buf.WriteString(p.ParseDocxBlock(childBlock, 0))
+	}
+
+	return buf.String()
+}
 func (p *Parser) ParseDocxTextElement(e *lark.DocxTextElement, inline bool) string {
 	buf := new(strings.Builder)
 	if e.TextRun != nil {
@@ -364,7 +378,7 @@ func (p *Parser) ParseDocxBlockTableCell(b *lark.DocxBlock) string {
 	for _, child := range b.Children {
 		block := p.blockMap[child]
 		content := p.ParseDocxBlock(block, 0)
-		buf.WriteString(content)
+		buf.WriteString(content + "<br/>")
 	}
 
 	return buf.String()
