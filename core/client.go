@@ -51,21 +51,10 @@ func (c *Client) DownloadImage(ctx context.Context, imgToken, outDir string) (st
 	return filename, nil
 }
 
-func (c *Client) DownloadImageRaw(ctx context.Context, imgToken, imgDir string, userAccessToken string) (string, []byte, error) {
-	var resp *lark.DownloadDriveMediaResp
-	var err error
-	// 判断 userAccessToken 是否为空
-	if userAccessToken != "" {
-        	// 如果 userAccessToken 不为空，使用 WithUserAccessToken 作为选项
-        	resp, _, err = c.larkClient.Drive.DownloadDriveMedia(ctx, &lark.DownloadDriveMediaReq{
-           		 FileToken: imgToken,
-       		}, lark.WithUserAccessToken(userAccessToken))
-    	} else {
-        // 如果 userAccessToken 为空，不使用任何额外选项
-        	resp, _, err = c.larkClient.Drive.DownloadDriveMedia(ctx, &lark.DownloadDriveMediaReq{
-            		FileToken: imgToken,
-       		})
-   	}
+func (c *Client) DownloadImageRaw(ctx context.Context, imgToken, imgDir string) (string, []byte, error) {
+	resp, _, err := c.larkClient.Drive.DownloadDriveMedia(ctx, &lark.DownloadDriveMediaReq{
+		FileToken: imgToken,
+	})
 	if err != nil {
 		return imgToken, nil, err
 	}
@@ -76,22 +65,24 @@ func (c *Client) DownloadImageRaw(ctx context.Context, imgToken, imgDir string, 
 	return filename, buf.Bytes(), nil
 }
 
-func (c *Client) GetDocxContent(ctx context.Context, docToken string, UserAccessToken string) (*lark.DocxDocument, []*lark.DocxBlock, error) {
-	var resp *lark.GetDocxDocumentResp
-	var err error
-	 // 判断 UserAccessToken 是否为空
-    if UserAccessToken != "" {
-        // 调用 GetDocxDocument 方法并传递选项
-        resp, _, err = c.larkClient.Drive.GetDocxDocument(ctx, &lark.GetDocxDocumentReq{
-            DocumentID: docToken,
-        }, lark.WithUserAccessToken(UserAccessToken))
-    } else {
-        // 调用 GetDocxDocument 方法不传递选项
-        resp, _, err = c.larkClient.Drive.GetDocxDocument(ctx, &lark.GetDocxDocumentReq{
-            DocumentID: docToken,
-        })
-    }
-
+func (c *Client) GetDocxContent(ctx context.Context, docToken string) (*lark.DocxDocument, []*lark.DocxBlock, error) {
+	//var resp *lark.GetDocxDocumentResp
+	//var err error
+	// // 判断 UserAccessToken 是否为空
+    //if UserAccessToken != "" {
+    //    // 调用 GetDocxDocument 方法并传递选项
+    //    resp, _, err = c.larkClient.Drive.GetDocxDocument(ctx, &lark.GetDocxDocumentReq{
+    //        DocumentID: docToken,
+    //    }, lark.WithUserAccessToken(UserAccessToken))
+    //} else {
+    //    // 调用 GetDocxDocument 方法不传递选项
+    //    resp, _, err = c.larkClient.Drive.GetDocxDocument(ctx, &lark.GetDocxDocumentReq{
+    //        DocumentID: docToken,
+    //    })
+    //}
+    resp, _, err := c.larkClient.Drive.GetDocxDocument(ctx, &lark.GetDocxDocumentReq{
+		DocumentID: docToken,
+	})
 	if err != nil {
 		return nil, nil, err
 	}
@@ -103,23 +94,23 @@ func (c *Client) GetDocxContent(ctx context.Context, docToken string, UserAccess
 	var blocks []*lark.DocxBlock
 	var pageToken *string
 	for {
-		//resp2, _, err := c.larkClient.Drive.GetDocxBlockListOfDocument(ctx, &lark.GetDocxBlockListOfDocumentReq{
-		//	DocumentID: docx.DocumentID,
-		//	PageToken:  pageToken,
-		//})
-		var resp2 *lark.GetDocxBlockListOfDocumentResp
-		var err error
-		if UserAccessToken != "" {
-			resp2, _, err = c.larkClient.Drive.GetDocxBlockListOfDocument(ctx, &lark.GetDocxBlockListOfDocumentReq{
-				DocumentID: docx.DocumentID,
-				PageToken:  pageToken,
-			}, lark.WithUserAccessToken(UserAccessToken))
-		} else {
-			resp2, _, err = c.larkClient.Drive.GetDocxBlockListOfDocument(ctx, &lark.GetDocxBlockListOfDocumentReq{
-        		DocumentID: docx.DocumentID,
-       			 PageToken:  pageToken,
-    		})
-		}
+		resp2, _, err := c.larkClient.Drive.GetDocxBlockListOfDocument(ctx, &lark.GetDocxBlockListOfDocumentReq{
+			DocumentID: docx.DocumentID,
+			PageToken:  pageToken,
+		})
+		//var resp2 *lark.GetDocxBlockListOfDocumentResp
+		//var err error
+		//if UserAccessToken != "" {
+		//	resp2, _, err = c.larkClient.Drive.GetDocxBlockListOfDocument(ctx, &lark.GetDocxBlockListOfDocumentReq{
+		//		DocumentID: docx.DocumentID,
+		//		PageToken:  pageToken,
+		//	}, lark.WithUserAccessToken(UserAccessToken))
+		//} else {
+		//	resp2, _, err = c.larkClient.Drive.GetDocxBlockListOfDocument(ctx, &lark.GetDocxBlockListOfDocumentReq{
+        //		DocumentID: docx.DocumentID,
+       	//		 PageToken:  pageToken,
+    	//	})
+		//}
 		if err != nil {
 			return docx, nil, err
 		}
