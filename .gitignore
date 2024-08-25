@@ -25,3 +25,4 @@ app
 node_modules
 .next
 .vercel
+.vscode/**

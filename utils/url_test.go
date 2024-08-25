@@ -75,3 +75,49 @@ func TestValidateDownloadURL(t *testing.T) {
 		})
 	}
 }
+
+func TestValidWikiURL(t *testing.T) {
+	tests := []struct {
+		name   string
+		url    string
+		prefix string
+		token  string
+		noErr  bool
+	}{
+		{
+			name:   "valid wiki setting success",
+			url:    "",
+			prefix: "",
+			token:  "",
+			noErr:  false,
+		},
+		{
+			name:   "validate docs url failed",
+			url:    "https://sample.sg.larksuite.com/wiki/doccnByZP6puODElAYySJkPIfUb",
+			prefix: "",
+			token:  "",
+			noErr:  false,
+		},
+		{
+			name:   "validate feishu url failed",
+			url:    "https://sample.feishu.cn/docx/doccnByZP6puODElAYySJkPIfUb",
+			prefix: "",
+			token:  "",
+			noErr:  false,
+		},
+		{
+			name:   "validate larksuite wiki settings success",
+			url:    "https://sample.sg.larksuite.com/wiki/settings/doccnByZP6puODElAYySJkPIfUb",
+			prefix: "https://sample.sg.larksuite.com",
+			token:  "doccnByZP6puODElAYySJkPIfUb",
+			noErr:  true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if prefix, token, got := ValidateWikiURL(tt.url); (got == nil) != tt.noErr || prefix != tt.prefix || token != tt.token {
+				t.Errorf("ValidateWikiURL(%v) = %v, %v; want prefix = %v, want token = %v", tt.url, prefix, token, tt.prefix, tt.token)
+			}
+		})
+	}
+}
