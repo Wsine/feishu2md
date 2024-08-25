@@ -74,16 +74,17 @@
 
    $ feishu2md dl -h
    NAME:
-      feishu2md download - Download feishu/larksuite document to markdown file
-
+     feishu2md download - Download feishu/larksuite document to markdown file
+ 
    USAGE:
-      feishu2md download [command options] <url>
-
+     feishu2md download [command options] <url>
+ 
    OPTIONS:
-      --output value, -o value  Specify the output directory for the markdown files (default: "./")
-      --dump                    Dump json response of the OPEN API (default: false)
-      --batch                   Download all documents under a folder (default: false)
-      --help, -h                show help (default: false)
+     --output value, -o value  Specify the output directory for the markdown files (default: "./")
+     --dump                    Dump json response of the OPEN API (default: false)
+     --batch                   Download all documents under a folder (default: false)
+     --wiki                    Download all documents within the wiki. (default: false)
+     --help, -h                show help (default: false)
 
    ```
 
@@ -115,6 +116,16 @@
 
   ```bash
   $ feishu2md dl --batch -o output_directory "https://domain.feishu.cn/drive/folder/foldertoken"
+  ```
+
+  **批量下载某知识库的全部文档为 Markdown**
+
+  通过`feishu2md dl --wiki <your feishu wiki setting url>` 直接下载，wiki settings链接可以通过 打开知识库设置获得。
+
+  示例：
+
+  ```bash
+  $ feishu2md dl --wiki -o output_directory "https://domain.feishu.cn/wiki/settings/123456789101112"
   ```
 
 </details>

@@ -130,3 +130,47 @@ func (c *Client) GetDriveFolderFileList(ctx context.Context, pageToken *string, 
 	}
 	return files, nil
 }
+
+func (c *Client) GetWikiName(ctx context.Context, spaceID string) (string, error) {
+	resp, _, err := c.larkClient.Drive.GetWikiSpace(ctx, &lark.GetWikiSpaceReq{
+		SpaceID: spaceID,
+	})
+
+	if err != nil {
+		return "", err
+	}
+
+	return resp.Space.Name, nil
+}
+
+func (c *Client) GetWikiNodeList(ctx context.Context, spaceID string, parentNodeToken *string) ([]*lark.GetWikiNodeListRespItem, error) {
+	resp, _, err := c.larkClient.Drive.GetWikiNodeList(ctx, &lark.GetWikiNodeListReq{
+		SpaceID:         spaceID,
+		PageSize:        nil,
+		PageToken:       nil,
+		ParentNodeToken: parentNodeToken,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	nodes := resp.Items
+
+	for resp.HasMore {
+		resp, _, err := c.larkClient.Drive.GetWikiNodeList(ctx, &lark.GetWikiNodeListReq{
+			SpaceID:         spaceID,
+			PageSize:        nil,
+			PageToken:       nil,
+			ParentNodeToken: parentNodeToken,
+		})
+
+		if err != nil {
+			return nil, err
+		}
+
+		nodes = append(nodes, resp.Items...)
+	}
+
+	return nodes, nil
+}

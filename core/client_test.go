@@ -107,3 +107,16 @@ func TestGetDriveFolderFileList(t *testing.T) {
 		t.Errorf("Error: no files found")
 	}
 }
+
+func TestGetWikiNodeList(t *testing.T) {
+	appID, appSecret := getIdAndSecretFromEnv(t)
+	c := core.NewClient(appID, appSecret)
+	wikiToken := "7376995595006787612"
+	nodes, err := c.GetWikiNodeList(context.Background(), wikiToken, nil)
+	if err != nil {
+		t.Error(err)
+	}
+	if len(nodes) == 0 {
+		t.Errorf("Error: no nodes found")
+	}
+}

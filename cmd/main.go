@@ -65,11 +65,17 @@ func main() {
 						Usage:       "Download all documents under a folder",
 						Destination: &dlOpts.batch,
 					},
+					&cli.BoolFlag{
+						Name:        "wiki",
+						Value:       false,
+						Usage:       "Download all documents within the wiki.",
+						Destination: &dlOpts.wiki,
+					},
 				},
 				ArgsUsage: "<url>",
 				Action: func(ctx *cli.Context) error {
 					if ctx.NArg() == 0 {
-						return cli.Exit("Please specify the document/folder url", 1)
+						return cli.Exit("Please specify the document/folder/wiki url", 1)
 					} else {
 						url := ctx.Args().First()
 						return handleDownloadCommand(url)

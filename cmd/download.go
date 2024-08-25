@@ -19,6 +19,7 @@ type DownloadOpts struct {
 	outputDir string
 	dump      bool
 	batch     bool
+	wiki      bool
 }
 
 var dlOpts = DownloadOpts{}
@@ -35,6 +36,9 @@ func downloadDocument(ctx context.Context, client *core.Client, url string, opts
 	// for a wiki page, we need to renew docType and docToken first
 	if docType == "wiki" {
 		node, err := client.GetWikiNodeInfo(ctx, docToken)
+		if err != nil {
+			err = fmt.Errorf("GetWikiNodeInfo err: %v for %v", err, url)
+		}
 		utils.CheckErr(err)
 		docType = node.ObjType
 		docToken = node.ObjToken
@@ -165,6 +169,81 @@ func downloadDocuments(ctx context.Context, client *core.Client, url string) err
 	return nil
 }
 
+func downloadWiki(ctx context.Context, client *core.Client, url string) error {
+	prefixURL, spaceID, err := utils.ValidateWikiURL(url)
+	if err != nil {
+		return err
+	}
+
+	folderPath, err := client.GetWikiName(ctx, spaceID)
+	if err != nil {
+		return err
+	}
+	if folderPath == "" {
+		return fmt.Errorf("failed to GetWikiName")
+	}
+
+	errChan := make(chan error)
+
+	var maxConcurrency = 10 // Set the maximum concurrency level
+	wg := sync.WaitGroup{}
+	semaphore := make(chan struct{}, maxConcurrency) // Create a semaphore with the maximum concurrency level
+
+	var downloadWikiNode func(ctx context.Context,
+		client *core.Client,
+		spaceID string,
+		parentPath string,
+		parentNodeToken *string) error
+
+	downloadWikiNode = func(ctx context.Context,
+		client *core.Client,
+		spaceID string,
+		folderPath string,
+		parentNodeToken *string) error {
+		nodes, err := client.GetWikiNodeList(ctx, spaceID, parentNodeToken)
+		if err != nil {
+			return err
+		}
+		for _, n := range nodes {
+			if n.HasChild {
+				_folderPath := filepath.Join(folderPath, n.Title)
+				if err := downloadWikiNode(ctx, client,
+					spaceID, _folderPath, &n.NodeToken); err != nil {
+					return err
+				}
+			}
+			if n.ObjType == "docx" {
+				opts := DownloadOpts{outputDir: folderPath, dump: dlOpts.dump, batch: false}
+				wg.Add(1)
+				semaphore <- struct{}{}
+				go func(_url string) {
+					if err := downloadDocument(ctx, client, _url, &opts); err != nil {
+						errChan <- err
+					}
+					wg.Done()
+					<-semaphore
+				}(prefixURL + "/wiki/" + n.NodeToken)
+				// downloadDocument(ctx, client, prefixURL+"/wiki/"+n.NodeToken, &opts)
+			}
+		}
+		return nil
+	}
+
+	if err = downloadWikiNode(ctx, client, spaceID, folderPath, nil); err != nil {
+		return err
+	}
+
+	// Wait for all the downloads to finish
+	go func() {
+		wg.Wait()
+		close(errChan)
+	}()
+	for err := range errChan {
+		return err
+	}
+	return nil
+}
+
 func handleDownloadCommand(url string) error {
 	// Load config
 	configPath, err := core.GetConfigFilePath()
@@ -185,6 +264,10 @@ func handleDownloadCommand(url string) error {
 
 	if dlOpts.batch {
 		return downloadDocuments(ctx, client, url)
+	}
+
+	if dlOpts.wiki {
+		return downloadWiki(ctx, client, url)
 	}
 
 	return downloadDocument(ctx, client, url, &dlOpts)
