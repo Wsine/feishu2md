@@ -133,7 +133,14 @@
 <details>
   <summary>Docker版本</summary>
 
-  Docker 镜像：https://hub.docker.com/r/wwwsine/feishu2md
+  Docker 镜像：https://hub.docker.com/r/wwwsine/feishu2md (目前只有amd64架构)
+  
+  其他架构请自己打包镜像：
+  ```sh
+  git clone git@github.com:Wsine/feishu2md.git
+  cd feishu2md
+  docker build -t wwwsine/feishu2md:1.0.0 .
+  ```
 
    Docker 命令：`docker run -it --rm -p 8080:8080 -e FEISHU_APP_ID=<your id> -e FEISHU_APP_SECRET=<your secret> -e GIN_MODE=release wwwsine/feishu2md`
 
