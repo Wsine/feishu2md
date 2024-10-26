@@ -90,7 +90,7 @@ func (c *Client) SyncFileCheckAndWrite(ctx context.Context, docToken string) boo
 	return true
 }
 
-func (c *Client) DownloadImage(ctx context.Context, imgToken, outDir string) (string, error) {
+func (c *Client) DownloadImage(ctx context.Context, imgDir string, imgToken, outDir string) (string, error) {
 	resp, _, err := c.larkClient.Drive.DownloadDriveMedia(ctx, &lark.DownloadDriveMediaReq{
 		FileToken: imgToken,
 	})
@@ -99,6 +99,7 @@ func (c *Client) DownloadImage(ctx context.Context, imgToken, outDir string) (st
 	}
 	fileext := filepath.Ext(resp.Filename)
 	filename := fmt.Sprintf("%s/%s%s", outDir, imgToken, fileext)
+	mdPath := "./" + imgDir + "/" + imgToken + fileext
 	err = os.MkdirAll(filepath.Dir(filename), 0o755)
 	if err != nil {
 		return imgToken, err
@@ -112,7 +113,7 @@ func (c *Client) DownloadImage(ctx context.Context, imgToken, outDir string) (st
 	if err != nil {
 		return imgToken, err
 	}
-	return filename, nil
+	return mdPath, nil
 }
 
 func (c *Client) DownloadImageRaw(ctx context.Context, imgToken, imgDir string) (string, []byte, error) {

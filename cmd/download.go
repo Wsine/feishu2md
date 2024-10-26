@@ -69,7 +69,7 @@ func downloadDocument(ctx context.Context, client *core.Client, url string, opts
 	if !dlConfig.Output.SkipImgDownload {
 		for _, imgToken := range parser.ImgTokens {
 			localLink, err := client.DownloadImage(
-				ctx, imgToken, filepath.Join(opts.outputDir, dlConfig.Output.ImageDir),
+				ctx, dlConfig.Output.ImageDir, imgToken, filepath.Join(opts.outputDir, dlConfig.Output.ImageDir),
 			)
 			if err != nil {
 				return err
