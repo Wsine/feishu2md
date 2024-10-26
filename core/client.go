@@ -1,12 +1,15 @@
 package core
 
 import (
+	"bufio"
 	"bytes"
 	"context"
 	"fmt"
+	"github.com/chyroc/lark/larkext"
 	"io"
 	"os"
 	"path/filepath"
+	"strings"
 	"time"
 
 	"github.com/chyroc/lark"
@@ -15,16 +18,76 @@ import (
 
 type Client struct {
 	larkClient *lark.Lark
+	SyncFile   *os.File
+	SyncMap    map[string]string
 }
 
-func NewClient(appID, appSecret string) *Client {
-	return &Client{
-		larkClient: lark.New(
-			lark.WithAppCredential(appID, appSecret),
-			lark.WithTimeout(60*time.Second),
-			lark.WithApiMiddleware(lark_rate_limiter.Wait(5, 5)),
-		),
+func NewClient(appID, appSecret string, syncCfg ...*os.File) *Client {
+	larkNew := lark.New(
+		lark.WithAppCredential(appID, appSecret),
+		lark.WithTimeout(60*time.Second),
+		lark.WithApiMiddleware(lark_rate_limiter.Wait(5, 5)),
+	)
+	if len(syncCfg) > 0 {
+		return &Client{
+			larkClient: larkNew,
+			SyncFile:   syncCfg[0],
+			SyncMap:    make(map[string]string),
+		}
+	} else {
+		return &Client{
+			larkClient: larkNew,
+			SyncFile:   nil,
+			SyncMap:    make(map[string]string),
+		}
 	}
+}
+
+func (c *Client) InitSyncedFiles() {
+	syncScanner := bufio.NewScanner(c.SyncFile)
+	for syncScanner.Scan() {
+		line := syncScanner.Text()
+		parts := strings.Split(line, ",")
+		// 8 只是为了限定当sync所需用token不存在，即文件有多余空行的情况
+		if len(parts[0]) < 8 {
+			continue
+		}
+		c.SyncMap[parts[0]] = parts[1]
+	}
+
+	if err := syncScanner.Err(); err != nil {
+		fmt.Println("Error syncScanner file:", err)
+	}
+
+}
+
+func (c *Client) SyncFileCheckAndWrite(ctx context.Context, docToken string) bool {
+	if c.SyncFile == nil {
+		fmt.Println("Current mode isn't sync mode")
+		os.Exit(-1)
+	} else {
+		resp, _, err := c.larkClient.Drive.GetDriveFileMeta(ctx, &lark.GetDriveFileMetaReq{
+			RequestDocs: []*lark.GetDriveFileMetaReqRequestDocs{{
+				DocToken: docToken, DocType: "docx",
+			}},
+		})
+
+		if err != nil {
+			fmt.Println("GetFileMeta err ", err)
+		}
+
+		syncTime, ok := c.SyncMap[docToken]
+		if (ok && syncTime < resp.Metas[0].LatestModifyTime) || (!ok) {
+			writeN, err := c.SyncFile.WriteString(docToken + "," + resp.Metas[0].LatestModifyTime + "," + resp.Metas[0].Title + "\n")
+			if err != nil {
+				fmt.Printf("sync filer writeN %d err %d", writeN, err)
+			}
+			return true
+		}
+
+		return false
+	}
+	return true
 }
 
 func (c *Client) DownloadImage(ctx context.Context, imgToken, outDir string) (string, error) {
@@ -105,6 +168,16 @@ func (c *Client) GetWikiNodeInfo(ctx context.Context, token string) (*lark.GetWi
 		return nil, err
 	}
 	return resp.Node, nil
+}
+
+func (c *Client) GetFolderName(ctx context.Context, folder_token string) (string, error) {
+	curFolder := larkext.NewFolder(c.larkClient, folder_token)
+	folderMeta, err := curFolder.Meta(ctx)
+
+	if folderMeta != nil {
+		return folderMeta.Name, nil
+	}
+	return "", err
 }
 
 func (c *Client) GetDriveFolderFileList(ctx context.Context, pageToken *string, folderToken *string) ([]*lark.GetDriveFileListRespFile, error) {

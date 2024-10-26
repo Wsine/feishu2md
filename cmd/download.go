@@ -17,9 +17,11 @@ import (
 
 type DownloadOpts struct {
 	outputDir string
+	syncCfg   string
 	dump      bool
 	batch     bool
 	wiki      bool
+	sync      bool
 }
 
 var dlOpts = DownloadOpts{}
@@ -31,7 +33,13 @@ func downloadDocument(ctx context.Context, client *core.Client, url string, opts
 	if err != nil {
 		return err
 	}
-	fmt.Println("Captured document token:", docToken)
+	//fmt.Println("Captured document token:", docToken)
+
+	syncResult := client.SyncFileCheckAndWrite(ctx, docToken)
+	if syncResult == false {
+		//fmt.Println("Current file has been sync ", docToken)
+		return nil
+	}
 
 	// for a wiki page, we need to renew docType and docToken first
 	if docType == "wiki" {
@@ -115,13 +123,30 @@ func downloadDocument(ctx context.Context, client *core.Client, url string, opts
 	return nil
 }
 
-func downloadDocuments(ctx context.Context, client *core.Client, url string) error {
+func downloadDocuments(ctx context.Context, client *core.Client, urlOrToken string, isToken ...bool) error {
 	// Validate the url to download
-	folderToken, err := utils.ValidateFolderURL(url)
-	if err != nil {
-		return err
+	var folderToken string
+	var err error
+	if len(isToken) == 0 {
+		folderToken, err = utils.ValidateFolderURL(urlOrToken)
+		if err != nil {
+			return err
+		}
+	} else {
+		folderToken = urlOrToken
 	}
+
 	fmt.Println("Captured folder token:", folderToken)
+
+	var outPath string
+	folderName, errFolder := client.GetFolderName(ctx, folderToken)
+	if errFolder == nil {
+		outPath = dlOpts.outputDir + "/" + folderName
+		fmt.Println("Captured folder Name:", folderName)
+	} else {
+		outPath = dlOpts.outputDir
+		fmt.Println("Captured folder Name err")
+	}
 
 	// Error channel and wait group
 	errChan := make(chan error)
@@ -154,7 +179,8 @@ func downloadDocuments(ctx context.Context, client *core.Client, url string) err
 		}
 		return nil
 	}
-	if err := processFolder(ctx, dlOpts.outputDir, folderToken); err != nil {
+
+	if err := processFolder(ctx, outPath, folderToken); err != nil {
 		return err
 	}
 
@@ -242,6 +268,50 @@ func downloadWiki(ctx context.Context, client *core.Client, url string) error {
 		return err
 	}
 	return nil
+}
+
+func handleSyncCommand() error {
+	// Load config
+	configPath, err := core.GetConfigFilePath()
+	if err != nil {
+		return err
+	}
+	config, err := core.ReadConfigFromFile(configPath)
+	if err != nil {
+		return err
+	}
+	dlConfig = *config
+
+	var syncCfgFile *os.File
+	if dlOpts.sync {
+		syncCfgFile, err = os.OpenFile(dlOpts.syncCfg, os.O_RDWR|os.O_CREATE, 0666)
+		if err != nil {
+			fmt.Println("sync Cfg err ", err)
+			os.Exit(-1)
+		}
+	}
+
+	syncClose := func() {
+		err := syncCfgFile.Close()
+		if err != nil {
+			fmt.Println("sync Close err ", err)
+		}
+		return
+	}
+
+	defer syncClose()
+
+	// Instantiate the client
+	client := core.NewClient(
+		dlConfig.Feishu.AppId, dlConfig.Feishu.AppSecret, syncCfgFile,
+	)
+	client.InitSyncedFiles()
+
+	ctx := context.Background()
+
+	folder_token := "PwDAfq1Vtlfp6QdLrSGco9jtnGd"
+
+	return downloadDocuments(ctx, client, folder_token, true)
 }
 
 func handleDownloadCommand(url string) error {

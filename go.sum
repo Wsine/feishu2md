@@ -45,8 +45,6 @@ github.com/chenzhuoyu/base64x v0.0.0-20221115062448-fe3a3abad311 h1:qSGYFH7+jGhD
 github.com/chenzhuoyu/base64x v0.0.0-20221115062448-fe3a3abad311/go.mod h1:b583jCggY9gE99b6G5LEC39OIiVsWj+R97kbl5odCEk=
 github.com/chyroc/go-ptr v1.6.0 h1:4GwCNrNfk4806eQKbHO2A/N/YOLW6jHIrBPWKfMe6F0=
 github.com/chyroc/go-ptr v1.6.0/go.mod h1:FKNjNg3sCLx7VhQGwuml6sITX1mvhKS0Je9uN9tt65Q=
-github.com/chyroc/lark v0.0.97-0.20220706015537-dc21f96c8ebd h1:i7uP6BA2aHqLSqn3URHrPvm8NLmoVSJNmoaboRvkpek=
-github.com/chyroc/lark v0.0.97-0.20220706015537-dc21f96c8ebd/go.mod h1:ZMmVyuBFmzLkiVKuORy7nEoNK/WvDh77cMsc3laJ5H8=
 github.com/chyroc/lark v0.0.98-0.20220914014759-f9ad5a16e595 h1:fonLvnX4ULSjn5E+rk0OevXRayuuTMi0kTjMSBeBenE=
 github.com/chyroc/lark v0.0.98-0.20220914014759-f9ad5a16e595/go.mod h1:ZMmVyuBFmzLkiVKuORy7nEoNK/WvDh77cMsc3laJ5H8=
 github.com/chyroc/lark_rate_limiter v0.1.0 h1:nZA4Ipx3jqqg1PXRxv2dTYLEyz0h0GY8yhUo9Az15j8=

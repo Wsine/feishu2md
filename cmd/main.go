@@ -53,6 +53,13 @@ func main() {
 						Usage:       "Specify the output directory for the markdown files",
 						Destination: &dlOpts.outputDir,
 					},
+					&cli.StringFlag{
+						Name:        "syncConfig",
+						Aliases:     []string{"s"},
+						Value:       "./syncLog",
+						Usage:       "Specify the sync log file",
+						Destination: &dlOpts.syncCfg,
+					},
 					&cli.BoolFlag{
 						Name:        "dump",
 						Value:       false,
@@ -71,10 +78,22 @@ func main() {
 						Usage:       "Download all documents within the wiki.",
 						Destination: &dlOpts.wiki,
 					},
+					&cli.BoolFlag{
+						Name:        "sync",
+						Value:       false,
+						Usage:       "Sync person space all documents to markdown file",
+						Destination: &dlOpts.sync,
+					},
 				},
 				ArgsUsage: "<url>",
 				Action: func(ctx *cli.Context) error {
-					if ctx.NArg() == 0 {
+					if dlOpts.sync {
+						err := handleSyncCommand()
+						if err != nil {
+							println("Sync err ", err)
+						}
+						return InPlaceModifyFile(dlOpts.syncCfg)
+					} else if ctx.NArg() == 0 {
 						return cli.Exit("Please specify the document/folder/wiki url", 1)
 					} else {
 						url := ctx.Args().First()
