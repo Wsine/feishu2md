@@ -121,7 +121,7 @@ func (p *Parser) ParseDocxContent(doc *lark.DocxDocument, blocks []*lark.DocxBlo
 		p.blockMap[block.BlockID] = block
 	}
 
-	entryBlock := p.blockMap[blocks[0].BlockID]
+	entryBlock := p.blockMap[doc.DocumentID]
 	return p.ParseDocxBlock(entryBlock, 0)
 }
 
