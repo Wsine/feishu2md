@@ -387,8 +387,6 @@ func (p *Parser) ParseDocxBlockTableCell(b *lark.DocxBlock) string {
 func (p *Parser) ParseDocxBlockTable(t *lark.DocxBlockTable) string {
 	// - First row as header
 	// - Ignore cell merging
-	// - First row as header
-	// - Ignore cell merging
 	var rows [][]string
 	mergeInfoMap := map[int64]map[int64]*lark.DocxBlockTablePropertyMergeInfo{}
 
