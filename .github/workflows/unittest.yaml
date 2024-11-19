@@ -1,34 +1,34 @@
-# name: unittest
+name: unittest
 
-# on:
-#   pull_request:
-#     types: [opened, reopened, synchronize]
-#     branches:
-#       - main
-#   workflow_dispatch:
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+    branches:
+      - main
+  workflow_dispatch:
 
-# jobs:
-#   build:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Checkout the code
-#         uses: actions/checkout@v2
-#       - name: Set up Go
-#         uses: actions/setup-go@v4
-#         with:
-#           go-version: 1.21
-#       - name: Check format
-#         run: test -z $(gofmt -l .)
-#       - name: Run testing
-#         env:
-#           FEISHU_APP_ID: ${{ secrets.FEISHU_APP_ID }}
-#           FEISHU_APP_SECRET: ${{ secrets.FEISHU_APP_SECRET }}
-#         run: |
-#           touch .env
-#           go mod download
-#           go test -v ./...
-#       - name: Build cmd tool
-#         run: make
-#       - name: Build docker image
-#         run: make image
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v2
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: 1.21
+      - name: Check format
+        run: test -z $(gofmt -l .)
+      - name: Run testing
+        env:
+          FEISHU_APP_ID: ${{ secrets.FEISHU_APP_ID }}
+          FEISHU_APP_SECRET: ${{ secrets.FEISHU_APP_SECRET }}
+        run: |
+          touch .env
+          go mod download
+          go test -v ./...
+      - name: Build cmd tool
+        run: make
+      - name: Build docker image
+        run: make image
 
