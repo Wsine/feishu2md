@@ -10,18 +10,19 @@ import (
 	"time"
 
 	"github.com/chyroc/lark"
+	"github.com/chyroc/lark_rate_limiter"
 )
 
 type Client struct {
 	larkClient *lark.Lark
 }
 
-func NewClient(appID, appSecret string, domain string) *Client {
+func NewClient(appID, appSecret string) *Client {
 	return &Client{
 		larkClient: lark.New(
 			lark.WithAppCredential(appID, appSecret),
-			lark.WithOpenBaseURL("https://open."+domain),
 			lark.WithTimeout(60*time.Second),
+			lark.WithApiMiddleware(lark_rate_limiter.Wait(5, 5)),
 		),
 	}
 }
@@ -80,6 +81,10 @@ func (c *Client) GetDocxContent(ctx context.Context, docToken string) (*lark.Doc
 	var blocks []*lark.DocxBlock
 	var pageToken *string
 	for {
+		resp2, _, err := c.larkClient.Drive.GetDocxBlockListOfDocument(ctx, &lark.GetDocxBlockListOfDocumentReq{
+			DocumentID: docx.DocumentID,
+			PageToken:  pageToken,
+		})
 		if err != nil {
 			return docx, nil, err
 		}
@@ -126,3 +131,46 @@ func (c *Client) GetDriveFolderFileList(ctx context.Context, pageToken *string, 
 	return files, nil
 }
 
+func (c *Client) GetWikiName(ctx context.Context, spaceID string) (string, error) {
+	resp, _, err := c.larkClient.Drive.GetWikiSpace(ctx, &lark.GetWikiSpaceReq{
+		SpaceID: spaceID,
+	})
+
+	if err != nil {
+		return "", err
+	}
+
+	return resp.Space.Name, nil
+}
+
+func (c *Client) GetWikiNodeList(ctx context.Context, spaceID string, parentNodeToken *string) ([]*lark.GetWikiNodeListRespItem, error) {
+	resp, _, err := c.larkClient.Drive.GetWikiNodeList(ctx, &lark.GetWikiNodeListReq{
+		SpaceID:         spaceID,
+		PageSize:        nil,
+		PageToken:       nil,
+		ParentNodeToken: parentNodeToken,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	nodes := resp.Items
+
+	for resp.HasMore {
+		resp, _, err := c.larkClient.Drive.GetWikiNodeList(ctx, &lark.GetWikiNodeListReq{
+			SpaceID:         spaceID,
+			PageSize:        nil,
+			PageToken:       nil,
+			ParentNodeToken: parentNodeToken,
+		})
+
+		if err != nil {
+			return nil, err
+		}
+
+		nodes = append(nodes, resp.Items...)
+	}
+
+	return nodes, nil
+}
