@@ -387,21 +387,79 @@ func (p *Parser) ParseDocxBlockTableCell(b *lark.DocxBlock) string {
 func (p *Parser) ParseDocxBlockTable(t *lark.DocxBlockTable) string {
 	// - First row as header
 	// - Ignore cell merging
+	// - First row as header
+	// - Ignore cell merging
 	var rows [][]string
+	mergeInfoMap := map[int64]map[int64]*lark.DocxBlockTablePropertyMergeInfo{}
+
+	// 构建单元格合并信息的映射
+	if t.Property.MergeInfo != nil {
+		for i, merge := range t.Property.MergeInfo {
+			rowIndex := int64(i) / t.Property.ColumnSize
+			colIndex := int64(i) % t.Property.ColumnSize
+			if _, exists := mergeInfoMap[int64(rowIndex)]; !exists {
+				mergeInfoMap[int64(rowIndex)] = map[int64]*lark.DocxBlockTablePropertyMergeInfo{}
+			}
+			mergeInfoMap[rowIndex][colIndex] = merge
+		}
+	}
 	for i, blockId := range t.Cells {
 		block := p.blockMap[blockId]
 		cellContent := p.ParseDocxBlock(block, 0)
 		cellContent = strings.ReplaceAll(cellContent, "\n", "")
 		rowIndex := int64(i) / t.Property.ColumnSize
-		if len(rows) < int(rowIndex)+1 {
+		colIndex := int64(i) % t.Property.ColumnSize
+		// 初始化行
+		for len(rows) <= int(rowIndex) {
 			rows = append(rows, []string{})
 		}
-		rows[rowIndex] = append(rows[rowIndex], cellContent)
+		for len(rows[rowIndex]) <= int(colIndex) {
+			rows[rowIndex] = append(rows[rowIndex], "")
+		}
+		// 设置单元格内容
+		rows[rowIndex][colIndex] = cellContent
 	}
 
+	// 渲染为 HTML 表格
 	buf := new(strings.Builder)
-	buf.WriteString(renderMarkdownTable(rows))
-	buf.WriteString("\n")
+	buf.WriteString("<table>\n")
+
+	// 跟踪已经处理过的合并单元格
+	processedCells := map[string]bool{}
+
+	// 构建 HTML 表格内容
+	for rowIndex, row := range rows {
+		buf.WriteString("<tr>\n")
+		for colIndex, cellContent := range row {
+			cellKey := fmt.Sprintf("%d-%d", rowIndex, colIndex)
+
+			// 跳过已处理的单元格
+			if processedCells[cellKey] {
+				continue
+			}
+
+			mergeInfo := mergeInfoMap[int64(rowIndex)][int64(colIndex)]
+			if mergeInfo != nil {
+				// 合并单元格
+				buf.WriteString(fmt.Sprintf(
+					`<td rowspan="%d" colspan="%d">%s</td>`,
+					mergeInfo.RowSpan, mergeInfo.ColSpan, cellContent,
+				))
+				// 标记合并范围内的所有单元格为已处理
+				for r := rowIndex; r < rowIndex+int(mergeInfo.RowSpan); r++ {
+					for c := colIndex; c < colIndex+int(mergeInfo.ColSpan); c++ {
+						processedCells[fmt.Sprintf("%d-%d", r, c)] = true
+					}
+				}
+			} else {
+				// 普通单元格
+				buf.WriteString(fmt.Sprintf("<td>%s</td>", cellContent))
+			}
+		}
+		buf.WriteString("</tr>\n")
+	}
+	buf.WriteString("</table>\n")
+
 	return buf.String()
 }
 
