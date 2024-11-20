@@ -385,8 +385,6 @@ func (p *Parser) ParseDocxBlockTableCell(b *lark.DocxBlock) string {
 }
 
 func (p *Parser) ParseDocxBlockTable(t *lark.DocxBlockTable) string {
-	// - First row as header
-	// - Ignore cell merging
 	var rows [][]string
 	mergeInfoMap := map[int64]map[int64]*lark.DocxBlockTablePropertyMergeInfo{}
 
@@ -401,12 +399,15 @@ func (p *Parser) ParseDocxBlockTable(t *lark.DocxBlockTable) string {
 			mergeInfoMap[rowIndex][colIndex] = merge
 		}
 	}
+
+	// 构建表格内容
 	for i, blockId := range t.Cells {
 		block := p.blockMap[blockId]
 		cellContent := p.ParseDocxBlock(block, 0)
 		cellContent = strings.ReplaceAll(cellContent, "\n", "")
 		rowIndex := int64(i) / t.Property.ColumnSize
 		colIndex := int64(i) % t.Property.ColumnSize
+
 		// 初始化行
 		for len(rows) <= int(rowIndex) {
 			rows = append(rows, []string{})
@@ -438,10 +439,17 @@ func (p *Parser) ParseDocxBlockTable(t *lark.DocxBlockTable) string {
 
 			mergeInfo := mergeInfoMap[int64(rowIndex)][int64(colIndex)]
 			if mergeInfo != nil {
-				// 合并单元格
+				// 合并单元格，只有当 RowSpan > 1 或 ColSpan > 1 时才添加对应属性
+				attributes := ""
+				if mergeInfo.RowSpan > 1 {
+					attributes += fmt.Sprintf(` rowspan="%d"`, mergeInfo.RowSpan)
+				}
+				if mergeInfo.ColSpan > 1 {
+					attributes += fmt.Sprintf(` colspan="%d"`, mergeInfo.ColSpan)
+				}
 				buf.WriteString(fmt.Sprintf(
-					`<td rowspan="%d" colspan="%d">%s</td>`,
-					mergeInfo.RowSpan, mergeInfo.ColSpan, cellContent,
+					`<td%s>%s</td>`,
+					attributes, cellContent,
 				))
 				// 标记合并范围内的所有单元格为已处理
 				for r := rowIndex; r < rowIndex+int(mergeInfo.RowSpan); r++ {
