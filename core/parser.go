@@ -401,6 +401,7 @@ func (p *Parser) ParseDocxBlockTable(t *lark.DocxBlockTable) string {
 	}
 
 	// 构建表格内容
+
 	for i, blockId := range t.Cells {
 		block := p.blockMap[blockId]
 		cellContent := p.ParseDocxBlock(block, 0)
@@ -439,6 +440,7 @@ func (p *Parser) ParseDocxBlockTable(t *lark.DocxBlockTable) string {
 
 			mergeInfo := mergeInfoMap[int64(rowIndex)][int64(colIndex)]
 			if mergeInfo != nil {
+
 				// 合并单元格，只有当 RowSpan > 1 或 ColSpan > 1 时才添加对应属性
 				attributes := ""
 				if mergeInfo.RowSpan > 1 {
