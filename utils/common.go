@@ -29,3 +29,11 @@ func PrettyPrint(i interface{}) string {
 	s, _ := json.MarshalIndent(i, "", "  ")
 	return string(s)
 }
+
+func SanitizeFileName(title string) string {
+	invalidChars := []string{"/", "\\", ":", "*", "?", "\"", "<", ">", "|"}
+	for _, char := range invalidChars {
+		title = strings.ReplaceAll(title, char, "_")
+	}
+	return title
+}

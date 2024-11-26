@@ -104,7 +104,7 @@ func downloadDocument(ctx context.Context, client *core.Client, url string, opts
 	// Write to markdown file
 	mdName := fmt.Sprintf("%s.md", docToken)
 	if dlConfig.Output.TitleAsFilename {
-		mdName = fmt.Sprintf("%s.md", title)
+		mdName = fmt.Sprintf("%s.md", utils.SanitizeFileName(title))
 	}
 	outputPath := filepath.Join(opts.outputDir, mdName)
 	if err = os.WriteFile(outputPath, []byte(result), 0o644); err != nil {
