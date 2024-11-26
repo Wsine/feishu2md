@@ -161,7 +161,7 @@ func (c *Client) GetWikiNodeList(ctx context.Context, spaceID string, parentNode
 		resp, _, err := c.larkClient.Drive.GetWikiNodeList(ctx, &lark.GetWikiNodeListReq{
 			SpaceID:         spaceID,
 			PageSize:        nil,
-			PageToken:       nil,
+			PageToken:       &resp.PageToken,
 			ParentNodeToken: parentNodeToken,
 		})
 
