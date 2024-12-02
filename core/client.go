@@ -156,8 +156,10 @@ func (c *Client) GetWikiNodeList(ctx context.Context, spaceID string, parentNode
 	}
 
 	nodes := resp.Items
+	previousPageToken := ""
 
-	for resp.HasMore {
+	for resp.HasMore && previousPageToken != resp.PageToken {
+		previousPageToken = resp.PageToken
 		resp, _, err := c.larkClient.Drive.GetWikiNodeList(ctx, &lark.GetWikiNodeListReq{
 			SpaceID:         spaceID,
 			PageSize:        nil,
