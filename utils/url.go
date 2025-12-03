@@ -36,11 +36,10 @@ func ValidateFolderURL(url string) (string, error) {
 }
 
 func ValidateWikiURL(url string) (string, string, error) {
-	// reg := regexp.MustCompile("^https://[\\w-.]+/wiki/settings/([a-zA-Z0-9]+)")
-	reg := regexp.MustCompile(`^(https://[\w-.]+)/wiki/settings/([a-zA-Z0-9]+)$`)
+	reg := regexp.MustCompile(`^(https://[\w-.]+)/wiki/(?:space|settings)/([a-zA-Z0-9]+)$`)
 	matchResult := reg.FindStringSubmatch(url)
 	if matchResult == nil || len(matchResult) != 3 {
-		return "", "", errors.Errorf("Invalid feishu/larksuite folder URL pattern")
+		return "", "", errors.Errorf("Invalid feishu/larksuite wiki URL pattern")
 	}
 	prefixURL := matchResult[1]
 	wikiToken := matchResult[2]

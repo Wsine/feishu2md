@@ -112,6 +112,13 @@ func TestValidWikiURL(t *testing.T) {
 			token:  "doccnByZP6puODElAYySJkPIfUb",
 			noErr:  true,
 		},
+		{
+			name:   "validate larksuite wiki space success",
+			url:    "https://sample.sg.larksuite.com/wiki/space/doccnByZP6puODElAYySJkPIfUb",
+			prefix: "https://sample.sg.larksuite.com",
+			token:  "doccnByZP6puODElAYySJkPIfUb",
+			noErr:  true,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
