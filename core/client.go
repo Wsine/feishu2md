@@ -14,23 +14,48 @@ import (
 )
 
 type Client struct {
-	larkClient *lark.Lark
+	larkClient      *lark.Lark
+	authType        string
+	userAccessToken string
 }
 
-func NewClient(appID, appSecret string) *Client {
-	return &Client{
-		larkClient: lark.New(
-			lark.WithAppCredential(appID, appSecret),
+func NewClient(config FeishuConfig) *Client {
+	var larkClient *lark.Lark
+
+	if config.AuthType == AuthTypeUser {
+		// 用户鉴权：不需要应用凭证
+		larkClient = lark.New(
 			lark.WithTimeout(60*time.Second),
 			lark.WithApiMiddleware(lark_rate_limiter.Wait(4, 4)),
-		),
+		)
+	} else {
+		// 应用鉴权（默认）
+		larkClient = lark.New(
+			lark.WithAppCredential(config.AppId, config.AppSecret),
+			lark.WithTimeout(60*time.Second),
+			lark.WithApiMiddleware(lark_rate_limiter.Wait(4, 4)),
+		)
 	}
+
+	return &Client{
+		larkClient:      larkClient,
+		authType:        config.AuthType,
+		userAccessToken: config.UserAccessToken,
+	}
+}
+
+// getMethodOptions 返回 API 调用时需要的鉴权选项
+func (c *Client) getMethodOptions() []lark.MethodOptionFunc {
+	if c.authType == AuthTypeUser && c.userAccessToken != "" {
+		return []lark.MethodOptionFunc{lark.WithUserAccessToken(c.userAccessToken)}
+	}
+	return nil
 }
 
 func (c *Client) DownloadImage(ctx context.Context, imgToken, outDir string) (string, error) {
 	resp, _, err := c.larkClient.Drive.DownloadDriveMedia(ctx, &lark.DownloadDriveMediaReq{
 		FileToken: imgToken,
-	})
+	}, c.getMethodOptions()...)
 	if err != nil {
 		return imgToken, err
 	}
@@ -55,7 +80,7 @@ func (c *Client) DownloadImage(ctx context.Context, imgToken, outDir string) (st
 func (c *Client) DownloadImageRaw(ctx context.Context, imgToken, imgDir string) (string, []byte, error) {
 	resp, _, err := c.larkClient.Drive.DownloadDriveMedia(ctx, &lark.DownloadDriveMediaReq{
 		FileToken: imgToken,
-	})
+	}, c.getMethodOptions()...)
 	if err != nil {
 		return imgToken, nil, err
 	}
@@ -69,7 +94,7 @@ func (c *Client) DownloadImageRaw(ctx context.Context, imgToken, imgDir string) 
 func (c *Client) GetDocxContent(ctx context.Context, docToken string) (*lark.DocxDocument, []*lark.DocxBlock, error) {
 	resp, _, err := c.larkClient.Drive.GetDocxDocument(ctx, &lark.GetDocxDocumentReq{
 		DocumentID: docToken,
-	})
+	}, c.getMethodOptions()...)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -84,7 +109,7 @@ func (c *Client) GetDocxContent(ctx context.Context, docToken string) (*lark.Doc
 		resp2, _, err := c.larkClient.Drive.GetDocxBlockListOfDocument(ctx, &lark.GetDocxBlockListOfDocumentReq{
 			DocumentID: docx.DocumentID,
 			PageToken:  pageToken,
-		})
+		}, c.getMethodOptions()...)
 		if err != nil {
 			return docx, nil, err
 		}
@@ -100,7 +125,7 @@ func (c *Client) GetDocxContent(ctx context.Context, docToken string) (*lark.Doc
 func (c *Client) GetWikiNodeInfo(ctx context.Context, token string) (*lark.GetWikiNodeRespNode, error) {
 	resp, _, err := c.larkClient.Drive.GetWikiNode(ctx, &lark.GetWikiNodeReq{
 		Token: token,
-	})
+	}, c.getMethodOptions()...)
 	if err != nil {
 		return nil, err
 	}
@@ -112,7 +137,7 @@ func (c *Client) GetDriveFolderFileList(ctx context.Context, pageToken *string, 
 		PageSize:    nil,
 		PageToken:   pageToken,
 		FolderToken: folderToken,
-	})
+	}, c.getMethodOptions()...)
 	if err != nil {
 		return nil, err
 	}
@@ -122,7 +147,7 @@ func (c *Client) GetDriveFolderFileList(ctx context.Context, pageToken *string, 
 			PageSize:    nil,
 			PageToken:   &resp.NextPageToken,
 			FolderToken: folderToken,
-		})
+		}, c.getMethodOptions()...)
 		if err != nil {
 			return nil, err
 		}
@@ -134,7 +159,7 @@ func (c *Client) GetDriveFolderFileList(ctx context.Context, pageToken *string, 
 func (c *Client) GetWikiName(ctx context.Context, spaceID string) (string, error) {
 	resp, _, err := c.larkClient.Drive.GetWikiSpace(ctx, &lark.GetWikiSpaceReq{
 		SpaceID: spaceID,
-	})
+	}, c.getMethodOptions()...)
 
 	if err != nil {
 		return "", err
@@ -149,7 +174,7 @@ func (c *Client) GetWikiNodeList(ctx context.Context, spaceID string, parentNode
 		PageSize:        nil,
 		PageToken:       nil,
 		ParentNodeToken: parentNodeToken,
-	})
+	}, c.getMethodOptions()...)
 
 	if err != nil {
 		return nil, err
@@ -165,7 +190,7 @@ func (c *Client) GetWikiNodeList(ctx context.Context, spaceID string, parentNode
 			PageSize:        nil,
 			PageToken:       &resp.PageToken,
 			ParentNodeToken: parentNodeToken,
-		})
+		}, c.getMethodOptions()...)
 
 		if err != nil {
 			return nil, err

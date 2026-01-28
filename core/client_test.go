@@ -9,40 +9,37 @@ import (
 	"github.com/Wsine/feishu2md/core"
 )
 
-func getIdAndSecretFromEnv(t *testing.T) (string, string) {
-	appID := ""
-	appSecret := ""
-
+func getConfigFromEnv(t *testing.T) core.FeishuConfig {
 	configPath, err := core.GetConfigFilePath()
 	if err != nil {
 		t.Error(err)
 	}
 	if _, err := os.Stat(configPath); os.IsNotExist(err) {
-		appID = os.Getenv("FEISHU_APP_ID")
-		appSecret = os.Getenv("FEISHU_APP_SECRET")
+		return core.FeishuConfig{
+			AppId:     os.Getenv("FEISHU_APP_ID"),
+			AppSecret: os.Getenv("FEISHU_APP_SECRET"),
+			AuthType:  core.AuthTypeApp,
+		}
 	} else {
 		config, err := core.ReadConfigFromFile(configPath)
 		if err != nil {
 			t.Error(err)
 		}
-		appID = config.Feishu.AppId
-		appSecret = config.Feishu.AppSecret
+		return config.Feishu
 	}
-
-	return appID, appSecret
 }
 
 func TestNewClient(t *testing.T) {
-	appID, appSecret := getIdAndSecretFromEnv(t)
-	c := core.NewClient(appID, appSecret)
+	config := getConfigFromEnv(t)
+	c := core.NewClient(config)
 	if c == nil {
 		t.Errorf("Error creating DocClient")
 	}
 }
 
 func TestDownloadImage(t *testing.T) {
-	appID, appSecret := getIdAndSecretFromEnv(t)
-	c := core.NewClient(appID, appSecret)
+	config := getConfigFromEnv(t)
+	c := core.NewClient(config)
 	imgToken := "boxcnA1QKPanfMhLxzF1eMhoArM"
 	filename, err := c.DownloadImage(
 		context.Background(),
@@ -62,8 +59,8 @@ func TestDownloadImage(t *testing.T) {
 }
 
 func TestGetDocxContent(t *testing.T) {
-	appID, appSecret := getIdAndSecretFromEnv(t)
-	c := core.NewClient(appID, appSecret)
+	config := getConfigFromEnv(t)
+	c := core.NewClient(config)
 	docx, blocks, err := c.GetDocxContent(
 		context.Background(),
 		"doxcnXhd93zqoLnmVPGIPTy7AFe",
@@ -82,8 +79,8 @@ func TestGetDocxContent(t *testing.T) {
 }
 
 func TestGetWikiNodeInfo(t *testing.T) {
-	appID, appSecret := getIdAndSecretFromEnv(t)
-	c := core.NewClient(appID, appSecret)
+	config := getConfigFromEnv(t)
+	c := core.NewClient(config)
 	const token = "wikcnLgRX9AMtvaB5x1cl57Yuah"
 	node, err := c.GetWikiNodeInfo(context.Background(), token)
 	if err != nil {
@@ -95,8 +92,8 @@ func TestGetWikiNodeInfo(t *testing.T) {
 }
 
 func TestGetDriveFolderFileList(t *testing.T) {
-	appID, appSecret := getIdAndSecretFromEnv(t)
-	c := core.NewClient(appID, appSecret)
+	config := getConfigFromEnv(t)
+	c := core.NewClient(config)
 	folderToken := "G15mfSfIHlyquudfhq5cg9kdnjg"
 	files, err := c.GetDriveFolderFileList(
 		context.Background(), nil, &folderToken)
@@ -109,8 +106,8 @@ func TestGetDriveFolderFileList(t *testing.T) {
 }
 
 func TestGetWikiNodeList(t *testing.T) {
-	appID, appSecret := getIdAndSecretFromEnv(t)
-	c := core.NewClient(appID, appSecret)
+	config := getConfigFromEnv(t)
+	c := core.NewClient(config)
 	wikiToken := "7376995595006787612"
 	nodes, err := c.GetWikiNodeList(context.Background(), wikiToken, nil)
 	if err != nil {

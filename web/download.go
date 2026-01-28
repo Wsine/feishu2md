@@ -35,9 +35,7 @@ func downloadHandler(c *gin.Context) {
 		os.Getenv("FEISHU_APP_ID"),
 		os.Getenv("FEISHU_APP_SECRET"),
 	)
-	client := core.NewClient(
-		config.Feishu.AppId, config.Feishu.AppSecret,
-	)
+	client := core.NewClient(config.Feishu)
 
 	// Process the download
 	parser := core.NewParser(config.Output)

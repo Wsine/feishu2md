@@ -53,9 +53,20 @@ func downloadDocument(ctx context.Context, client *core.Client, url string, opts
 	docx, blocks, err := client.GetDocxContent(ctx, docToken)
 	utils.CheckErr(err)
 
+	title := docx.Title
+
+	// 确定输出文件名
+	var mdName string
+	if dlConfig.Output.TitleAsFilename {
+		mdName = fmt.Sprintf("%s.md", utils.SanitizeFileName(title))
+	} else {
+		mdName = fmt.Sprintf("%s.md", docToken)
+	}
+	outputPath := filepath.Join(opts.outputDir, mdName)
+
+	// 继续执行下载流程
 	parser := core.NewParser(dlConfig.Output)
 
-	title := docx.Title
 	markdown := parser.ParseDocxContent(docx, blocks)
 
 	if !dlConfig.Output.SkipImgDownload {
@@ -85,7 +96,7 @@ func downloadDocument(ctx context.Context, client *core.Client, url string, opts
 
 	if dlOpts.dump {
 		jsonName := fmt.Sprintf("%s.json", docToken)
-		outputPath := filepath.Join(opts.outputDir, jsonName)
+		jsonOutputPath := filepath.Join(opts.outputDir, jsonName)
 		data := struct {
 			Document *lark.DocxDocument `json:"document"`
 			Blocks   []*lark.DocxBlock  `json:"blocks"`
@@ -95,22 +106,17 @@ func downloadDocument(ctx context.Context, client *core.Client, url string, opts
 		}
 		pdata := utils.PrettyPrint(data)
 
-		if err = os.WriteFile(outputPath, []byte(pdata), 0o644); err != nil {
+		if err = os.WriteFile(jsonOutputPath, []byte(pdata), 0o644); err != nil {
 			return err
 		}
-		fmt.Printf("Dumped json response to %s\n", outputPath)
+		fmt.Printf("Dumped json response to %s\n", jsonOutputPath)
 	}
 
 	// Write to markdown file
-	mdName := fmt.Sprintf("%s.md", docToken)
-	if dlConfig.Output.TitleAsFilename {
-		mdName = fmt.Sprintf("%s.md", utils.SanitizeFileName(title))
-	}
-	outputPath := filepath.Join(opts.outputDir, mdName)
 	if err = os.WriteFile(outputPath, []byte(result), 0o644); err != nil {
 		return err
 	}
-	fmt.Printf("Downloaded markdown file to %s\n", outputPath)
+	fmt.Printf("✓ Downloaded markdown file to %s\n", outputPath)
 
 	return nil
 }
@@ -134,7 +140,11 @@ func downloadDocuments(ctx context.Context, client *core.Client, url string) err
 		if err != nil {
 			return err
 		}
-		opts := DownloadOpts{outputDir: folderPath, dump: dlOpts.dump, batch: false}
+		opts := DownloadOpts{
+			outputDir: folderPath,
+			dump:      dlOpts.dump,
+			batch:     false,
+		}
 		for _, file := range files {
 			if file.Type == "folder" {
 				_folderPath := filepath.Join(folderPath, file.Name)
@@ -213,7 +223,11 @@ func downloadWiki(ctx context.Context, client *core.Client, url string) error {
 				}
 			}
 			if n.ObjType == "docx" {
-				opts := DownloadOpts{outputDir: folderPath, dump: dlOpts.dump, batch: false}
+				opts := DownloadOpts{
+					outputDir: folderPath,
+					dump:      dlOpts.dump,
+					batch:     false,
+				}
 				wg.Add(1)
 				semaphore <- struct{}{}
 				go func(_url string) {
@@ -223,7 +237,6 @@ func downloadWiki(ctx context.Context, client *core.Client, url string) error {
 					wg.Done()
 					<-semaphore
 				}(prefixURL + "/wiki/" + n.NodeToken)
-				// downloadDocument(ctx, client, prefixURL+"/wiki/"+n.NodeToken, &opts)
 			}
 		}
 		return nil
@@ -257,18 +270,15 @@ func handleDownloadCommand(url string) error {
 	dlConfig = *config
 
 	// Instantiate the client
-	client := core.NewClient(
-		dlConfig.Feishu.AppId, dlConfig.Feishu.AppSecret,
-	)
+	client := core.NewClient(dlConfig.Feishu)
 	ctx := context.Background()
 
+	// 执行下载
 	if dlOpts.batch {
 		return downloadDocuments(ctx, client, url)
-	}
-
-	if dlOpts.wiki {
+	} else if dlOpts.wiki {
 		return downloadWiki(ctx, client, url)
+	} else {
+		return downloadDocument(ctx, client, url, &dlOpts)
 	}
-
-	return downloadDocument(ctx, client, url, &dlOpts)
 }
