@@ -5,7 +5,7 @@ import (
 	"encoding/base64"
 	"fmt"
 	"net/http"
-	"os"
+	"os/exec"
 	"runtime"
 	"time"
 
@@ -179,28 +179,19 @@ func startCallbackServer(port int, codeVerifier string, configPath string, cfg *
 
 func openBrowser(url string) error {
 	var cmd string
-	var args []string
 
 	switch runtime.GOOS {
 	case "linux":
 		cmd = "xdg-open"
-		args = []string{url}
 	case "darwin":
 		cmd = "open"
-		args = []string{url}
 	case "windows":
 		cmd = "rundll32"
-		args = []string{"url.dll,FileProtocolHandler", url}
 	default:
 		return fmt.Errorf("unsupported platform: %s", runtime.GOOS)
 	}
 
-	execPath, err := os.StartProcess(cmd, args, &os.ProcAttr{})
-	if err != nil {
-		return err
-	}
-	execPath.Release()
-	return nil
+	return exec.Command(cmd, url).Start()
 }
 
 func generateState() (string, error) {
