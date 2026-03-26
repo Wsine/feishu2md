@@ -17,7 +17,7 @@ import (
 const (
 	authEndpoint = "https://open.feishu.cn/open-apis/authen/v1/authorize"
 	redirectURI  = "http://127.0.0.1:8088/callback"
-	scope        = "docx:document:readonly drive:file:readonly wiki:wiki:readonly"
+	scope        = "docx:document:readonly drive:drive:readonly wiki:wiki:readonly"
 )
 
 var (
@@ -66,7 +66,7 @@ func ExchangeCodeForToken(clientID, clientSecret, code, codeVerifier string) (*O
 	}
 	data := url.Values{}
 	data.Set("grant_type", "authorization_code")
-	data.Set("client_id", clientID)
+	data.Set("app_id", clientID)
 	data.Set("client_secret", clientSecret)
 	data.Set("code", code)
 	data.Set("redirect_uri", redirectURI)
@@ -81,7 +81,7 @@ func RefreshUserToken(clientID, clientSecret, refreshToken string) (*OAuthToken,
 	}
 	data := url.Values{}
 	data.Set("grant_type", "refresh_token")
-	data.Set("client_id", clientID)
+	data.Set("app_id", clientID)
 	data.Set("client_secret", clientSecret)
 	data.Set("refresh_token", refreshToken)
 
@@ -89,11 +89,25 @@ func RefreshUserToken(clientID, clientSecret, refreshToken string) (*OAuthToken,
 }
 
 func doTokenRequest(data url.Values) (*OAuthToken, error) {
-	req, err := http.NewRequest(http.MethodPost, tokenEndpoint, strings.NewReader(data.Encode()))
+	// Use HTTP Basic Auth for client_secret only, keep app_id in body
+	var clientSecret string
+	appID := data.Get("app_id")
+	if appID != "" {
+		clientSecret = data.Get("client_secret")
+		data.Del("client_secret") // Only remove secret from body, keep app_id
+	}
+
+	bodyReader := strings.NewReader(data.Encode())
+	req, err := http.NewRequest(http.MethodPost, tokenEndpoint, bodyReader)
 	if err != nil {
 		return nil, err
 	}
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+
+	if clientSecret != "" {
+		creds := base64.StdEncoding.EncodeToString([]byte(appID + ":" + clientSecret))
+		req.Header.Set("Authorization", "Basic "+creds)
+	}
 
 	resp, err := defaultClient.Do(req)
 	if err != nil {
@@ -101,13 +115,13 @@ func doTokenRequest(data url.Values) (*OAuthToken, error) {
 	}
 	defer resp.Body.Close()
 
-	body, err := io.ReadAll(io.LimitReader(resp.Body, 10<<20)) // 10MB limit
+	respBody, err := io.ReadAll(io.LimitReader(resp.Body, 10<<20)) // 10MB limit
 	if err != nil {
 		return nil, err
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("token request failed with status %d: %s", resp.StatusCode, string(body))
+		return nil, fmt.Errorf("token request failed with status %d: %s", resp.StatusCode, string(respBody))
 	}
 
 	var result struct {
@@ -116,12 +130,12 @@ func doTokenRequest(data url.Values) (*OAuthToken, error) {
 		Data    OAuthToken  `json:"data"`
 	}
 
-	if err := json.Unmarshal(body, &result); err != nil {
+	if err := json.Unmarshal(respBody, &result); err != nil {
 		return nil, err
 	}
 
 	if result.Code != 0 {
-		return nil, fmt.Errorf("token request failed: %s", result.Msg)
+		return nil, fmt.Errorf("token request failed: code=%d, msg=%s", result.Code, result.Msg)
 	}
 
 	return &result.Data, nil
