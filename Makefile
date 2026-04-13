@@ -2,11 +2,22 @@
 HAS_UPX := $(shell command -v upx 2> /dev/null)
 
 .PHONY: build
-build:
+build:  ## Build for current platform (cross-compile support: linux-amd64, darwin-arm64)
 	go build -ldflags="-X main.version=v2-`git rev-parse --short HEAD`" -o ./feishu2md cmd/*.go
 ifneq ($(and $(COMPRESS),$(HAS_UPX)),)
 	upx -9 ./feishu2md
 endif
+
+.PHONY: build-linux-amd64
+build-linux-amd64:  ## Build for Linux AMD64
+	GOOS=linux GOARCH=amd64 go build -ldflags="-X main.version=v2-$$(git rev-parse --short HEAD)" -o ./feishu2md-linux-amd64 cmd/*.go
+
+.PHONY: build-darwin-arm64
+build-darwin-arm64:  ## Build for macOS ARM64
+	GOOS=darwin GOARCH=arm64 go build -ldflags="-X main.version=v2-$$(git rev-parse --short HEAD)" -o ./feishu2md-darwin-arm64 cmd/*.go
+
+.PHONY: build-all-platforms
+build-all-platforms: build build-linux-amd64 build-darwin-arm64  ## Build for all platforms
 
 .PHONY: test
 test:

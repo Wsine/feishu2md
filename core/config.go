@@ -13,8 +13,11 @@ type Config struct {
 }
 
 type FeishuConfig struct {
-	AppId     string `json:"app_id"`
-	AppSecret string `json:"app_secret"`
+	AppId           string `json:"app_id"`
+	AppSecret       string `json:"app_secret"`
+	UserAccessToken string `json:"user_access_token"`
+	RefreshToken    string `json:"refresh_token"`
+	TokenExpireTime int64  `json:"token_expire_time"`
 }
 
 type OutputConfig struct {
@@ -27,8 +30,11 @@ type OutputConfig struct {
 func NewConfig(appId, appSecret string) *Config {
 	return &Config{
 		Feishu: FeishuConfig{
-			AppId:     appId,
-			AppSecret: appSecret,
+			AppId:           appId,
+			AppSecret:       appSecret,
+			UserAccessToken: "",
+			RefreshToken:    "",
+			TokenExpireTime: 0,
 		},
 		Output: OutputConfig{
 			ImageDir:        "static",

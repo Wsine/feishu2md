@@ -82,6 +82,21 @@ func main() {
 					}
 				},
 			},
+			{
+				Name:  "login",
+				Usage: "Login to Feishu to enable user-level permissions",
+				Flags: []cli.Flag{
+					&cli.IntFlag{
+						Name:        "port",
+						Value:       8088,
+						Usage:       "Port for OAuth callback server",
+						Destination: &loginOpts.port,
+					},
+				},
+				Action: func(ctx *cli.Context) error {
+					return handleLoginCommand()
+				},
+			},
 		},
 	}
 

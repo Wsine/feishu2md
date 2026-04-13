@@ -8,7 +8,6 @@ import (
 	"log"
 	"net/http"
 	"net/url"
-	"os"
 	"strings"
 
 	"github.com/88250/lute"
@@ -29,15 +28,34 @@ func downloadHandler(c *gin.Context) {
 	docType, docToken, err := utils.ValidateDocumentURL(feishu_docx_url)
 	fmt.Println("Captured document token:", docToken)
 
-	// Create client with context
+	// Load config from file
 	ctx := context.Background()
-	config := core.NewConfig(
-		os.Getenv("FEISHU_APP_ID"),
-		os.Getenv("FEISHU_APP_SECRET"),
-	)
-	client := core.NewClient(
-		config.Feishu.AppId, config.Feishu.AppSecret,
-	)
+	configPath, err := core.GetConfigFilePath()
+	if err != nil {
+		c.String(http.StatusInternalServerError, "Failed to get config path")
+		return
+	}
+	config, err := core.ReadConfigFromFile(configPath)
+	if err != nil {
+		c.String(http.StatusInternalServerError, "Failed to read config")
+		return
+	}
+
+	// Create client with user token if available
+	var client *core.Client
+	if config.Feishu.UserAccessToken != "" {
+		client = core.NewClientWithUserToken(
+			config.Feishu.AppId,
+			config.Feishu.AppSecret,
+			config.Feishu.UserAccessToken,
+		)
+		fmt.Println("Using user identity for download")
+	} else {
+		client = core.NewClient(
+			config.Feishu.AppId, config.Feishu.AppSecret,
+		)
+		fmt.Println("Using app identity for download")
+	}
 
 	// Process the download
 	parser := core.NewParser(config.Output)
