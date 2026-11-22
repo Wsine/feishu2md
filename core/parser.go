@@ -127,7 +127,8 @@ func (p *Parser) ParseDocxContent(doc *lark.DocxDocument, blocks []*lark.DocxBlo
 
 func (p *Parser) ParseDocxBlock(b *lark.DocxBlock, indentLevel int) string {
 	buf := new(strings.Builder)
-	buf.WriteString(strings.Repeat("\t", indentLevel))
+	indent := strings.Repeat("\t", indentLevel)
+	buf.WriteString(indent)
 	switch b.BlockType {
 	case lark.DocxBlockTypePage:
 		buf.WriteString(p.ParseDocxBlockPage(b))
@@ -158,9 +159,11 @@ func (p *Parser) ParseDocxBlock(b *lark.DocxBlock, indentLevel int) string {
 	case lark.DocxBlockTypeOrdered:
 		buf.WriteString(p.ParseDocxBlockOrdered(b, indentLevel))
 	case lark.DocxBlockTypeCode:
+		// 列表中的代码正文和结尾围栏需与开头围栏保持同一缩进。
+		code := strings.TrimSpace(p.ParseDocxBlockText(b.Code))
 		buf.WriteString("```" + DocxCodeLang2MdStr[b.Code.Style.Language] + "\n")
-		buf.WriteString(strings.TrimSpace(p.ParseDocxBlockText(b.Code)))
-		buf.WriteString("\n```\n")
+		buf.WriteString(indent + strings.ReplaceAll(code, "\n", "\n"+indent))
+		buf.WriteString("\n" + indent + "```\n")
 	case lark.DocxBlockTypeQuote:
 		buf.WriteString("> ")
 		buf.WriteString(p.ParseDocxBlockText(b.Quote))
