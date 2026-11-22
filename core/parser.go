@@ -256,40 +256,42 @@ func (p *Parser) ParseDocxTextElement(e *lark.DocxTextElement, inline bool) stri
 func (p *Parser) ParseDocxTextElementTextRun(tr *lark.DocxTextElementTextRun) string {
 	buf := new(strings.Builder)
 	postWrite := ""
+	// 多种样式可以同时存在；闭合标记按打开标记的逆序嵌套。
+	writeStyle := func(open, close string) {
+		buf.WriteString(open)
+		postWrite = close + postWrite
+	}
 	if style := tr.TextElementStyle; style != nil {
 		if style.Bold {
 			if p.useHTMLTags {
-				buf.WriteString("<strong>")
-				postWrite = "</strong>"
+				writeStyle("<strong>", "</strong>")
 			} else {
-				buf.WriteString("**")
-				postWrite = "**"
+				writeStyle("**", "**")
 			}
-		} else if style.Italic {
+		}
+		if style.Italic {
 			if p.useHTMLTags {
-				buf.WriteString("<em>")
-				postWrite = "</em>"
+				writeStyle("<em>", "</em>")
 			} else {
-				buf.WriteString("_")
-				postWrite = "_"
+				writeStyle("_", "_")
 			}
-		} else if style.Strikethrough {
+		}
+		if style.Strikethrough {
 			if p.useHTMLTags {
-				buf.WriteString("<del>")
-				postWrite = "</del>"
+				writeStyle("<del>", "</del>")
 			} else {
-				buf.WriteString("~~")
-				postWrite = "~~"
+				writeStyle("~~", "~~")
 			}
-		} else if style.Underline {
-			buf.WriteString("<u>")
-			postWrite = "</u>"
-		} else if style.InlineCode {
-			buf.WriteString("`")
-			postWrite = "`"
-		} else if link := style.Link; link != nil {
-			buf.WriteString("[")
-			postWrite = fmt.Sprintf("](%s)", utils.UnescapeURL(link.URL))
+		}
+		if style.Underline {
+			writeStyle("<u>", "</u>")
+		}
+		if link := style.Link; link != nil {
+			writeStyle("[", fmt.Sprintf("](%s)", utils.UnescapeURL(link.URL)))
+		}
+		// 代码标记只包住文字，避免将链接语法当成代码内容。
+		if style.InlineCode {
+			writeStyle("`", "`")
 		}
 	}
 	buf.WriteString(tr.Content)
