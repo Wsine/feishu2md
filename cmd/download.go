@@ -66,7 +66,12 @@ func downloadDocument(ctx context.Context, client *core.Client, url string, opts
 			if err != nil {
 				return err
 			}
-			markdown = strings.Replace(markdown, imgToken, localLink, 1)
+			// 图片链接以 Markdown 所在目录为基准，不能包含导出目录前缀。
+			relativeLink, err := filepath.Rel(opts.outputDir, localLink)
+			if err != nil {
+				return fmt.Errorf("make image link relative to document: %w", err)
+			}
+			markdown = strings.Replace(markdown, imgToken, filepath.ToSlash(relativeLink), 1)
 		}
 	}
 
