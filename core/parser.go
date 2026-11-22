@@ -133,6 +133,12 @@ func (p *Parser) ParseDocxBlock(b *lark.DocxBlock, indentLevel int) string {
 		buf.WriteString(p.ParseDocxBlockPage(b))
 	case lark.DocxBlockTypeText:
 		buf.WriteString(p.ParseDocxBlockText(b.Text))
+		// 段落的子图片、子文本也需遍历；否则图片不会进入下载列表。
+		// 沿用当前列表层级，避免把普通段落的缩进误渲染为 Markdown 代码块。
+		for _, childId := range b.Children {
+			buf.WriteString("\n")
+			buf.WriteString(p.ParseDocxBlock(p.blockMap[childId], indentLevel))
+		}
 	case lark.DocxBlockTypeCallout:
 		buf.WriteString(p.ParseDocxBlockCallout(b))
 	case lark.DocxBlockTypeHeading1:
